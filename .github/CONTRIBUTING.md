@@ -27,7 +27,7 @@ In short, when you submit code changes, your submissions are understood to be un
 
 - By contributing, you agree that your contributions will be licensed under its GNU v3.0 License.
 
-## Report bugs using Github's [issues](https://github.com/SE701Group3/restaurant-manager/issues)
+## Report bugs using Github's [issues](https://github.com/SE701Group3/git-brunching/issues)
 
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy! Please write bug reports with detail - how to reproduce the bug, expected behavior vs actual behavior, sample code, and background context.
 
@@ -43,7 +43,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 ## Use a Consistent Coding Style
 
-Use the following wiki page for both React and C#: [Coding Conventions](https://github.com/SE701Group3/restaurant-manager/wiki/Coding-Conventions)
+Use the following wiki page for both React and C#: [Coding Conventions](https://github.com/SE701Group3/git-brunching/wiki/Coding-Conventions)
 
 ## Notes
 
