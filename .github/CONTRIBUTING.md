@@ -10,16 +10,16 @@ We love your input! We want to make contributing to this project as easy and tra
 
 ## Pull Requests
 
-Please ensure these poitns are followed during PR:
+Please ensure these points are followed during PR:
 
-- Ensure a clean commit history - make one commit per feature and squash relevant fixes if needed
+- Ensure a clean commit history - make one commit per feature and squash fixes
 - Ensure a descriptive pull request - make sure to include relevant links, and relationships between the issue/feature you are doing
 - Ensure two or more PR review assignees
 - Do not accept your own pull request - after the PR review either the PR reviewees or admin will squash and merge your PR
 - Change only relevant files - try to focus on your issue feature and nothing else. This will help avoid conflicts in the future
 - Create unit tests for your feature changes, and ensure that all tests pass
 
-Refer to this [link](https://github.com/SE701Group3/restaurant-manager/wiki/Git-Workflow) for in-detail pull request instructions.
+Refer to this [link](https://github.com/SE701Group3/git-brunching/wiki/Git-Workflow) for in-detail pull request instructions.
 
 ## Any contributions you make will be under the GNU v3.0 Software License
 
