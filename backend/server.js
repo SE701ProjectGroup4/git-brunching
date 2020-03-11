@@ -1,25 +1,17 @@
-const express = require("express");
-var cors = require("cors");
-const bodyParser = require("body-parser");
-const logger = require('morgan');
+import app from './app';
+import config from './config/config';
 
-// Import endpoints
-const exampleEndpoint = require('./routes/exampleEndpoint')
+const { listen } = config;
 
+// Listen on the provided address
+app.listen(listen.port, listen.address, () => {
+  // When the server is listening correctly, print a debug line
+  // eslint-disable-next-line no-console
+  console.log(`Server up on ${listen.address}:${listen.port}`);
+});
 
-const API_PORT = 3001;
-const app = express();
-app.use(cors());
-const router = express.Router();
-
-// For command line logging of server
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-app.use(bodyParser.json());
-app.use(logger('dev'));
-
-// Launch backend using port where /api is appended
-app.use("/api", router);
-app.use("/exampleEndpoint", exampleEndpoint);
-app.listen(API_PORT, () => console.log(`LISTENING TO PORT ${API_PORT}`));
+// If the server has an error, log the error
+app.on('error', error => {
+  // eslint-disable-next-line no-console
+  console.log('Server Error:', error.code, error);
+});
