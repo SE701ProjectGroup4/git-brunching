@@ -2,7 +2,7 @@
 name: Misc request
 about: Want to propose a request to the repository setup?
 title: ''
-labels: documentation
+labels: documentation,needs-review 
 assignees: ''
 
 ---
