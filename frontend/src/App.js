@@ -8,7 +8,7 @@ import BookingPage from "./booking/BookingPage";
 import NotFound from "./general/NotFound";
 
 const App = () => {
-  const [currentRestaurant, setRestaurant] = useState("");
+  const [currentRestaurant, setRestaurant] = useState(null);
   return (
     <div className="App">
       <Router>
@@ -17,7 +17,7 @@ const App = () => {
           it was easier to implement */}
           <Route path="/booking" component={() => <BookingPage currentRestaurant={currentRestaurant} />} />
           <Route exact path="/" component={() => <LandingPage setRestaurant={setRestaurant} />} />
-          <Route path="" component={NotFound} />
+          <Route component={NotFound} />
         </Switch>
       </Router>
     </div>
