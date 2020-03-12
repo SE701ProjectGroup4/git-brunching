@@ -8,7 +8,7 @@ To run and develop this project, you will need Node.js and npm installed.
 
 - #### Windows and Mac OS
 
-  Download the installer from the [official Node.js website](https://nodejs.org/) and follow the instalation instructions.  
+  Download the installer from the [official Node.js website](https://nodejs.org/) and follow the installation instructions.  
   This will also install npm.
 
 - #### Ubuntu
@@ -69,8 +69,8 @@ $ npm i
 `$ npm run dev`
 
 - This will build the project for development use.
-- Nodemon will monitor the project files and automaticly restart the server whenever new changes are saved.
-- The connection url will be displayed in the console.
+- Nodemon will monitor the project files and automatically restart the server whenever new changes are saved.
+- The connection address will be displayed in the console.
 
 #### Testing
 
@@ -88,10 +88,10 @@ $ npm i
 `$ npm run lintfix`
 
 - Attempts to autofix any linting violations.  
-  \*Note. This may not be able to fix everything. Which means you will need to manualy fix them.
+  \*Note. This may not be able to fix everything. Which means you will need to manually fix them.
 
 Before making a pull request. Please ensure your code passes all tests and linting.  
-Prettier is an optional extention for most common IDE's. This will help with formatting/linting as you code.
+Prettier is an optional extension for most common IDE's. This will help with formatting/linting as you code.
 
 ---
 
