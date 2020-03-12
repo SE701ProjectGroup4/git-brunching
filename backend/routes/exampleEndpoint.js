@@ -1,4 +1,3 @@
-// const express = require('express');
 import express from 'express';
 
 const router = express.Router();
@@ -11,7 +10,6 @@ router.get('/', (req, res) => {
   const input = req.query;
 
   if (!input.id) {
-    // Return error results
     res.status(400).json({ error: '/exampleEndpoint endpoint. Needs an id input' });
     return;
   }
@@ -23,7 +21,6 @@ router.get('/', (req, res) => {
     closeTime: '5pm',
   };
 
-  // Return sucess results
   res.json(returnObject);
 });
 
@@ -35,7 +32,6 @@ router.get('/extraPath', (req, res) => {
   const input = req.query;
 
   if (!input.id) {
-    // Return error results
     res.status(400).json({ error: '/exampleEndpoint/extraPath endpoint. Needs an id input' });
     return;
   }
@@ -47,17 +43,16 @@ router.get('/extraPath', (req, res) => {
     closeTime: '2pm',
   };
 
-  // Return sucess results
   res.json(returnObject);
 });
 
 // Example of patch request. Used to update an existing item on the database
-// To call use Postman (or something similar) with PACTH: localhost:3001/exampleEndpoint
+// To call use Postman (or something similar) with PATCH: localhost:3001/exampleEndpoint
 router.patch('/', (req, res) => {
   const input = req.query || {};
   const { id } = input;
 
-  const returnObject = { response: `Sucessfully updated ${id} on the database` };
+  const returnObject = { response: `Successfully updated ${id} on the database` };
   res.json(returnObject);
 });
 
