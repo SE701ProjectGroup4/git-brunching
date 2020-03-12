@@ -2,6 +2,9 @@ import React from "react";
 import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
+import messages from "../general/textHolder";
+
+const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
   const { setRestaurant } = props;
@@ -11,36 +14,41 @@ const LandingPage = (props) => {
     setRestaurant(restaurant);
   };
 
+  const fakeData = [
+    {
+      name: "NANDOZ",
+      times: [],
+    },
+    {
+      name: "KCF",
+      times: [],
+    },
+  ];
+
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
-        This is the header
+        {landingText.header}
       </div>
       <div className={style.searchContainer}>
-        This is the search and edit
+        {landingText.search}
       </div>
       <div className={style.tileContainer}>
-        {/* Placeholder for tiles */}
-        <div
-          className={style.tile}
-          role="button"
-          tabIndex={0}
-          onClick={() => toBooking("Nandoz")}
-        >
-          NANDOZ
-        </div>
-        <div
-          tabIndex={0}
-          className={style.tile}
-          role="button"
-          onClick={() => toBooking("KCF")}
-        >
-          KCF
-        </div>
+        { fakeData.map((data) => (
+          <div
+            className={style.tile}
+            key={`fake_data_${data.name}`}
+            role="button"
+            tabIndex={0}
+            onClick={() => toBooking(data.name)}
+          >
+            {data.name}
+          </div>
+        ))}
       </div>
       {/* Probably make it it's own component */}
       <div className={style.footer}>
-        Footer
+        {landingText.footer}
       </div>
     </div>
   );

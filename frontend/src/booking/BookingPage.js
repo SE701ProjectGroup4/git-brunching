@@ -25,6 +25,7 @@ const BookingPage = (props) => {
               <h1>{currentRestaurant}</h1>
             </div>
             <div className={style.progressBar} />
+            {/* Memory is used to navigate as we don't want to change URL each time */}
             <Router history={memoryHistory}>
               <Switch>
                 <Route path="/details" component={() => <DetailsContainer />} />

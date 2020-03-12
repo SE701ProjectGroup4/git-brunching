@@ -1,16 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router";
 import changePath from "../general/helperFunctions";
+import messages from "../general/textHolder";
 
-const ConfirmationContainer = ({ browserHistory }) => {
-  const history = useHistory();
-  return (
-    <div>
-      CONFIRM
-      <button onClick={() => changePath("/details", history)}>Go back</button>
-      <button onClick={() => changePath("/", browserHistory)}>Finish</button>
-    </div>
-  );
-};
+const confirmationMessages = messages.confirmation;
+
+const ConfirmationContainer = ({ browserHistory }) => (
+  <div>
+    {confirmationMessages.confirmText}
+    <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
+  </div>
+);
 
 export default ConfirmationContainer;
