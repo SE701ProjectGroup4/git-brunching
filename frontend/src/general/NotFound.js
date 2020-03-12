@@ -1,8 +1,11 @@
 import React from "react";
+import messages from "./textHolder";
+
+const notFoundMessage = messages.notFound;
 
 const NotFound = () => (
   <div>
-    Not found
+    {notFoundMessage.message}
   </div>
 );
 
