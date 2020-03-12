@@ -83,7 +83,7 @@ $ npm i
 `$ npm run lint`
 
 - This will inspect all files and report any linting issues.
-- This project follows the popular Airbnb style guide.
+- This project follows the popular [Airbnb style guide.](https://github.com/airbnb/javascript)
 
 `$ npm run lintfix`
 
@@ -102,7 +102,7 @@ Please follow the existing file structure.
 #### Create a new endpoint
 
 - Create a new file in the 'routes' folder. The file name should reflect the endpoint.
-- All routes should start with
+- All routes should start with:
 
   ```javascript
   import express from 'express';
@@ -111,7 +111,7 @@ Please follow the existing file structure.
   ```
 
 - Keep all GET, POST, PATCH and DELETE methods inside this one folder
-- Export the new route with
+- Export the new route with:
   ```javascript
   export default router;
   ```
@@ -119,7 +119,7 @@ Please follow the existing file structure.
 
 #### Mounting the endpoint
 
-- Import your new endpoint into app.js. This should be done under the `// Routes` comment by using
+- Import your new endpoint into app.js. This should be done under the `// Routes` comment by using:
   ```javascript
   import <endpointName> from './routes/<endpointFileName>';
   ```
