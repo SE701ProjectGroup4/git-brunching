@@ -1,0 +1,30 @@
+.landingPageContainer {
+    display: grid;
+    grid-template-rows: 30% 10% auto 10%;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    height: 100%;
+    width: 100%;
+    background-color: yellow;
+}
+
+.searchContainer {
+    background-color: red;
+}
+
+.tileContainer {
+    background-color: blue;
+}
+
+.tile {
+    height: 200px;
+    width: 200px;
+    background-color: aqua;
+}
+
+.footer {
+    background-color: orange;
+}
