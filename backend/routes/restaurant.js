@@ -65,6 +65,16 @@ router.get('/', (req, res) => {
  *       200:
  *         description: Successfully added restaurant to database
  */
+router.get('/getall', (req, res) => {
+  connection.query(
+    'SELECT * FROM RESTAURANT',
+    (error, results) => {
+      if (error) throw error;
+      res.json(results);
+    },
+  );
+});
+
 router.post('/', (req, res) => {
   const { body } = req;
 
