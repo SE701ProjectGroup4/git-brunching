@@ -1,14 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 
 const confirmationMessages = messages.confirmation;
 
-const ConfirmationContainer = ({ browserHistory }) => (
-  <div>
-    {confirmationMessages.confirmText}
-    <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
-  </div>
-);
+const ConfirmationContainer = (props) => {
+  const { browserHistory, numberOfSeats } = props;
+  return (
+    <div>
+      {/* TODO: Delete later */}
+      <p>{`NUMBER OF SEATS: ${numberOfSeats}`}</p>
+      {confirmationMessages.confirmText}
+      <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
+    </div>
+  );
+};
 
-export default ConfirmationContainer;
+const mapStateToProps = (state) => ({
+  numberOfSeats: state.bookingReducer.numberOfSeats,
+});
+export default connect(mapStateToProps, null)(ConfirmationContainer);
