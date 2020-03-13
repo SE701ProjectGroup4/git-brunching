@@ -5,8 +5,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
+import { styled } from "@material-ui/core";
+import style from "./BookingEditPopup.module.css";
 import changePath from "../general/helperFunctions";
 import textHolder from "../general/textHolder";
+import css from "./BookingEditPopupCSS";
 
 /**
  * The popup itself which is used to edit bookings
@@ -25,6 +28,7 @@ const BookingEditPopupDialog = (props) => {
   const [isError, changeError] = React.useState(false);
   const [bookingID, changeBookingID] = React.useState("");
   const { onClose, open, IDSwitchMethod } = props;
+  const PopupButton = styled(Button)(css.button);
 
   /**
      * Resets popup to default state
@@ -32,6 +36,7 @@ const BookingEditPopupDialog = (props) => {
   const resetPopup = () => {
     changeInput(true);
     changeError(false);
+    changeBookingID("");
   };
 
   /**
@@ -62,31 +67,35 @@ const BookingEditPopupDialog = (props) => {
     changePath("/booking", history);
   };
 
-
   return (
     (isInput)
       ? (
         <Dialog onClose={handleClosePopup} transitionDuration={0} aria-labelledby="simple-dialog-title" open={open}>
-
-          <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
-          {(!isError) ? (
-            <TextField id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} />
-          ) : (
-            <TextField
-              error
-              id="outlined-basic"
-              helperText="Cannot be Empty"
-              label="Insert ID here"
-              variant="outlined"
-              onChange={changeBookingID}
-            />
-          )}
-          <Button variant="outlined" color="primary" fullWidth={false} onClick={handleClosePopup}>
-            {textHolder.bookingsPopup.popupCancel}
-          </Button>
-          <Button variant="outlined" color="primary" fullWidth={false} onClick={handleChangeToBookingDetails}>
-            {textHolder.bookingsPopup.popupConfirm}
-          </Button>
+          <div>
+            <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
+            <div>
+              {(!isError) ? (
+                <TextField id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} />
+              ) : (
+                <TextField
+                  error
+                  id="outlined-basic"
+                  helperText="Cannot be Empty"
+                  label="Insert ID here"
+                  variant="outlined"
+                  onChange={changeBookingID}
+                />
+              )}
+            </div>
+            <div className={style.dialogContainer}>
+              <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup}>
+                {textHolder.bookingsPopup.popupCancel}
+              </PopupButton>
+              <PopupButton variant="outlined" fullWidth={false} onClick={handleChangeToBookingDetails}>
+                {textHolder.bookingsPopup.popupConfirm}
+              </PopupButton>
+            </div>
+          </div>
         </Dialog>
       )
       : (
@@ -110,13 +119,14 @@ const BookingEditPopupDialog = (props) => {
               <b>{dummyBooking.notes}</b>
             </p>
           </div>
-          <Button variant="outlined" color="primary" fullWidth={false} onClick={handleEditBooking}>
-            {textHolder.bookingsPopup.popupEdit}
-          </Button>
-          <Button variant="outlined" color="primary" fullWidth={false} onClick={handleClosePopup}>
-            {textHolder.bookingsPopup.popupOK}
-          </Button>
-
+          <div>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking}>
+              {textHolder.bookingsPopup.popupEdit}
+            </PopupButton>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup}>
+              {textHolder.bookingsPopup.popupOK}
+            </PopupButton>
+          </div>
         </Dialog>
       )
   );

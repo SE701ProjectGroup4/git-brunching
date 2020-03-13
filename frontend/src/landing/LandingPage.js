@@ -5,6 +5,7 @@ import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
 
+
 const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
@@ -29,14 +30,12 @@ const LandingPage = (props) => {
 
   return (
     <div className={style.landingPageContainer}>
-      <div>
-          <BookingEditPopupButton IDSwitchMethod={toBooking} />
-      </div>
       <div className={style.header}>
         {landingText.header}
       </div>
       <div className={style.searchContainer}>
         {landingText.search}
+        <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
       <div className={style.tileContainer}>
         { fakeData.map((data) => (
