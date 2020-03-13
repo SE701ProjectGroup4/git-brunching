@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { blue } from '@material-ui/core/colors';
 import {useHistory} from "react-router";
 
+
 const BookingEditPopupButton = () => {
 
     const [open, setOpen] = React.useState(false);
@@ -40,7 +41,10 @@ const PopupDialog = (props) => {
 
     const handleClose = () => {
         onClose();
-        handleChangeInputTrue();
+        setTimeout(function() {
+            handleChangeInputTrue();
+        }, 200);
+
     };
 
     const handleChangeInputFalse = () => {
@@ -60,6 +64,7 @@ const PopupDialog = (props) => {
     return (
         (isInput) ?
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+
 
             <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
             <TextField id="outlined-basic" label="Insert ID here" variant="outlined" />
