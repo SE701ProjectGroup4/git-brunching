@@ -4,11 +4,15 @@ import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
+import changePath from "../general/helperFunctions";
 import {useHistory} from "react-router";
 
+/**
+ * A button which summons the popup to edit bookings.
+ */
+const BookingEditPopupButton = (props) => {
 
-const BookingEditPopupButton = () => {
-
+    const { IDSwitchMethod } = props;
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -23,20 +27,22 @@ const BookingEditPopupButton = () => {
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Edit Booking
         </Button>
-        <PopupDialog open={open} onClose={handleClose} />
+        <PopupDialog open={open} onClose={handleClose} IDSwitchMethod={IDSwitchMethod}/>
     </div>);
 }
 
 export default BookingEditPopupButton;
 
 /**
- * The popup itself
+ * The popup itself which is used to edit bookings
  */
 const PopupDialog = (props) => {
 
+    const dummyRestaurant = "KCF";
+
     const history = useHistory();
     const [isInput, changeInput] = React.useState(true)
-    const { onClose, open } = props;
+    const { onClose, open, IDSwitchMethod} = props;
 
     const handleClosePopup = () => {
         onClose();
@@ -54,9 +60,10 @@ const PopupDialog = (props) => {
     };
 
     const handleEditBooking = () => {
-
-        history.push("/booking");
+        IDSwitchMethod(dummyRestaurant);
+        changePath("/booking", history);
     };
+
 
     return (
         (isInput) ?

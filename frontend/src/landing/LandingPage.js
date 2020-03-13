@@ -10,6 +10,7 @@ const landingText = messages.landingPage;
 const LandingPage = (props) => {
   const { setRestaurant } = props;
   const history = useHistory();
+
   const toBooking = (restaurant) => {
     changePath("/booking", history);
     setRestaurant(restaurant);
@@ -29,7 +30,7 @@ const LandingPage = (props) => {
   return (
     <div className={style.landingPageContainer}>
       <div>
-          <BookingEditPopupButton></BookingEditPopupButton>
+          <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
       <div className={style.header}>
         {landingText.header}
