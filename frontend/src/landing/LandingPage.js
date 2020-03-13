@@ -5,6 +5,7 @@ import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
 
+import RestaurantTile from "./RestaurantTile";
 
 const landingText = messages.landingPage;
 
@@ -37,19 +38,7 @@ const LandingPage = (props) => {
         {landingText.search}
         <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
-      <div className={style.tileContainer}>
-        { fakeData.map((data) => (
-          <div
-            className={style.tile}
-            key={`fake_data_${data.name}`}
-            role="button"
-            tabIndex={0}
-            onClick={() => toBooking(data.name)}
-          >
-            {data.name}
-          </div>
-        ))}
-      </div>
+      <RestaurantTile setRestaurant={setRestaurant}/>
       {/* Probably make it it's own component */}
       <div className={style.footer}>
         {landingText.footer}
