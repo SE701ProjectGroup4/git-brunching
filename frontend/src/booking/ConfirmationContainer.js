@@ -9,7 +9,7 @@ const ConfirmationContainer = (props) => {
   const { browserHistory, numberOfSeats } = props;
   return (
     <div>
-      {/* TODO: Delete later */}
+      {/* TODO: Just a placeholder, edit later */}
       <p>{`NUMBER OF SEATS: ${numberOfSeats}`}</p>
       {confirmationMessages.confirmText}
       <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
