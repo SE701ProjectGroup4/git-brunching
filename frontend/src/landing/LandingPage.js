@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
+import RestaurantTile from "./RestaurantTile";
 
 const landingText = messages.landingPage;
 
@@ -33,19 +34,7 @@ const LandingPage = (props) => {
       <div className={style.searchContainer}>
         {landingText.search}
       </div>
-      <div className={style.tileContainer}>
-        { fakeData.map((data) => (
-          <div
-            className={style.tile}
-            key={`fake_data_${data.name}`}
-            role="button"
-            tabIndex={0}
-            onClick={() => toBooking(data.name)}
-          >
-            {data.name}
-          </div>
-        ))}
-      </div>
+      <RestaurantTile setRestaurant={setRestaurant}/>
       {/* Probably make it it's own component */}
       <div className={style.footer}>
         {landingText.footer}
