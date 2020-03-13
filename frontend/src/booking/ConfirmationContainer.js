@@ -9,7 +9,11 @@ const ConfirmationContainer = (props) => {
   const { browserHistory, numberOfSeats } = props;
   return (
     <div>
+<<<<<<< HEAD
       {/* TODO: Just a placeholder, edit later */}
+=======
+      {/* TODO: Delete later */}
+>>>>>>> Set up base statement management with Redux
       <p>{`NUMBER OF SEATS: ${numberOfSeats}`}</p>
       {confirmationMessages.confirmText}
       <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
