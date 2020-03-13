@@ -112,3 +112,6 @@ temp/
 
 # Mac auto generated files
 *.DS_Store
+
+# Database credentials
+.env
