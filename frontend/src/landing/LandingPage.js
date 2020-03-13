@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
+import BookingEditPopupButton from "../booking/BookingEditPopupButton";
 
 const landingText = messages.landingPage;
 
@@ -27,6 +28,9 @@ const LandingPage = (props) => {
 
   return (
     <div className={style.landingPageContainer}>
+      <div>
+          <BookingEditPopupButton></BookingEditPopupButton>
+      </div>
       <div className={style.header}>
         {landingText.header}
       </div>
