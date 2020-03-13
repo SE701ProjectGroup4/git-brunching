@@ -1,9 +1,7 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
-require('dotenv').config();
-
-const bodyParser = require('body-parser');
-const connection = require('../database');
+import connection from '../database';
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -16,13 +14,13 @@ router.get('/', (req, res) => {
     return;
   }
 
-  connection.query(
-    `SELECT * FROM RESTAURANT WHERE ID = ${req.query.restaurantID}`,
-    (error, results) => {
-      if (error) throw error;
-      res.json(results);
-    },
-  );
+  connection.query(`SELECT * FROM RESTAURANT WHERE ID = ${req.query.restaurantID}`, (error, results) => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json(results);
+  });
 });
 
 router.post('/', (req, res) => {
@@ -33,14 +31,13 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query(
-    'INSERT INTO RESTAURANT '
-    + `VALUES (${body.restaurantID}, '${body.name}');`,
-    error => {
-      if (error) throw error;
-      res.json('added');
-    },
-  );
+  connection.query(`INSERT INTO RESTAURANT VALUES (${body.restaurantID}, '${body.name}');`, error => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json('added');
+  });
 });
 
 router.delete('/', (req, res) => {
@@ -51,13 +48,13 @@ router.delete('/', (req, res) => {
     return;
   }
 
-  connection.query(
-    `DELETE FROM RESTAURANT WHERE ID=${input.restaurantID};`,
-    error => {
-      if (error) throw error;
-      res.json('deleted');
-    },
-  );
+  connection.query(`DELETE FROM RESTAURANT WHERE ID=${input.restaurantID};`, error => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json('deleted');
+  });
 });
 
 export default router;
