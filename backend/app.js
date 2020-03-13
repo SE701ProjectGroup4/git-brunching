@@ -9,7 +9,7 @@ import helmet from 'helmet';
 
 // Routes
 import exampleEndpoint from './routes/exampleEndpoint';
-import restaurants from './routes/restaurants';
+import restaurant from '.routes/restaurant';
 
 // Initialise Express and apply middleware
 const app = express();
@@ -20,6 +20,6 @@ app.use(morgan('dev')); // for looging
 
 // Inject all routes
 app.use('/exampleEndpoint', exampleEndpoint);
-app.use('/restaurants', restaurants);
+app.use('/restaurant', restaurant);
 
 export default app;
