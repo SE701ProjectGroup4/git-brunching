@@ -19,7 +19,6 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(morgan('dev')); // for looging
 
 // Inject all routes
-app.use('/exampleEndpoint', exampleEndpoint);
 app.use('/restaurant', restaurant);
 
 export default app;
