@@ -5,10 +5,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./database');
 
-app.route('/:restaurantId')
+app.route('/:restaurantID')
     .get(function (req, res, next) {
         connection.query(
-            "SELECT * FROM `restaurants` WHERE ID= ? LIMIT 3", req.params.restaurantId,
+            "SELECT * FROM `restaurants` WHERE ID = ? LIMIT 3", req.params.restaurantID,
             function (error, results, fields) {
                 if (error) throw error;
                 res.json(results);
