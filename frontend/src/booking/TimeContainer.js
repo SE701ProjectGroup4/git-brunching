@@ -14,6 +14,9 @@ const TimeContainer = (props) => {
   const [seatsNumber, handleSeatsNumber] = useState("");
   const history = useHistory();
 
+  /**
+   * Upon clicking, we want to update the store with inputted values
+   */
   const handleButtonClick = () => {
     changePath("/details", history);
     props.onButtonClick(seatsNumber);
