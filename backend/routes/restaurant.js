@@ -1,23 +1,29 @@
+import express from 'express';
+
 require('dotenv').config()
 
-const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const connection = require('./database');
+const connection = require('../database');
 
-app.route('/:restaurantID')
-    .get(function (req, res, next) {
-        connection.query(
-            "SELECT * FROM `restaurants` WHERE ID = ? LIMIT 3", req.params.restaurantID,
-            function (error, results, fields) {
-                if (error) throw error;
-                res.json(results);
-            }
-        );
-    });
+const router = express.Router();
 
-app.get('/status', (req, res) => res.send('Working!'));
+router.get('/', (req, res) => {
+    const input = req.query;
 
-// Port 8080 for Google App Engine
-app.set('port', process.env.PORT || 3000);
-app.listen(3000);
+    if (!input.restaurantID) {
+        res.status(400).json({ error: '/restaurant endpoint needs an restaurantID query param' });
+        return;
+    }
+
+    connection.query(
+        "SELECT * FROM `RESTAURANT` WHERE ID = " + req.query.restaurantID,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
+        }
+    );
+});
+
+router.get('/status', (req, res) => res.send('Working!'));
+
+export default router;
