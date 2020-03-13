@@ -46,7 +46,7 @@ const PopupDialog = (props) => {
 
     const handleClosePopup = () => {
         onClose();
-        //wait for animation to finish
+        // Wait for animation to finish
         resetPopup();
     };
 
