@@ -86,7 +86,6 @@ router.get('/openhours', (req, res) => {
   );
 });
 
-
 // Returns information on all the available restaurants
 router.get('/getall', (req, res) => {
   connection.query(
@@ -98,6 +97,7 @@ router.get('/getall', (req, res) => {
   );
 });
 
+// Add Restaurant
 router.post('/', (req, res) => {
   const { body } = req;
 
