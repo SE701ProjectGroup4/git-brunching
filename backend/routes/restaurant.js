@@ -78,7 +78,7 @@ router.get('/openhours', (req, res) => {
     from restaurant_db.HOURS 
     left join restaurant_db.RESTAURANT 
     ON restaurant_db.HOURS.RestaurantID = restaurant_db.RESTAURANT.ID
-    Where restaurant_db.RESTAURANT.ID = ${req.query.restaurantID}`,
+    Where restaurant_db.RESTAURANT.ID = ${input.restaurantID}`,
     (error, results) => {
       if (error) throw error;
       res.json(results);
