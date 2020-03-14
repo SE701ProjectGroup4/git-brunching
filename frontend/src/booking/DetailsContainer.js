@@ -11,9 +11,23 @@ const DetailsContainer = () => {
   return (
     <div className={style.contentContainer}>
       {/* Input fields go here */}
-      <div className={style.inputContainer}>{detailMessages.placeholder}</div>
+      <div className={style.inputContainer}>
+        <h1>Enter Your Details</h1>  {/* put into textholder.js later*/}
+        <form >
+          <p>Name: </p>
+          <input type = "text" name = "username"/>
+          <p>Phone number: </p>
+          <input type = "text" name = "phonenumber"/>
+          <p>Email: </p>
+          <input type = "text" name = "email"/>
+          <p>Notes: </p>
+          <textarea></textarea>
+        </form>
+
+      </div>
       <div className={style.timeContainer} />
       <div className={style.buttonContainer}>
+        
         <button onClick={() => changePath("/", history)}>{detailMessages.buttonBackText}</button>
         <button onClick={() => changePath("/confirmation", history)}>{detailMessages.buttonNextText}</button>
       </div>
