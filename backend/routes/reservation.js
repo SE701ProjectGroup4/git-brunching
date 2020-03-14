@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import shortid from 'shortid';
 
 import connection from '../database';
 
@@ -33,8 +32,16 @@ router.get('/single', (req, res) => {
 
 // Retrieve all reservation from a single restaurant. Used by restaurant manager to see all reservations.
 router.get('/all', (req, res) => {
+  const { restaurantID } = req.query;
+
+  if (!restaurantID) {
+    res.status(400).json({ error: 'reservation/all GET endpoint needs a restaurantID query param' });
+    return;
+  }
+
   connection.query(
-    `SELECT ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION;`,
+    `SELECT ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION WHERE RestaurantID = ?;`,
+    [restaurantID],
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
@@ -47,8 +54,8 @@ router.get('/all', (req, res) => {
 
 // Add a new reservation when a user wants to book a table.
 router.post('/single', (req, res) => {
-  // const reservationID = shortid.generate();
-  const reservationID = Math.floor(Math.random() * 2147483646);
+  // Generate a random number capped at 2147483647 as this is the largest number the database can hold.
+  const reservationID = Math.floor(Math.random() * 2147483647);
   const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
 
   if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
