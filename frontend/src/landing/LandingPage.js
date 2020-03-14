@@ -11,6 +11,7 @@ const LandingPage = (props) => {
   const { setRestaurant } = props;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   const history = useHistory();
 
   const toBooking = (restaurant) => {
@@ -32,6 +33,9 @@ const LandingPage = (props) => {
 =======
   
 >>>>>>> added styling to restaurant tile
+=======
+
+>>>>>>> fixed code formatting
 =======
 
 >>>>>>> fixed code formatting
