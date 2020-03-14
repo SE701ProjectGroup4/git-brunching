@@ -72,4 +72,22 @@ router.post('/single', (req, res) => {
   );
 });
 
+// Delete a reservation when a customer want to cancel a booking.
+router.delete('/single', (req, res) => {
+  const { reservationID } = req.query;
+
+  if (!reservationID) {
+    res.status(400).json({ error: 'reservation/single DELETE endpoint needs a reservationID query param' });
+    return;
+  }
+
+  connection.query(`DELETE FROM RESTAURANT WHERE ID=?;`, [reservationID], error => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json({ result: 'Deleted reservation' });
+  });
+});
+
 export default router;
