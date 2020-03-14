@@ -1,4 +1,5 @@
-import mysql from 'mysql';
+import mysql from './sqlConnectionResolver';
+
 import dotenv from 'dotenv';
 
 dotenv.config();
