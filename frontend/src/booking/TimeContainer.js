@@ -28,6 +28,7 @@ const TimeContainer = (props) => {
       <div className={style.inputContainer}>
         <TextField
           type="number"
+          variant="outlined"
           value={seatsNumber}
           onChange={
             (e) => { handleSeatsNumber(e.target.value); }
@@ -35,10 +36,6 @@ const TimeContainer = (props) => {
         />
       </div>
       <div className={style.timeContainer} />
-      <div className={style.buttonContainer}>
-        {/* We will have to store things onClick */}
-        <button onClick={() => handleButtonClick(history)}>{timeMessages.buttonNextText}</button>
-      </div>
     </div>
   );
 };

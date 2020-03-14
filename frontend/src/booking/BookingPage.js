@@ -30,7 +30,7 @@ const BookingPage = (props) => {
               <Switch>
                 <Route path="/details" component={() => <DetailsContainer />} />
                 <Route path="/confirmation" component={() => <ConfirmationContainer browserHistory={history} />} />
-                <Route path="/" component={() => <TimeContainer />} />
+                <Route path="/" component={() => <DetailsContainer />} />
               </Switch>
             </Router>
           </>
