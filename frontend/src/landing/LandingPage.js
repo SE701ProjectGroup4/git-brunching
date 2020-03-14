@@ -9,23 +9,7 @@ const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
   const { setRestaurant } = props;
-  const history = useHistory();
-  const toBooking = (restaurant) => {
-    changePath("/booking", history);
-    setRestaurant(restaurant);
-  };
-
-  const fakeData = [
-    {
-      name: "NANDOZ",
-      times: [],
-    },
-    {
-      name: "KCF",
-      times: [],
-    },
-  ];
-
+  
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
