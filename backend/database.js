@@ -1,4 +1,7 @@
-const mysql = require('mysql');
+import mysql from 'mysql';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -9,10 +12,12 @@ const connection = mysql.createConnection({
 
 connection.connect(err => {
   if (err) {
+    // eslint-disable-next-line no-console
     console.error(`Error connecting: ${err.stack}`);
     return;
   }
+  // eslint-disable-next-line no-console
   console.log(`Connected as thread id: ${connection.threadId}`);
 });
 
-module.exports = connection;
+export default connection;

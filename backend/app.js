@@ -10,12 +10,12 @@ import helmet from 'helmet';
 // Routes
 import restaurant from './routes/restaurant';
 
-// Initialise Express and apply middleware
+// Initialise express and apply middleware
 const app = express();
 app.use(helmet()); // Security helper plugin that removes or changes certain headers
 app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
-app.use(morgan('dev')); // for looging
+app.use(morgan('dev')); // for logging
 
 // Inject all routes
 app.use('/restaurant', restaurant);
