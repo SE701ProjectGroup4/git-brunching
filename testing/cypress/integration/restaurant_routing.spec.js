@@ -1,3 +1,8 @@
+/*
+* Scenario: Restaurant booking page navigation tests
+* 
+*/
+
 
 context('Actions', () => {
 
