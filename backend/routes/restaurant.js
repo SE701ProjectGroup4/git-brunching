@@ -66,6 +66,7 @@ router.get('/', (req, res) => {
  *         description: Successfully added restaurant to database
  */
 // Get Specific Restaurant opening hours
+// Gets specific restaurant opening hours, used by front end to build restaurant opening hours for end user.
 router.get('/openhours', (req, res) => {
   const input = req.query;
   if (!input.restaurantID) {
@@ -74,19 +75,18 @@ router.get('/openhours', (req, res) => {
   }
 
   connection.query(
-    `SELECT restaurant_db.HOURS.DayOfWeek, restaurant_db.HOURS.OpenTime,restaurant_db.HOURS.CloseTime 
-    from restaurant_db.HOURS 
-    left join restaurant_db.RESTAURANT 
-    ON restaurant_db.HOURS.RestaurantID = restaurant_db.RESTAURANT.ID
-    Where restaurant_db.RESTAURANT.ID = ${input.restaurantID}`,
+    `SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;`,[input.restaurantID],
     (error, results) => {
-      if (error) throw error;
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
       res.json(results);
     },
   );
 });
 
-// Returns information on all the available restaurants
+// Gets all restaurants ID and name from database. Used to get all available restaurants by front end.
 router.get('/getall', (req, res) => {
   connection.query(
     'SELECT * FROM RESTAURANT',
@@ -97,7 +97,7 @@ router.get('/getall', (req, res) => {
   );
 });
 
-// Add Restaurant
+// Add Restaurant into the database.
 router.post('/', (req, res) => {
   const { body } = req;
 
