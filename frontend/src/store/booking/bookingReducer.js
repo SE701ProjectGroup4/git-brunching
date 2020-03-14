@@ -4,6 +4,13 @@ const initialState = {
   numberOfSeats: null,
 };
 
+/**
+ * The reducer gets called whenever an action has been made
+ * The bookingReducer will apply the new state to whatever is in the bookings section
+ * @param state
+ * @param action
+ * @returns {{numberOfSeats: null}}
+ */
 const bookingReducer = (state, action) => {
   if (state == null) {
     return initialState;
