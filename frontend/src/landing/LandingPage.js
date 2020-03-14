@@ -11,6 +11,7 @@ const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
   const { setRestaurant } = props;
+<<<<<<< HEAD
   const history = useHistory();
 
   const toBooking = (restaurant) => {
@@ -29,6 +30,9 @@ const LandingPage = (props) => {
     },
   ];
 
+=======
+  
+>>>>>>> added styling to restaurant tile
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
