@@ -1,7 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
-import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import RestaurantTile from "./RestaurantTile";
 
@@ -9,7 +7,7 @@ const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
   const { setRestaurant } = props;
-  
+
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
@@ -18,7 +16,7 @@ const LandingPage = (props) => {
       <div className={style.searchContainer}>
         {landingText.search}
       </div>
-      <RestaurantTile setRestaurant={setRestaurant}/>
+      <RestaurantTile setRestaurant={setRestaurant} />
       {/* Probably make it it's own component */}
       <div className={style.footer}>
         {landingText.footer}
