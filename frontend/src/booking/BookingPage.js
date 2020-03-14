@@ -6,7 +6,6 @@ import {
 } from "react-router";
 import style from "./BookingPage.module.css";
 import NotFound from "../general/NotFound";
-import TimeContainer from "./TimeContainer";
 import DetailsContainer from "./DetailsContainer";
 import ConfirmationContainer from "./ConfirmationContainer";
 

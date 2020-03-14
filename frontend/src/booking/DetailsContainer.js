@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
 import { TextField } from "@material-ui/core";
 import { KeyboardDatePicker, MuiPickersUtilsProvider  } from '@material-ui/pickers';
@@ -7,28 +8,36 @@ import DateFnsUtils from '@date-io/date-fns';
 import changePath from "../general/helperFunctions";
 import TimeContainer from "./TimeContainer";
 import messages from "../general/textHolder";
+import { addBooking } from "../store/booking/bookingActions";
 
 const detailMessages = messages.details;
-const DetailsContainer = () => {
+const DetailsContainer = (props) => {
   const history = useHistory();
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [seats, changeSeats] = React.useState((props.seats == null) ? "" : props.seats);
+  const [selectedDate, setSelectedDate] = React.useState((props.date == null) ? new Date() : props.date);
 
-  const handleDateChange = date => {
+  const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
+  const handleConfirmBooking = () => {
+    changePath("/confirmation", history);
+    props.onConfirmClick(selectedDate, seats, null);
+  }
+
   return (
-    <div className={style.contentContainer}>
+    <div className={style.bookingDetailsContainer}>
       <div>{detailMessages.placeholder}</div>
-      <div className={style.inputContainer}>
-        <div>
+      <div className={style.bookingDetailsContainer}>
+        <div className={style.bookingDetail}>
           <TextField
             label="Number of Guests"
             variant="outlined"
+            onChance={changeSeats}
           />
         </div>
-        <div>
+        <div className={style.bookingDetail}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -48,10 +57,20 @@ const DetailsContainer = () => {
       <TimeContainer />
       <div className={style.buttonContainer}>
         <button onClick={() => changePath("/", history)}>{detailMessages.buttonBackText}</button>
-        <button onClick={() => changePath("/confirmation", history)}>{detailMessages.buttonNextText}</button>
+        <button onClick={handleConfirmBooking}>{detailMessages.buttonNextText}</button>
       </div>
     </div>
   );
 };
 
-export default DetailsContainer;
+const mapStateToProps = (state) => ({
+  seats: state.bookingReducer.seats,
+  date: state.bookingReducer.date,
+  time: state.bookingReducer.time,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time, "", null))}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsContainer);
