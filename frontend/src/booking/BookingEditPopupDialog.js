@@ -119,7 +119,7 @@ const BookingEditPopupDialog = (props) => {
               <b>{dummyBooking.notes}</b>
             </p>
           </div>
-          <div>
+          <div className={style.dialogContainerDetails}>
             <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking}>
               {textHolder.bookingsPopup.popupEdit}
             </PopupButton>
