@@ -10,9 +10,9 @@ const messages = {
     footer: "Footer",
   },
   details: {
-    buttonNextText: "Done",
+    buttonNextText: "Next",
     buttonBackText: "Back",
-    placeholder: "AT DETAILS",
+    placeholder: "Booking Details",
   },
   time: {
     buttonNextText: "Next",
