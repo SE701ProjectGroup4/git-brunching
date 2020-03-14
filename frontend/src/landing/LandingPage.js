@@ -3,12 +3,15 @@ import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
+import BookingEditPopupButton from "../booking/BookingEditPopupButton";
+
 
 const landingText = messages.landingPage;
 
 const LandingPage = (props) => {
   const { setRestaurant } = props;
   const history = useHistory();
+
   const toBooking = (restaurant) => {
     changePath("/booking", history);
     setRestaurant(restaurant);
@@ -32,6 +35,7 @@ const LandingPage = (props) => {
       </div>
       <div className={style.searchContainer}>
         {landingText.search}
+        <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
       <div className={style.tileContainer}>
         { fakeData.map((data) => (

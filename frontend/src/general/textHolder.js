@@ -22,9 +22,17 @@ const messages = {
     buttonNextText: "Finish",
     confirmText: "Number: 12123 blah blah",
   },
+  bookingsPopup: {
+    buttonText: "Edit Booking",
+    popupCancel: "Cancel",
+    popupConfirm: "Confirm",
+    popupEdit: "Edit",
+    popupOK: "OK",
+  },
   notFound: {
     message: "404 NOT FOUND",
   },
+
 };
 
 export default messages;
