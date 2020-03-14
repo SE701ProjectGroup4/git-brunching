@@ -9,6 +9,7 @@ import helmet from 'helmet';
 
 // Routes
 import restaurant from './routes/restaurant';
+import reservation from './routes/reservation';
 
 // Initialise express and apply middleware
 const app = express();
@@ -19,5 +20,6 @@ app.use(morgan('dev')); // for logging
 
 // Inject all routes
 app.use('/restaurant', restaurant);
+app.use('/reservation', reservation);
 
 export default app;
