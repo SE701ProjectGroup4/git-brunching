@@ -65,6 +65,29 @@ router.get('/', (req, res) => {
  *       200:
  *         description: Successfully added restaurant to database
  */
+// Get Specific Restaurant opening hours
+router.get('/openhours', (req, res) => {
+  const input = req.query;
+  if (!input.restaurantID) {
+    res.status(400).json({ error: '/restaurant/openhours GET endpoint needs a restaurantID query param' });
+    return;
+  }
+
+  connection.query(
+    `SELECT restaurant_db.HOURS.DayOfWeek, restaurant_db.HOURS.OpenTime,restaurant_db.HOURS.CloseTime 
+    from restaurant_db.HOURS 
+    left join restaurant_db.RESTAURANT 
+    ON restaurant_db.HOURS.RestaurantID = restaurant_db.RESTAURANT.ID
+    Where restaurant_db.RESTAURANT.ID = ${req.query.restaurantID}`,
+    (error, results) => {
+      if (error) throw error;
+      res.json(results);
+    },
+  );
+});
+
+
+// Returns information on all the available restaurants
 router.get('/getall', (req, res) => {
   connection.query(
     'SELECT * FROM RESTAURANT',
