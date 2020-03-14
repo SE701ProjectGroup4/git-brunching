@@ -44,4 +44,32 @@ router.get('/all', (req, res) => {
   );
 });
 
+// Add a new reservation when a user wants to book a table.
+router.post('/single', (req, res) => {
+  // const reservationID = shortid.generate();
+  const reservationID = Math.floor(Math.random() * 2147483646);
+  const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
+
+  if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
+    res.status(400).json({
+      error:
+        'reservation/single POST endpoint needs: date, time, numberOfGuests, tableID, restaurantID and userID body params',
+    });
+    return;
+  }
+
+  connection.query(
+    `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ` +
+      `VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+    [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, userID],
+    error => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json({ result: 'Added single reservation', reservationID });
+    }
+  );
+});
+
 export default router;
