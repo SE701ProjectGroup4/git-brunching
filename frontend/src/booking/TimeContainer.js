@@ -21,7 +21,7 @@ const TimeContainer = (props) => {
     setSelectedDate(date);
   };
 
-  const handleConfirmBooking = () => {
+  const handleTimeConfirmation = () => {
     changePath("/details", history);
     props.onConfirmClick(selectedDate, seats, null);
   }
@@ -68,7 +68,7 @@ const TimeContainer = (props) => {
       </div>
       <div className={style.buttonContainer}>
         <button onClick={() => changePath("/", history)}>{timeMessages.buttonReturnText}</button>
-        <button onClick={handleConfirmBooking}>{timeMessages.buttonNextText}</button>
+        <button onClick={handleTimeConfirmation}>{timeMessages.buttonNextText}</button>
       </div>
     </div>
   );
