@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import { TextField } from "@material-ui/core/TextField";
 import style from "./LandingPage.module.css";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
@@ -23,7 +24,7 @@ const LandingPage = (props) => {
         {landingText.header}
       </div>
       <div className={style.searchContainer}>
-        {landingText.search}
+        <TextField id="standard-search" label="Search field" type="search" />
         <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
       <RestaurantTile setRestaurant={setRestaurant} />
