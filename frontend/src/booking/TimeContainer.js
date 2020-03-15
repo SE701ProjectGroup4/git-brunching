@@ -82,6 +82,7 @@ const TimeContainer = (props) => {
             type="number"
             label="Number of Guests"
             variant="outlined"
+            value={seats}
             onChange={(e) => changeSeats(e.target.value)}
           />
         </div>
@@ -94,7 +95,7 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => setSelectedDate(e)}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -195,9 +196,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => {
-    dispatch(addBooking(date, seats, time, "", null));
-  },
+  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time)); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);

@@ -5,8 +5,10 @@ const initialState = {
   date: null,
   seats: null,
   time: null,
+  name: null,
+  phone: null,
+  email: null,
   notes: null,
-  bookingID: null,
 };
 
 /**
@@ -32,9 +34,15 @@ const bookingReducer = (state, action) => {
         date: action.date,
         seats: action.seats,
         time: action.time,
-        notes: action.notes,
-        bookingID: action.bookingID,
       };
+    case actionType.ADD_BOOKING_DETAILS:
+      return {
+        ...state,
+        name: action.name,
+        phone: action.phone,
+        email: action.email,
+        notes: action.notes,
+      }
     default:
       return {
         ...state,

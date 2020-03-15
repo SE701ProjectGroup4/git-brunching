@@ -1,23 +1,24 @@
 export const actionType = {
-  SEAT_BOOKING: "SEAT_BOOKING",
-  ADD_BOOKING: "ADD_BOOKING",
+  ADD_BOOKING_TIME: "ADD_BOOKING_TIME",
+  ADD_BOOKING_DETAILS: "ADD_BOOKING_DETAILS"
 };
 
-const updateSeats = (numberOfSeats) => ({
-  type: actionType.SEAT_BOOKING,
-  numberOfSeats,
-});
-
-const addBooking = (date, seats, time, notes, bookingID) => ({
-  type: actionType.ADD_BOOKING,
+const addBookingTime = (date, seats, time) => ({
+  type: actionType.ADD_BOOKING_TIME,
   date,
   seats,
   time,
-  notes,
-  bookingID,
 });
 
+const addBookingDetails = (name, phone, email, notes) => ({
+  type: actionType.ADD_BOOKING_DETAILS,
+  name,
+  phone,
+  email,
+  notes,
+})
+
 export {
-  updateSeats,
-  addBooking,
+  addBookingTime,
+  addBookingDetails,
 };
