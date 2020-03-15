@@ -28,3 +28,23 @@
 .footer {
     background-color: orange;
 }
+
+.gridList {
+    width: 90%;
+    height: 100%;
+    position: relative;
+    justify-content: center;
+}
+
+.gridRoot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    padding: 40px;
+    background-color: rgb(216, 216, 216);
+}
+
+.tileBar {
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%) !important;
+}

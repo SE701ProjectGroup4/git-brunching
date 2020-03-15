@@ -1,10 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
-import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
-
+import RestaurantTile from "./RestaurantTile";
+import changePath from "../general/helperFunctions";
 
 const landingText = messages.landingPage;
 
@@ -17,17 +17,6 @@ const LandingPage = (props) => {
     setRestaurant(restaurant);
   };
 
-  const fakeData = [
-    {
-      name: "NANDOZ",
-      times: [],
-    },
-    {
-      name: "KCF",
-      times: [],
-    },
-  ];
-
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
@@ -37,19 +26,7 @@ const LandingPage = (props) => {
         {landingText.search}
         <BookingEditPopupButton IDSwitchMethod={toBooking} />
       </div>
-      <div className={style.tileContainer}>
-        { fakeData.map((data) => (
-          <div
-            className={style.tile}
-            key={`fake_data_${data.name}`}
-            role="button"
-            tabIndex={0}
-            onClick={() => toBooking(data.name)}
-          >
-            {data.name}
-          </div>
-        ))}
-      </div>
+      <RestaurantTile setRestaurant={setRestaurant} />
       {/* Probably make it it's own component */}
       <div className={style.footer}>
         {landingText.footer}
