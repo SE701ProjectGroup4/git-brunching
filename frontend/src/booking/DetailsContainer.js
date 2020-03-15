@@ -10,7 +10,7 @@ import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
 
 const detailMessages = messages.details;
-const DetailsContainer = (props) => {
+const DetailsContainer = () => {
   const history = useHistory();
 
   const {
