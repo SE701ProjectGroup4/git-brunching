@@ -42,30 +42,6 @@ router.get('/', (req, res) => {
   });
 });
 
-/**
- * @swagger
- *
- * /restaurant:
- *   post:
- *     description: Adds a restaurant object to the database
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: restaurantID
- *         description: Primary Key of Restaurant database table
- *         in: formData
- *         required: true
- *         type: integer
- *       - name: name
- *         description: Name of restaurant
- *         in: formData
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: Successfully added restaurant to database
- */
-// Get Specific Restaurant opening hours
 // Gets specific restaurant opening hours, used by front end to build restaurant opening hours for end user.
 router.get('/openhours', (req, res) => {
   const input = req.query;
@@ -107,7 +83,29 @@ router.get('/getall', (req, res) => {
   );
 });
 
-// Add Restaurant into the database.
+/**
+ * @swagger
+ *
+ * /restaurant:
+ *   post:
+ *     description: Adds a restaurant object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *       - name: name
+ *         description: Name of restaurant
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Successfully added restaurant to database
+ */
 router.post('/', (req, res) => {
   const { body } = req;
 
