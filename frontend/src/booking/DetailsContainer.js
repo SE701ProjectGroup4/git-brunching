@@ -2,8 +2,8 @@ import React from "react";
 import { useHistory } from "react-router";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import Card from '@material-ui/core/Card';
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import Card from "@material-ui/core/Card";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
@@ -27,27 +27,6 @@ const DetailsContainer = (props) => {
     };
 
   */
-
-  //where information user enters is stored.
-  const information = {
-    name: '',
-    email: '',
-    phone:''
-  }
-
-  const handleName = (e) => {
-    
-  };
-
-  const handleEmail = () => {
-    
-  };
-
-  const handlePhoneNumber = () => {
-    
-  };
-
-
 
   return (
     <div className={style.contentContainer}>
@@ -73,8 +52,8 @@ const DetailsContainer = (props) => {
               <TextField type="text" name="email" className="form-value" />
             </div>
             <div className="form-group">
-              <label className = {style.formlabel}>Notes</label>
-              <TextField></TextField>
+              <label className={style.formlabel}>Notes</label>
+              <TextField />
             </div>
             <div className={style.buttonContainer}>
               <BottomNavigation>
