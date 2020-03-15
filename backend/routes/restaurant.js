@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import connection from '../database';
 
 const router = express.Router();
+
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', (req, res) => {
