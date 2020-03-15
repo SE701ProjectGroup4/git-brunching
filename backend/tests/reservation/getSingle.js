@@ -1,12 +1,15 @@
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
+import config from '../../config/config';
 
 chai.use(chaiHttp);
+
+// Testing /reservation/single GET endpoint
 
 describe('GET reservations/single', () => {
   it('1. should return expected error when reservationID is not provided.', function(done) {
     chai
-      .request('localhost:3001/reservation')
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('/single')
       .query({})
       .end((err, res) => {
@@ -15,7 +18,7 @@ describe('GET reservations/single', () => {
         const { body } = res;
         assert.isObject(body, 'Expected response to contain a body object');
         assert.deepEqual(body, {
-          error: 'reservation/single GET endpoint needs a reservationID query param',
+          error: 'reservation/single GET endpoint needs a reservationID query param'
         });
         done();
       });
@@ -23,7 +26,7 @@ describe('GET reservations/single', () => {
 
   it('2. should return expected correct query when reservationID is provided.', function(done) {
     chai
-      .request('localhost:3001/reservation')
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('/single')
       .query({ reservationID: 4 })
       .end((err, res) => {
@@ -48,7 +51,7 @@ describe('GET reservations/single', () => {
 
   it('3. should ignore extra parameters.', function(done) {
     chai
-      .request('localhost:3001/reservation')
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('/single')
       .query({ notReservationID: 4, reservationID: 1 })
       .end((err, res) => {
