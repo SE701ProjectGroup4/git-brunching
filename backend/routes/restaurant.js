@@ -42,6 +42,47 @@ router.get('/', (req, res) => {
   });
 });
 
+// Gets specific restaurant opening hours, used by front end to build restaurant opening hours for end user.
+router.get('/openhours', (req, res) => {
+  const input = req.query;
+  if (!input.restaurantID) {
+    res.status(400).json({ error: '/restaurant/openhours GET endpoint needs a restaurantID query param' });
+    return;
+  }
+
+  connection.query(
+    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;', [input.restaurantID],
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+// Gets all restaurants ID and name from database. Used to get all available restaurants by front end.
+router.get('/getall', (req, res) => {
+  const input = req.query;
+
+  if (JSON.stringify(input) !== '{}') {
+    res.status(400).json({ error: '/restaurant/getall GET endpoint needs no query param' });
+    return;
+  }
+
+  connection.query(
+    'SELECT * FROM RESTAURANT',
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
 /**
  * @swagger
  *
