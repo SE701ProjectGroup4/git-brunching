@@ -24,6 +24,27 @@ const DetailsContainer = (props) => {
     changePath("/", history);
   };
 
+  //where information user enters is stored.
+  const information = {
+    name: '',
+    email: '',
+    phone:''
+  }
+
+  const handleName = (e) => {
+    
+  };
+
+  const handleEmail = () => {
+    
+  };
+
+  const handlePhoneNumber = () => {
+    
+  };
+
+
+
   return (
     <div className={style.contentContainer}>
       {/* Input fields go here */}
