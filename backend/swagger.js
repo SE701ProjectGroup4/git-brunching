@@ -1,6 +1,6 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const options = {
-    apis: ['../routes/*.js'],
+    apis: ['./routes/restaurant.js'],
     basePath: '/',
     swaggerDefinition: {
         info: {

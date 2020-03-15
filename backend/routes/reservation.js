@@ -17,8 +17,8 @@ router.get('/single', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-      'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
-      'WHERE ID = ? ',
+    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
+    'WHERE ID = ? ',
     [reservationID]
   );
 
@@ -40,8 +40,8 @@ router.get('/all', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-      'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
-      'WHERE RestaurantID = ?;',
+    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
+    'WHERE RestaurantID = ?;',
     [restaurantID]
   );
 
@@ -68,8 +68,8 @@ router.post('/single', async (req, res) => {
 
   const { error } = await connection.asyncQuery(
     'INSERT ' +
-      'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
+    'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
     [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, userID]
   );
 

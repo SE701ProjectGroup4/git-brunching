@@ -11,7 +11,7 @@ import helmet from 'helmet';
 import restaurant from './routes/restaurant';
 import reservation from './routes/reservation';
 
-import * as specs from './docs/swagger';
+import * as specs from './swagger';
 const swaggerUi = require('swagger-ui-express');
 
 
