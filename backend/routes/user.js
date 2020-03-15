@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
          return;
        }
   
-    connection.query(`INSERT INTO USER VALUES (?, ?, ?, ?);`, [body.firstName, body.lastName, body.phone, body.email], error => {
+    connection.query(`INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);`, [body.firstName, body.lastName, body.phone, body.email], error => {
         if (error) {
           res.status(400).json({ error });
           return;
