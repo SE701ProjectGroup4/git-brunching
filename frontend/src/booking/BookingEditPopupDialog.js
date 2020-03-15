@@ -4,6 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
 import { styled } from "@material-ui/core";
 import style from "./BookingEditPopup.module.css";
