@@ -35,7 +35,7 @@ const TimeContainer = props => {
   };
 
   const handleTime = value => {
-    console.log(value);
+    // console.log(value);
     setSelectedTime(value);
   };
 
