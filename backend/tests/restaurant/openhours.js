@@ -34,7 +34,7 @@ it('1. should return expected error if no parameters are entered', function(done
       });
   });
 
-  it('3. should return expected correct query when restaurantID is provied', function(done) {
+  it('3. should return expected correct query when restaurantID is provided', function(done) {
     chai
       .request(`${config.listen.address}:${config.listen.port}/restaurant`)
       .get('/openhours')
