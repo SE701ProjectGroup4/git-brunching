@@ -87,44 +87,65 @@ router.get('/all', async (req, res) => {
 
 // Update a reservation when a user needs to change a field.
 // The applicable fields to change are:
-// Notes, Number Of Guests, Date, Time
+// Notes, Number Of Guests, Date, Time, userPhoneNo, userEmailAddress
 router.post('/update', async (req, res) => {
-  const { reservationID, date, time, numberOfGuests, notes } = req.body;
+  const { reservationID, date, time, numberOfGuests, notes, phoneNo, email } = req.body;
 
   if (!reservationID) {
     res.status(400).json({ error: 'reservation/update POST endpoint needs a reservationID body param' });
     return;
   }
 
-  // check that this is an applicable booking to update (i.e more than 1 hour away)
   const {
-    error: queryError,
-    result: queryResult
-  } = await connection.asyncQuery('SELECT Date, Time, Notes, NumberOfGuests FROM RESERVATION WHERE ID = ?;', [
-    reservationID
-  ]);
+    error: reservationQueryError,
+    result: reservationQueryResult
+  } = await connection.asyncQuery('SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;',
+    [reservationID]);
 
-  const validationResult = validateTime(queryResult, queryError, 'update');
+  // check that this is an applicable booking to update (i.e more than 1 hour away)
+  const validationResult = validateTime(reservationQueryResult, reservationQueryError, 'update');
 
   if (validationResult.error) {
     res.status(400).json({ error: validationResult.error });
     return;
   }
 
+  const {
+    error: userQueryError,
+    result: userQueryResult
+  } = await connection.asyncQuery('SELECT Phone, Email FROM USER WHERE ID = ?;', [reservationQueryResult[0].userID]);
+
+  if (userQueryError) {
+    res.status(400).json({ error: userQueryError });
+  }
+
   // Update old values
-  const newNotes = notes || queryResult[0].Notes;
-  const newDate = date || queryResult[0].Date;
-  const newTime = time || queryResult[0].Time;
-  const newNoOfGuests = numberOfGuests || queryResult[0].NumberOfGuests;
+  const newNotes = notes || reservationQueryResult[0].Notes;
+  const newDate = date || reservationQueryResult[0].Date;
+  const newTime = time || reservationQueryResult[0].Time;
+  const newNoOfGuests = numberOfGuests || reservationQueryResult[0].NumberOfGuests;
+
+  const newPhone = phoneNo || userQueryResult[0].Phone;
+  const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
-  const { error: updateError } = await connection.asyncQuery(
+  const { error: reservationUpdateError } = await connection.asyncQuery(
     'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? WHERE ID = ?;',
     [newNotes, newDate, newTime, newNoOfGuests, reservationID]
   );
 
-  if (updateError) {
-    res.status(400).json({ error: updateError });
+  if (reservationUpdateError) {
+    res.status(400).json({ error: reservationUpdateError });
+  }
+
+  // update user details
+  const { error: userUpdateError } = await connection.asyncQuery(
+    'UPDATE USER SET Phone = ?, Email = ? WHERE ID = ?;',
+    [newPhone, newEmail, reservationQueryResult[0].userID]
+  );
+
+  if (userUpdateError) {
+    res.status(400).json({ error: userUpdateError });
   }
 
   res.json({ result: 'Updated reservation', reservationID });
