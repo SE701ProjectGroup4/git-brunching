@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Card from "@material-ui/core/Card";
 import style from "./BookingPage.module.css";
@@ -9,20 +8,24 @@ import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 
 const detailMessages = messages.details;
-const DetailsContainer = (props) => {
+const DetailsContainer = () => {
   const history = useHistory();
-  const [name, handleName] = useState("");
-  const [email, handleEmail] = useState("");
-  const [phoneNumber, handlePhoneNumber] = useState("");
   //  functions that are used to navigate to previous and next screens
 
-  const handleNext = () => {
+  /**
+   * TO DO
+   * const [name, handleName] = useState("");
+  const [email, handleEmail] = useState("");
+  const [phoneNumber, handlePhoneNumber] = useState("");
+   * const handleNext = () => {
     changePath("/confirmation", history);
-  };
+    };
 
-  const handlePrevious = () => {
-    changePath("/", history);
-  };
+    const handlePrevious = () => {
+      changePath("/", history);
+    };
+
+  */
 
   return (
     <div className={style.contentContainer}>
