@@ -78,6 +78,13 @@ $ npm i
 
 - Run all unit tests and display a report.
 
+Note. Before running any tests:
+
+1. Change the mock flag in config.js to true.
+2. In another terminal, start an instance of the API for the tests to connect to.
+   - This can be done using either `$ npm start` or `$ npm run dev`.
+3. Start the tests using `$ npm run test`
+
 #### Linting
 
 `$ npm run lint`
@@ -92,6 +99,13 @@ $ npm i
 
 Before making a pull request. Please ensure your code passes all tests and linting.  
 Prettier is an optional extension for most common IDE's. This will help with formatting/linting as you code.
+
+---
+
+## Common Run Errors
+
+- `Error: listen EADDRINUSE: address already in use <address>` - This is likely due to a nodemon leaving a background instance of node running.  
+   A guide to killing background node instances can be found [here](https://stackoverflow.com/a/14790921/10377254)
 
 ---
 
