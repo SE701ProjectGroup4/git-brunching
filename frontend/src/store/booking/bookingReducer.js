@@ -2,6 +2,11 @@ import { actionType } from "./bookingActions";
 
 const initialState = {
   numberOfSeats: null,
+  date: null,
+  seats: null,
+  time: null,
+  notes: null,
+  bookingID: null,
 };
 
 /**
@@ -20,6 +25,15 @@ const bookingReducer = (state, action) => {
       return {
         ...state,
         numberOfSeats: action.numberOfSeats,
+      };
+    case actionType.ADD_BOOKING:
+      return {
+        ...state,
+        date: action.date,
+        seats: action.seats,
+        time: action.time,
+        notes: action.notes,
+        bookingID: action.bookingID,
       };
     default:
       return {
