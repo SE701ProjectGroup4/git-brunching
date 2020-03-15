@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { TextField } from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider  } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
@@ -13,9 +13,11 @@ const timeMessages = messages.time;
 
 const TimeContainer = (props) => {
   const history = useHistory();
+  // Update this in the future to get time as well
+  const { oldSeats, oldDate } = props;
 
-  const [seats, changeSeats] = React.useState((props.seats == null) ? "" : props.seats);
-  const [selectedDate, setSelectedDate] = React.useState((props.date == null) ? new Date() : props.date);
+  const [seats, changeSeats] = useState((oldSeats == null) ? "" : oldSeats);
+  const [selectedDate, setSelectedDate] = useState((oldDate == null) ? new Date() : oldDate);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -24,7 +26,7 @@ const TimeContainer = (props) => {
   const handleTimeConfirmation = () => {
     changePath("/details", history);
     props.onConfirmClick(selectedDate, seats, null);
-  }
+  };
 
   /**
    * Upon clicking, we want to update the store with inputted values
@@ -51,7 +53,7 @@ const TimeContainer = (props) => {
               value={selectedDate}
               onChange={handleDateChange}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
             />
           </MuiPickersUtilsProvider>
@@ -75,13 +77,13 @@ const TimeContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  seats: state.bookingReducer.seats,
-  date: state.bookingReducer.date,
-  time: state.bookingReducer.time,
+  oldSeats: state.bookingReducer.seats,
+  oldDate: state.bookingReducer.date,
+  oldTime: state.bookingReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time, "", null))}
-})
+  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time, "", null)); },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);

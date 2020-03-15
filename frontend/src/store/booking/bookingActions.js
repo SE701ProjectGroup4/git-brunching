@@ -15,7 +15,7 @@ const addBooking = (date, seats, time, notes, bookingID) => ({
   time,
   notes,
   bookingID,
-})
+});
 
 export {
   updateSeats,

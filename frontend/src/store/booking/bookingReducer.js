@@ -34,7 +34,7 @@ const bookingReducer = (state, action) => {
         time: action.time,
         notes: action.notes,
         bookingID: action.bookingID,
-      }
+      };
     default:
       return {
         ...state,
