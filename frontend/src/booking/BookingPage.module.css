@@ -56,3 +56,13 @@
     background-color:gray;
     color: white;
 }
+.bookingDetailsContainer {
+    text-align: center;
+}
+
+.detailsCard{
+    text-align: center;
+    position: absolute;
+    left: 25%;
+}
+
