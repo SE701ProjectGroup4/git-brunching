@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     return;
   }
 
-  connection.query(`SELECT * FROM RESTAURANT WHERE ID = ? `, [req.query.restaurantID], (error, results) => {
+  connection.query('SELECT * FROM RESTAURANT WHERE ID = ? ', [req.query.restaurantID], (error, results) => {
     if (error) {
       res.status(400).json({ error });
       return;
@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query(`INSERT INTO RESTAURANT VALUES (?, ?);`, [body.restaurantID, body.name], error => {
+  connection.query('INSERT INTO RESTAURANT VALUES (?, ?);', [body.restaurantID, body.name], error => {
     if (error) {
       res.status(400).json({ error });
       return;
@@ -48,7 +48,7 @@ router.delete('/', (req, res) => {
     return;
   }
 
-  connection.query(`DELETE FROM RESTAURANT WHERE ID=?;`, [input.restaurantID], error => {
+  connection.query('DELETE FROM RESTAURANT WHERE ID=?;', [input.restaurantID], error => {
     if (error) {
       res.status(400).json({ error });
       return;

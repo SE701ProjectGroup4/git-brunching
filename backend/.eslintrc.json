@@ -17,6 +17,10 @@
   "ignorePatterns": ["node_modules/", "test/"],
   "rules": {
     "arrow-parens": ["error", "as-needed"],
-    "function-paren-newline": ["error", "consistent"]
+    "function-paren-newline": ["error", "consistent"],
+    "comma-dangle": ["error", "never"],
+    "object-curly-newline": ["error", { "multiline": true }],
+    "operator-linebreak": "off",
+    "max-len": ["error", { "comments": 140, "code": 130 }]
   }
 }
