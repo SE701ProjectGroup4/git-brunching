@@ -83,7 +83,7 @@ Note. Before running any tests:
 1. Change the mock flag in config.js to true.
 2. In another terminal, start an instance of the API for the tests to connect to.
    - This can be done using either `$ npm start` or `$ npm run dev`.
-3. Start the tests
+3. Start the tests using `$ npm run test`
 
 #### Linting
 
