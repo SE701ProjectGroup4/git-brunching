@@ -3,6 +3,65 @@
     width: 100%;
 }
 
+.submitbutton{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    margin: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+.form-value{
+      padding: 10px 10px 10px 10px;
+}
+
+
+.formlabel{
+    border: none;
+    margin: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.detailsCard{
+    width: 40%;
+    padding: 3em;
+}
+
+
+.changePageButton{
+    margin: 20px 20px 20px 20px;
+    background-color: #e7e7e7; /* gray*/
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    padding: 1em;
+    padding-bottom: 2em;
+
+}
+
+.changePageButton {
+    transition-duration: 0.4s;
+}
+
+.changePageButton:hover {
+    background-color:gray;
+    color: white;
+}
 .bookingDetailsContainer {
     text-align: center;
+}
+
+.detailsCard{
+    text-align: center;
+    position: absolute;
+    left: 25%;
 }
