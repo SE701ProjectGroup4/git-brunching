@@ -34,7 +34,7 @@ router.put('/', (req, res) => {
        }
   
     connection.query(`UPDATE USER, RESERVATION SET USER.FirstName = ?, USER.LastName = ?, USER.Phone = ?, USER.Email = ? 
-                      WHERE RESERVATION.ID = ?`, [body.firstName, body.lastName, body.phone, body.email, body.reservationID], error => {
+                      WHERE RESERVATION.UserID = USER.ID AND RESERVATION.ID = ?`, [body.firstName, body.lastName, body.phone, body.email, body.reservationID], error => {
         if (error) {
           res.status(400).json({ error });
           return;
