@@ -57,43 +57,13 @@ router.get('/all', async (req, res) => {
 // Notes, Number Of Guests, Date, Time
 router.post('/update', async (req, res) => {
   const { reservationID } = req.query;
-  
+
   if (!reservationID) {
     res.status(400).json({ error: 'reservation/update POST endpoint needs a reservationID query param' });
     return;
   }
 
   // check that this is an applicable booking to update (i.e more than 1 hour away)
-  if (!checkValidTime(reservationID)){
-    return;
-  }
-
-  const { date, time, numberOfGuests, notes} = req.body;
-
-  // retrieve old values to replace
-  const { errorOld, result } = await connection.asyncQuery(
-    'SELECT ' +
-      'Date, Time, Notes, NumberOfGuests FROM RESERVATION ' +
-      'WHERE ID = ? ',
-    [reservationID]
-  );
-
-  const newNotes = notes || result[0].Notes;
-  const newDate = date || result[0].Date;
-  const newTime = time || result[0].Time;
-  const newNoOfGuests = numberOfGuests || result[0].NumberOfGuests;
-
-  // update booking details
-  const { errorNew } = await connection.asyncQuery(
-    'UPDATE RESERVATION' + 
-      'SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? ' +
-      'WHERE ID = ?;',
-      [newNotes, newDate, newTime, newNoOfGuests, restaurantID]
-  );
-
- });
-
- async function checkValidTime(reservationID){
   const {
     error: timeError,
     result: row
@@ -108,7 +78,7 @@ router.post('/update', async (req, res) => {
 
   if (!timeRow || !Array.isArray(timeRow) || timeRow.length !== 1) {
     res.status(400).json({ error: 'This reservation does not exist' });
-    return false;
+    return;
   }
 
   const reservationTime = (timeRow[0] || {}).TIME;
@@ -123,19 +93,49 @@ router.post('/update', async (req, res) => {
   // Ensure the reservation has not already passed
   if (reservationDateTime < currentDateTime) {
     res.status(400).json({ error: 'This reservation has already passed' });
-    return false;
+    return;
   }
 
   // Ensure the reservation is more than 1 hour away
   reservationDateTime.setHours(reservationDateTime.getHours() - 1);
 
   if (reservationDateTime < currentDateTime) {
-    res.status(400).json({ error: 'Can only update reservations more than 1 hour in advance' });
-    return false;
+    res.status(400).json({ error: 'Can only cancel reservations more than 1 hour in advance' });
+    return;
   }
-  
-  return true;
- }
+
+  const { date, time, numberOfGuests, notes } = req.body;
+
+  // retrieve old values to replace
+  const { errorOld, result } = await connection.asyncQuery(
+    'SELECT ' +
+      'Date, Time, Notes, NumberOfGuests FROM RESERVATION ' +
+      'WHERE ID = ? ',
+    [reservationID]
+  );
+
+  if (errorOld) {
+    res.status(400).json({ errorOld });
+    return;
+  }
+
+  const newNotes = notes || result[0].Notes;
+  const newDate = date || result[0].Date;
+  const newTime = time || result[0].Time;
+  const newNoOfGuests = numberOfGuests || result[0].NumberOfGuests;
+
+  // update booking details
+  const { errorNew } = await connection.asyncQuery(
+    'UPDATE RESERVATION' +
+      'SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? ' +
+      'WHERE ID = ?;',
+    [newNotes, newDate, newTime, newNoOfGuests, reservationID]
+  );
+
+  if (errorNew) {
+    res.status(400).json({ errorNew });
+  }
+});
 
 // Add a new reservation when a user wants to book a table.
 router.post('/single', async (req, res) => {
