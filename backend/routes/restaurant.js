@@ -20,7 +20,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *         description: Primary Key of Restaurant database table
  *         in: query
  *         required: true
- *         type: int
+ *         type: integer
  *     responses:
  *       200:
  *         description: Returns restaurant object
@@ -53,12 +53,12 @@ router.get('/', (req, res) => {
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
- *         in: query
+ *         in: formData
  *         required: true
- *         type: int
+ *         type: integer
  *       - name: name
  *         description: Name of restaurant
- *         in: query
+ *         in: formData
  *         required: true
  *         type: string
  *     responses:
@@ -95,7 +95,7 @@ router.post('/', (req, res) => {
  *         description: Primary Key of Restaurant database table
  *         in: query
  *         required: true
- *         type: int
+ *         type: integer
  *     responses:
  *       200:
  *         description: Successfully deleted restaurant to database
