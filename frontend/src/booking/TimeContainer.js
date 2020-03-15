@@ -37,7 +37,7 @@ const TimeContainer = (props) => {
           <TextField
             label="Number of Guests"
             variant="outlined"
-            onChance={changeSeats}
+            onChange={changeSeats}
           />
         </div>
         <div className={style.bookingDetail}>
