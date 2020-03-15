@@ -39,7 +39,7 @@ const TimeContainer = (props) => {
           <TextField
             label="Number of Guests"
             variant="outlined"
-            onChange={changeSeats}
+            onChange={(e) => changeSeats(e.target.value)}
           />
         </div>
         <div className={style.bookingDetail}>
