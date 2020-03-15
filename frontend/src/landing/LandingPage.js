@@ -1,10 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
-import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
 import RestaurantTile from "./RestaurantTile";
+import changePath from "../general/helperFunctions";
 
 const landingText = messages.landingPage;
 
@@ -16,6 +16,7 @@ const LandingPage = (props) => {
     changePath("/booking", history);
     setRestaurant(restaurant);
   };
+
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
