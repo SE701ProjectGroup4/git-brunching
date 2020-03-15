@@ -75,25 +75,32 @@ router.get('/openhours', (req, res) => {
   }
 
   connection.query(
-    `SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;`,[input.restaurantID],
+    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;', [input.restaurantID],
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
         return;
       }
       res.json(results);
-    },
+    }
   );
 });
 
 // Gets all restaurants ID and name from database. Used to get all available restaurants by front end.
 router.get('/getall', (req, res) => {
+  const input = req.query;
+
+  if (JSON.stringify(input) !== '{}') {
+    res.status(400).json({ error: '/restaurant/getall GET endpoint needs no query param' });
+    return;
+  }
+
   connection.query(
     'SELECT * FROM RESTAURANT',
     (error, results) => {
       if (error) throw error;
       res.json(results);
-    },
+    }
   );
 });
 
