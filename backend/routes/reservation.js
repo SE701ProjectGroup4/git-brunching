@@ -52,6 +52,10 @@ router.get('/all', async (req, res) => {
   res.json({ result });
 });
 
+// Update a reservation when a user needs to change a field.
+// The applicable fields to change are:
+// Phone Number
+
 // Add a new reservation when a user wants to book a table.
 router.post('/single', async (req, res) => {
   // Generate a random number capped at 2147483647 as this is the largest number the database can hold.
