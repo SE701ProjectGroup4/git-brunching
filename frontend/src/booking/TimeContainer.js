@@ -19,10 +19,6 @@ const TimeContainer = (props) => {
   const [seats, changeSeats] = useState((oldSeats == null) ? "" : oldSeats);
   const [selectedDate, setSelectedDate] = useState((oldDate == null) ? new Date() : oldDate);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   const handleTimeConfirmation = () => {
     changePath("/details", history);
     props.onConfirmClick(selectedDate, seats, null);
@@ -37,6 +33,7 @@ const TimeContainer = (props) => {
       <div className={style.bookingDetailsContainer}>
         <div className={style.bookingDetail}>
           <TextField
+            type="number"
             label="Number of Guests"
             variant="outlined"
             onChange={(e) => changeSeats(e.target.value)}
@@ -51,7 +48,7 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
-              onChange={handleDateChange}
+              onChange={(e) => setSelectedDate(e.target.value)}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -69,7 +66,6 @@ const TimeContainer = (props) => {
         </div>
       </div>
       <div className={style.buttonContainer}>
-        <button onClick={() => changePath("/", history)}>{timeMessages.buttonReturnText}</button>
         <button onClick={handleTimeConfirmation}>{timeMessages.buttonNextText}</button>
       </div>
     </div>
