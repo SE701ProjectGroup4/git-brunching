@@ -55,7 +55,6 @@
 .changePageButton:hover {
     background-color:gray;
     color: white;
-<<<<<<< HEAD
 }
 .bookingDetailsContainer {
     text-align: center;
@@ -66,6 +65,3 @@
     position: absolute;
     left: 25%;
 }
-=======
-}
->>>>>>> styling improved

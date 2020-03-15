@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -28,26 +28,13 @@ const DetailsContainer = (props) => {
 
   */
 
-  //where information user enters is stored.
-  const information = {
-    name: '',
-    email: '',
-    phone:''
-  }
-
-  const handleName = (e) => {
-    
+  const handleNext = () => {
+    changePath("/confirmation", history);
   };
 
-  const handleEmail = () => {
-    
+  const handlePrevious = () => {
+    changePath("/", history);
   };
-
-  const handlePhoneNumber = () => {
-    
-  };
-
-
 
   return (
     <div className={style.contentContainer}>
