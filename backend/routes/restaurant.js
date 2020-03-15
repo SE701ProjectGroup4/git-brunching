@@ -4,8 +4,27 @@ import bodyParser from 'body-parser';
 import connection from '../database';
 
 const router = express.Router();
+
 router.use(bodyParser.urlencoded({ extended: true }));
 
+/**
+ * @swagger
+ *
+ * /restaurant:
+ *   get:
+ *     description: Fetch a restaurant object
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns restaurant object
+ */
 router.get('/', (req, res) => {
   const input = req.query;
 
@@ -23,6 +42,29 @@ router.get('/', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ *
+ * /restaurant:
+ *   post:
+ *     description: Adds a restaurant object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *       - name: name
+ *         description: Name of restaurant
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Successfully added restaurant to database
+ */
 router.post('/', (req, res) => {
   const { body } = req;
 
@@ -40,6 +82,24 @@ router.post('/', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ *
+ * /restaurant:
+ *   delete:
+ *     description: Deletes a restaurant object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully deleted restaurant to database
+ */
 router.delete('/', (req, res) => {
   const input = req.query;
 
