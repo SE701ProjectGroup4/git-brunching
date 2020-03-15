@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
@@ -35,7 +36,7 @@ const TimeContainer = props => {
   };
 
   const handleTime = value => {
-    // console.log(value);
+    console.log(value);
     setSelectedTime(value);
   };
 
@@ -72,31 +73,66 @@ const TimeContainer = props => {
         </div>
         <div className={style.contentContainer}>
           {/* Time fields go here */}
-          <button value="9-10am" onClick={e => handleTime(e.target.value)}>
+          <Button
+            variant="contained"
+            value="9-10am"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             9-10 am
-          </button>
-          <button value="10-11am" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="10-11am"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             10-11 am
-          </button>
-          <button value="11am-12pm" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="11am-12pm"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             11am-12pm
-          </button>
-          <button value="12-1pm" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="12-1pm"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             12-1 pm
-          </button>
-          <button value="1-2pm" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="1-2pm"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             1-2 pm
-          </button>
-          <button value="2-3pm" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="2-3pm"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             2-3 pm
-          </button>
-          <button value="3-4pm" onClick={e => handleTime(e.target.value)}>
+          </Button>
+          <Button
+            variant="contained"
+            value="3-4pm"
+            color="primary"
+            onClick={e => handleTime(e.target.value)}
+          >
             3-4 pm
-          </button>
+          </Button>
 
           <div className={style.inputContainer}>
             <p>Current Selected Time</p>
-            <TextField type="string" value={selectedTime} />
+            {/* <TextField type="string" value={selectedTime} /> */}
           </div>
         </div>
       </div>
