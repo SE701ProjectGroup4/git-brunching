@@ -102,7 +102,7 @@ Prettier is an optional extension for most common IDE's. This will help with for
 
 ---
 
-## Common run errors
+## Common Run Errors
 
 - `Error: listen EADDRINUSE: address already in use <address>` - This is likely due to a nodemon leaving a background instance of node running.  
    A guide to killing background node instances can be found [here](https://stackoverflow.com/a/14790921/10377254)
