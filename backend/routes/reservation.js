@@ -100,7 +100,7 @@ router.post('/update', async (req, res) => {
   reservationDateTime.setHours(reservationDateTime.getHours() - 1);
 
   if (reservationDateTime < currentDateTime) {
-    res.status(400).json({ error: 'Can only cancel reservations more than 1 hour in advance' });
+    res.status(400).json({ error: 'Can only update reservations more than 1 hour in advance' });
     return;
   }
 
