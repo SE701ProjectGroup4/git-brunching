@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { TextField } from "@material-ui/core/TextField";
+import TextField from "@material-ui/core/TextField";
 import style from "./LandingPage.module.css";
 import messages from "../general/textHolder";
 import BookingEditPopupButton from "../booking/BookingEditPopupButton";
