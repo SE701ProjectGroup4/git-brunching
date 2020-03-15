@@ -27,7 +27,6 @@ const BookingPage = (props) => {
             {/* Memory is used to navigate as we don't want to change URL each time */}
             <Router history={memoryHistory}>
               <Switch>
-                <Route path="/details" component={() => <DetailsContainer />} />
                 <Route path="/confirmation" component={() => <ConfirmationContainer browserHistory={history} />} />
                 <Route path="/" component={() => <DetailsContainer />} />
               </Switch>

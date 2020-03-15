@@ -11,9 +11,6 @@ const timeMessages = messages.time;
 const TimeContainer = (props) => {
   const [seatsNumber, handleSeatsNumber] = useState("");
 
-  /**
-   * Upon clicking, we want to update the store with inputted values
-   */
   return (
     <div className={style.contentContainer}>
       {/* Input fields go here */}
@@ -27,6 +24,10 @@ const TimeContainer = (props) => {
             (e) => { handleSeatsNumber(e.target.value); }
           }
         />
+      </div>
+      <div className={style.timeContainer} />
+      <div className={style.buttonContainer}>
+        {/* We will have to store things onClick */}
       </div>
       <div className={style.timeContainer} />
     </div>
