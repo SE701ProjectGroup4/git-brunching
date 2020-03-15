@@ -29,6 +29,13 @@ const TimeContainer = (props) => {
         />
       </div>
       <div className={style.timeContainer} />
+<<<<<<< HEAD
+=======
+      <div className={style.buttonContainer}>
+        {/* We will have to store things onClick */}
+      </div>
+      <div className={style.timeContainer} />
+>>>>>>> 68d18553ed3aaa32ef34c7a09329e97b061d2a8e
     </div>
   );
 };
