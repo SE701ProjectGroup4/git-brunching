@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
-import { addBooking } from "../store/booking/bookingActions";
+import { addBookingTime } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
 
@@ -196,7 +196,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time)); },
+  onConfirmClick: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);

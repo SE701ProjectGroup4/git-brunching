@@ -28,7 +28,7 @@ const bookingReducer = (state, action) => {
         ...state,
         numberOfSeats: action.numberOfSeats,
       };
-    case actionType.ADD_BOOKING:
+    case actionType.ADD_BOOKING_TIME:
       return {
         ...state,
         date: action.date,
