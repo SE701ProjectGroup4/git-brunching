@@ -77,7 +77,7 @@ const TimeContainer = props => {
             variant="contained"
             value="9-10am"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             9-10 am
           </Button>
@@ -85,7 +85,7 @@ const TimeContainer = props => {
             variant="contained"
             value="10-11am"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             10-11 am
           </Button>
@@ -93,7 +93,7 @@ const TimeContainer = props => {
             variant="contained"
             value="11am-12pm"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             11am-12pm
           </Button>
@@ -101,7 +101,7 @@ const TimeContainer = props => {
             variant="contained"
             value="12-1pm"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             12-1 pm
           </Button>
@@ -109,7 +109,7 @@ const TimeContainer = props => {
             variant="contained"
             value="1-2pm"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             1-2 pm
           </Button>
@@ -117,7 +117,7 @@ const TimeContainer = props => {
             variant="contained"
             value="2-3pm"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             2-3 pm
           </Button>
@@ -125,7 +125,7 @@ const TimeContainer = props => {
             variant="contained"
             value="3-4pm"
             color="primary"
-            onClick={e => handleTime(e.target.value)}
+            onClick={e => handleTime(e.currentTarget.value)}
           >
             3-4 pm
           </Button>
