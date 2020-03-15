@@ -1,14 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router";
 import TextField from "@material-ui/core/TextField";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import Card from '@material-ui/core/Card';
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 
 const detailMessages = messages.details;
-const DetailsContainer = () => {
+const DetailsContainer = (props) => {
   const history = useHistory();
   //  functions that are used to navigate to previous and next screens
 
@@ -26,6 +27,27 @@ const DetailsContainer = () => {
     };
 
   */
+
+  //where information user enters is stored.
+  const information = {
+    name: '',
+    email: '',
+    phone:''
+  }
+
+  const handleName = (e) => {
+    
+  };
+
+  const handleEmail = () => {
+    
+  };
+
+  const handlePhoneNumber = () => {
+    
+  };
+
+
 
   return (
     <div className={style.contentContainer}>
@@ -51,8 +73,8 @@ const DetailsContainer = () => {
               <TextField type="text" name="email" className="form-value" />
             </div>
             <div className="form-group">
-              <label className={style.formlabel}>Notes</label>
-              <TextField />
+              <label className = {style.formlabel}>Notes</label>
+              <TextField></TextField>
             </div>
             <div className={style.buttonContainer}>
               <BottomNavigation>
