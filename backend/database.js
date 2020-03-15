@@ -1,5 +1,5 @@
-import mysql from 'mysql';
 import dotenv from 'dotenv';
+import mysql from './sqlConnectionResolver';
 
 dotenv.config();
 
@@ -7,8 +7,23 @@ const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS,
+  password: process.env.DB_PASS
 });
+
+if (!connection.asyncQuery) {
+  // eslint-disable-next-line arrow-body-style
+  connection.asyncQuery = (...args) => {
+    return new Promise(resolve => {
+      connection.query(...args, (error, result) => {
+        if (error) {
+          resolve({ error });
+        } else {
+          resolve({ result });
+        }
+      });
+    });
+  };
+}
 
 connection.connect(err => {
   if (err) {
