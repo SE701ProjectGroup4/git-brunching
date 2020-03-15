@@ -13,12 +13,11 @@ context('Actions', () => {
     });
 
     it('Select Nandoz', function() {
-        cy.get('#root > div > div > div:nth-child(3) > div:nth-child(1)')
+        cy.get('#root > div > div > div:nth-child(3) > ul > li:nth-child(1) > div > div')
           .click();
     });
 
     it('Nandoz Page loaded successful', function() {
-      //cy.go('/back').contains('NANDOZ')
       cy.url().should('include', '/booking');
       cy.contains('NANDOZ');
       cy.contains('AT TIME');
@@ -35,7 +34,7 @@ context('Actions', () => {
     });
 
     it('Select KCF', function() {
-        cy.get('#root > div > div > div:nth-child(3) > div:nth-child(2)')
+        cy.get('#root > div > div > div:nth-child(3) > ul > li:nth-child(2) > div > div')
           .click();
     });
 
