@@ -29,6 +29,18 @@ class Connection {
 
     callback(undefined, { query: query[0], args: query[1] });
   };
+
+  asyncQuery = (...args) => {
+    return new Promise(resolve => {
+      this.query(...args, (error, result) => {
+        if (error) {
+          resolve({ error });
+        } else {
+          resolve({ result });
+        }
+      });
+    });
+  };
 }
 
 export default new MockSQL();
