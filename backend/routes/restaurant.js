@@ -98,7 +98,10 @@ router.get('/getall', (req, res) => {
   connection.query(
     'SELECT * FROM RESTAURANT',
     (error, results) => {
-      if (error) throw error;
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
       res.json(results);
     }
   );
