@@ -36,7 +36,7 @@ const DetailsContainer = () => {
           <form>
             <div className="form-group">
               <label className={style.formlabel}>Name</label>
-              <TextField type="text" name="username" className="form-value" />
+              <TextField type="text" name="name" className="form-value" />
             </div>
             <div className="form-group">
               <label className={style.formlabel}>Phone Number</label>
