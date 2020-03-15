@@ -1,54 +1,88 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { TextField } from "@material-ui/core";
+import { KeyboardDatePicker, MuiPickersUtilsProvider  } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
-import { updateSeats } from "../store/booking/bookingActions";
+import { addBooking } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
 
-
 const TimeContainer = (props) => {
-  const [seatsNumber, handleSeatsNumber] = useState("");
   const history = useHistory();
+
+  const [seats, changeSeats] = React.useState((props.seats == null) ? "" : props.seats);
+  const [selectedDate, setSelectedDate] = React.useState((props.date == null) ? new Date() : props.date);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleConfirmBooking = () => {
+    changePath("/confirmation", history);
+    props.onConfirmClick(selectedDate, seats, null);
+  }
 
   /**
    * Upon clicking, we want to update the store with inputted values
    */
-  const handleButtonClick = () => {
-    changePath("/details", history);
-    props.onButtonClick(seatsNumber);
-  };
   return (
-    <div className={style.contentContainer}>
-      {/* Input fields go here */}
-      <h1>{timeMessages.placeholder}</h1>
-      <div className={style.inputContainer}>
-        <TextField
-          type="number"
-          value={seatsNumber}
-          onChange={
-            (e) => { handleSeatsNumber(e.target.value); }
-          }
-        />
+    <div className={style.bookingDetailsContainer}>
+      <div>{timeMessages.placeholder}</div>
+      <div className={style.bookingDetailsContainer}>
+        <div className={style.bookingDetail}>
+          <TextField
+            label="Number of Guests"
+            variant="outlined"
+            onChance={changeSeats}
+          />
+        </div>
+        <div className={style.bookingDetail}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              inputVariant="outlined"
+              format="dd/MM/yyyy"
+              margin="normal"
+              label="Select a Date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
       </div>
-      <div className={style.timeContainer} />
+      <div className={style.contentContainer}>
+        {/* Input fields go here */}
+        <h1>{timeMessages.placeholder}</h1>
+        <div className={style.inputContainer}>
+          <TextField
+            type="number"
+            value={0}
+          />
+        </div>
+      </div>
       <div className={style.buttonContainer}>
-        {/* We will have to store things onClick */}
-        <button onClick={() => handleButtonClick(history)}>{timeMessages.buttonNextText}</button>
+        <button onClick={() => changePath("/", history)}>{timeMessages.buttonReturnText}</button>
+        <button onClick={handleConfirmBooking}>{timeMessages.buttonNextText}</button>
       </div>
     </div>
   );
 };
 
-
 const mapStateToProps = (state) => ({
-  numberOfSeats: state.bookingReducer.numberOfSeats,
+  seats: state.bookingReducer.seats,
+  date: state.bookingReducer.date,
+  time: state.bookingReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onButtonClick: (value) => { dispatch(updateSeats(value)); },
-});
+  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time, "", null))}
+})
+
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);

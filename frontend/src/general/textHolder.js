@@ -16,6 +16,7 @@ const messages = {
   },
   time: {
     buttonNextText: "Next",
+    buttonReturnText: "Return",
     placeholder: "AT TIME",
   },
   confirmation: {
