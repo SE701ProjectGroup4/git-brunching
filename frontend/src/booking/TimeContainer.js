@@ -22,7 +22,7 @@ const TimeContainer = (props) => {
   };
 
   const handleConfirmBooking = () => {
-    changePath("/confirmation", history);
+    changePath("/details", history);
     props.onConfirmClick(selectedDate, seats, null);
   }
 
@@ -31,7 +31,7 @@ const TimeContainer = (props) => {
    */
   return (
     <div className={style.bookingDetailsContainer}>
-      <div>{timeMessages.placeholder}</div>
+      <h1>{timeMessages.placeholder}</h1>
       <div className={style.bookingDetailsContainer}>
         <div className={style.bookingDetail}>
           <TextField
@@ -56,15 +56,14 @@ const TimeContainer = (props) => {
             />
           </MuiPickersUtilsProvider>
         </div>
-      </div>
-      <div className={style.contentContainer}>
-        {/* Input fields go here */}
-        <h1>{timeMessages.placeholder}</h1>
-        <div className={style.inputContainer}>
-          <TextField
-            type="number"
-            value={0}
-          />
+        <div className={style.contentContainer}>
+          {/* Time fields go here */}
+          <div className={style.inputContainer}>
+            <TextField
+              type="number"
+              value={0}
+            />
+          </div>
         </div>
       </div>
       <div className={style.buttonContainer}>
