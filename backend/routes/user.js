@@ -1,14 +1,12 @@
 import express from 'express';
-
-require('dotenv').config();
-
-const bodyParser = require('body-parser');
-const connection = require('../database');
+import bodyParser from 'body-parser';
+import connection from '../database';
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.post('/', (req, res) => {
+// Add new user to database. Used when adding a new reservation, so that a user can identify themself.
+router.post('/', async (req, res) => {
   const { body } = req;
 
   if (!body.firstName || !body.lastName || !body.phone || !body.email) {
@@ -16,41 +14,44 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query(
+  const { error, result } = await connection.asyncQuery(
     `INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);`,
-    [body.firstName, body.lastName, body.phone, body.email],
-    error => {
-      if (error) {
-        res.status(400).json({ error });
-        return;
-      }
-      res.json('user created');
-    }
+    [body.firstName, body.lastName, body.phone, body.email]
   );
+
+  if (error) {
+    res.status(400).json({ error });
+    return;
+  }
+
+  var userID = result.insertId;
+  res.json({ result: 'Added user', userID: userID});
+  
 });
 
-router.put('/', (req, res) => {
+// Update user in database.
+router.put('/', async (req, res) => {
   const { body } = req;
 
   if (!body.reservationID || !body.firstName || !body.lastName || !body.phone || !body.email) {
     res
       .status(400)
-      .json({ error: '/user PUT endpoint needs reservationID, firstName, lastName, phone, and email body params' });
+      .json({ error: '/user PUT endpoint needs firstName, lastName, phone, email, and reservationID body params' });
     return;
   }
 
-  connection.query(
+  const { error, result } = await connection.asyncQuery(
     `UPDATE USER, RESERVATION SET USER.FirstName = ?, USER.LastName = ?, USER.Phone = ?, USER.Email = ? 
                       WHERE RESERVATION.UserID = USER.ID AND RESERVATION.ID = ?`,
-    [body.firstName, body.lastName, body.phone, body.email, body.reservationID],
-    error => {
-      if (error) {
-        res.status(400).json({ error });
-        return;
-      }
-      res.json('user updated');
-    }
+    [body.firstName, body.lastName, body.phone, body.email, body.reservationID]
   );
+
+  if (error) {
+    res.status(400).json({ error });
+    return;
+  }
+
+  res.json({ result: 'Updated user'});
 });
 
 export default router;
