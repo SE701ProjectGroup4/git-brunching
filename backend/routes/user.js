@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
   }
 
   const { error, result } = await connection.asyncQuery(
-    `INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);`,
+    'INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);',
     [body.firstName, body.lastName, body.phone, body.email]
   );
 
@@ -24,9 +24,8 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  var userID = result.insertId;
-  res.json({ result: 'Added user', userID: userID});
-  
+  const userID = result.insertId;
+  res.json({ result: 'Added user', userID });
 });
 
 // Update user in database.
@@ -40,7 +39,7 @@ router.put('/', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery(
+  const { error } = await connection.asyncQuery(
     `UPDATE USER, RESERVATION SET USER.FirstName = ?, USER.LastName = ?, USER.Phone = ?, USER.Email = ? 
                       WHERE RESERVATION.UserID = USER.ID AND RESERVATION.ID = ?`,
     [body.firstName, body.lastName, body.phone, body.email, body.reservationID]
@@ -51,7 +50,7 @@ router.put('/', async (req, res) => {
     return;
   }
 
-  res.json({ result: 'Updated user'});
+  res.json({ result: 'Updated user' });
 });
 
 export default router;
