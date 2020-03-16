@@ -12,6 +12,13 @@ const ConfirmationContainer = (props) => {
 
   const { browserHistory, name, phone, email, notes, seats, date, time } = props;
 
+  const completeBooking = () => {
+    // TODO: persist the booking and open a modal giving the user the bookingID
+    // This confirms or rejects the booking (if another booking was made
+    // with same time very recently)
+    changePath("/", browserHistory)
+  }
+
   return (
     <div className={style.bookingDetailsContainer}>
       {/* TODO: Just a placeholder, edit later */}
@@ -25,7 +32,7 @@ const ConfirmationContainer = (props) => {
         <p>{`Time: ${time}`}</p>
       </div>
       <button onClick={() => changePath("/details", history)}>{confirmationMessages.buttonBackText}</button>
-      <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
+      <button onClick={completeBooking}>{confirmationMessages.buttonNextText}</button>
     </div>
   );
 };
