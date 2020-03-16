@@ -360,7 +360,7 @@ router.delete('/:reservationID', async (req, res) => {
 /**
  * @swagger
  *
- * /reservation:
+ * /resesrvation/available:
  *   get:
  *     description: Get a list of tables that are free for booking
  *     produces:
@@ -368,24 +368,24 @@ router.delete('/:reservationID', async (req, res) => {
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
- *         in: formData
+ *         in: body
  *         required: true
  *         type: integer
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
- *         in: formData
+ *         in: body
  *         required: true
  *         type: integer
  *       - name: time
  *         description: The start time of the booking
- *         in: formData
+ *         in: body
  *         required: true
  *         type: string
  *       - name: date
  *         description: Date for when the booking is made
- *         in: formData
+ *         in: body
  *         required: true
- *         type: date
+ *         type: string
  *     responses:
  *        200:
  *         description: Returns the list of table ID's that are free for that restaurant
