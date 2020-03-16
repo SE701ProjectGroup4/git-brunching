@@ -32,17 +32,17 @@
   padding: 3em;
 }
 
-.changePageButton {
-  margin: 20px 20px 20px 20px;
-  background-color: #e7e7e7; /* gray*/
-  border: none;
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  padding: 1em;
-  padding-bottom: 2em;
+.changePageButton{
+    margin: 20px 20px 20px 20px;
+    background-color: #e7e7e7; /* gray*/
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    padding: 1em;
+
 }
 
 .changePageButton {

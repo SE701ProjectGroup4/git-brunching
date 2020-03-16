@@ -72,7 +72,6 @@ const DetailsContainer = () => {
               <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
             </div>
             <div className={style.buttonContainer}>
-              <BottomNavigation>
                 <button
                   className={style.changePageButton}
                   variant="contained"
@@ -88,7 +87,6 @@ const DetailsContainer = () => {
                 >
                   {detailMessages.buttonNextText}
                 </button>
-              </BottomNavigation>
             </div>
           </form>
         </Card>
