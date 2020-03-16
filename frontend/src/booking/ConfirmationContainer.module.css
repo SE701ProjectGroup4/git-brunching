@@ -8,7 +8,7 @@
 .contentContainer {
     text-align: center;
     display: grid;
-    grid-row-gap: 10px;
+    grid-row-gap: 25px;
     grid-template-rows: auto;
     grid-area: container;
 }
@@ -21,7 +21,7 @@
 
 .twoContent {
     display: grid;
-    grid-template-rows: 50px minmax(20px, 1fr);
+    grid-template-rows: 30px minmax(20px, 1fr);
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 100px;
     grid-template-areas: "title1 title2" "value1 value2";
@@ -61,7 +61,7 @@
 }
 
 .title {
-    font-size: 35px;
+    font-size: 20px;
     font-weight: bold;
 }
 
