@@ -3,8 +3,10 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import classNames from "classnames";
 import style from "./DetailsContainer.module.css";
 import landingStyle from "../landing/LandingPage.module.css";
+import confirmationStyle from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
@@ -29,6 +31,8 @@ const DetailsContainer = (props) => {
     changePath("/confirmation", history);
     props.onConfirmClick(name, phone, email, notes);
   };
+
+  const isSubmittable = (name.length > 0 && phone.length > 0 && email.length > 0);
 
   return (
     <div className={style.detailsContentContainer}>
@@ -66,16 +70,17 @@ const DetailsContainer = (props) => {
           label="Notes"
           onChange={(e) => changeNotes(e.target.value)}
         />
-        <div className={style.buttonContainer}>
+        <div className={classNames(style.buttonContainer, confirmationStyle.buttonHolder)}>
           <Button
-            className={landingStyle.secondaryButton}
+            className={classNames(landingStyle.primaryButton, confirmationStyle.edit)}
             variant="contained"
             onClick={() => changePath("/", history)}
           >
             {detailMessages.buttonBackText}
           </Button>
           <Button
-            className={landingStyle.primaryButton}
+            disabled={!isSubmittable}
+            className={classNames(landingStyle.secondaryButton, confirmationStyle.confirm)}
             type="submit"
             variant="contained"
             onClick={handleDetailsConfirmation}

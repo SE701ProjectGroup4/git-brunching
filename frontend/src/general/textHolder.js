@@ -28,7 +28,7 @@ const messages = {
     seats: "Seats",
     date: "Date",
     time: "Time",
-    notes: "Notes",
+    notes: "Notes*",
   },
   bookingsPopup: {
     buttonText: "Edit Booking",
