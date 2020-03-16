@@ -8,84 +8,78 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants } from "../store/restaurant/restaurantAction";
+import NoRestaurants from "./NoRestaurants";
+
+/**
+ * After the API has been loaded, we check if we have received any data.
+ * @param restaurants
+ * @param toBooking
+ * @returns {*}
+ */
+const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
+  ? <NoRestaurants />
+  : <Tiles restaurants={restaurants} toBooking={toBooking} />);
 
 const RestaurantTile = (props) => {
-  const { setRestaurant } = props;
+  const {
+    setRestaurant, getAll, loading, restaurants,
+  } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
     changePath("/booking", history);
     setRestaurant(restaurant);
   };
 
-  useEffect(props.getRestaurants, []);
-  const fakeData = [
-    {
-      name: "NANDOZ",
-      img: "./images/nandoz.png",
-    },
-    {
-      name: "KCF",
-      img: "./images/kcf.png",
-    },
-    {
-      name: "MACDEEZ",
-      img: "./images/kcf.png",
-    },
-    {
-      name: "WENDEEZ",
-      img: "./images/nandoz.png",
-    },
-  ];
-
-  const columns = 3;
-  const cellHeight = 250;
-  // root height adjustment based on number of restaurants
-  const rootHeight = {
-    height: Math.ceil(fakeData.length / columns) * (cellHeight + 50),
-  };
-
+  useEffect(getAll, []);
   return (
-    <div className={style.gridRoot} style={rootHeight}>
-      <GridList
-        cellHeight={cellHeight}
-        spacing={40}
-        className={style.gridList}
-        cols={columns}
-      >
-        {fakeData.map((data) => (
-          <GridListTile key={data.name} className={style.gridTile}>
-            <Card onClick={() => toBooking(data.name)} className={style.card}>
-              <CardActionArea>
-                <CardMedia
-                  style={{ height: cellHeight }}
-                  image={data.img}
-                  title={data.name}
-                />
-                <GridListTileBar title={data.name} />
-              </CardActionArea>
-            </Card>
-          </GridListTile>
-        ))}
-      </GridList>
+    <div className={style.gridRoot}>
+      {loading ? <CircularProgress />
+        : processEmpty(restaurants, toBooking)}
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return ({
-    ...state,
-  });
+const Tiles = ({ restaurants, toBooking }) => {
+  const cellHeight = 250;
+  const columns = 3;
+  return (
+    <GridList
+      cellHeight={cellHeight}
+      spacing={40}
+      className={style.gridList}
+      cols={columns}
+    >
+      {restaurants.map((data, index) => (
+        <GridListTile key={data.Name} className={style.gridTile}>
+          <Card onClick={() => toBooking(data.Name)} className={style.card}>
+            <CardActionArea>
+              <CardMedia
+                style={{ height: cellHeight }}
+                // TODO: Swap this out with images from API
+                image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
+                title={data.Name}
+              />
+              <GridListTileBar title={data.Name} />
+            </CardActionArea>
+          </Card>
+        </GridListTile>
+      ))}
+    </GridList>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  console.log("goes hereeee");
-  return bindActionCreators({
-    getRestaurants,
-  }, dispatch);
-};
+
+const mapStateToProps = (state) => ({
+  loading: state.restaurantReducer.isLoading,
+  restaurants: state.restaurantReducer.restaurants,
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getAll: getRestaurants,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);

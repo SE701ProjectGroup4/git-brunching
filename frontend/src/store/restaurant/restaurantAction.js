@@ -4,12 +4,9 @@ export const actionType = {
   ADD_RESTAURANTS_FAIL: "ADD_RESTAURANTS_FAIL",
 };
 
-const getRestaurants = () => {
-  console.log("goes here")
-  return ({
-    type: actionType.ADD_RESTAURANTS,
-  });
-}
+const getRestaurants = () => ({
+  type: actionType.ADD_RESTAURANTS,
+});
 
 const addRestaurants = (restaurants) => ({
   type: actionType.ADD_RESTAURANTS_SUCCESS,

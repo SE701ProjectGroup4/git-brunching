@@ -1,9 +1,9 @@
 import { combineEpics } from "redux-observable";
-import restaurantEpic, {pingEpic } from "./restaurant/restaurantEpic";
+import restaurantEpic from "./restaurant/restaurantEpic";
 
 const rootEpic = combineEpics(
-  // restaurantEpic,
-  pingEpic,
+  restaurantEpic,
+  // pingEpic,
 );
 
 export default rootEpic;
