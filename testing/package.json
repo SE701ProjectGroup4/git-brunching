@@ -11,5 +11,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "cypress": "^4.1.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.5"
   }
 }

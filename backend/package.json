@@ -20,6 +20,7 @@
     "express": "^4.17.1",
     "express-session": "^1.15.6",
     "helmet": "^3.21.1",
+    "minimist": "^1.2.5",
     "morgan": "^1.9.1",
     "mysql": "^2.18.1",
     "swagger-jsdoc": "^3.5.0",
