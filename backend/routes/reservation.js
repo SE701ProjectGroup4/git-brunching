@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import uniqid from 'uniqid';
 
 import connection from '../database';
 
@@ -152,8 +153,8 @@ router.put('/:reservationID', async (req, res) => {
 
 // Add a new reservation when a user wants to book a table.
 router.post('/single', async (req, res) => {
-  // Generate a random number capped at 2147483647 as this is the largest number the database can hold.
-  const reservationID = Math.floor(Math.random() * 2147483647);
+  // Generate a random, unique id.
+  const reservationID = uniqid();
   const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
 
   if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
