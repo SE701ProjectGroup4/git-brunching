@@ -42,7 +42,24 @@ router.get('/:restaurantID', async (req, res) => {
   });
 });
 
-// Gets specific restaurant opening hours, used by front end to build restaurant opening hours for end user.
+/**
+ * @swagger
+ *
+ * /restaurant/openhours:
+ *   get:
+ *     description: Fetch a restaurant's open hours
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns restaurant open hours
+ */
 router.get('/:restaurantID/openhours', async (req, res) => {
   const { restaurantID } = req.params;
   if (!restaurantID) {
@@ -62,7 +79,19 @@ router.get('/:restaurantID/openhours', async (req, res) => {
   );
 });
 
-// Gets all restaurants ID and name from database. Used to get all available restaurants by front end.
+/**
+ * @swagger
+ *
+ * /restaurant/getall:
+ *   get:
+ *     description: Fetch a list of all the restaurants name and ID
+ *     produces:
+ *       - application/json
+ *     parameters: []
+ *     responses:
+ *       200:
+ *         description: Successfully fetched all restaurants name and ID
+ */
 router.get('/', (req, res) => {
   const input = req.query;
 
