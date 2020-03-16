@@ -26,20 +26,12 @@ const RestaurantTile = (props) => {
       img: "./images/kcf.png",
     },
     {
-      name: "KCF",
+      name: "MACDEEZ",
       img: "./images/kcf.png",
     },
     {
-      name: "KCF",
-      img: "./images/kcf.png",
-    },
-    {
-      name: "KCF",
-      img: "./images/kcf.png",
-    },
-    {
-      name: "KCF",
-      img: "./images/kcf.png",
+      name: "WENDEEZ",
+      img: "./images/nandoz.png",
     },
   ];
 

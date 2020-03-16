@@ -71,7 +71,14 @@ const BookingEditPopupDialog = (props) => {
   return (
     (isInput)
       ? (
-        <Dialog onClose={handleClosePopup} transitionDuration={0} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog
+          onClose={handleClosePopup}
+          transitionDuration={0}
+          aria-labelledby="simple-dialog-title"
+          open={open}
+          // Needed to prevent tiles from jumping to the right
+          disableScrollLock
+        >
           <div>
             <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
             <div>
