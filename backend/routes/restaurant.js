@@ -175,7 +175,7 @@ router.get('/:restaurantID/reservations', (req, res) => {
   const id = req.params.restaurantID;
 
   if (!id) {
-    res.status(400).json({ error: 'path param: {id} malformed' });
+    res.status(400).json({ error: `path param: ${id} malformed` });
     return;
   }
 
