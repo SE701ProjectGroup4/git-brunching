@@ -26,7 +26,8 @@ const BookingPage = (props) => {
               <div className={style.header}>
                 <div
                   className={style.logo}
-                  onClick={() => changePath("/", history)}>
+                  onClick={() => changePath("/", history)}
+                >
                   <Logo />
                 </div>
                 <h1 className={style.restaurantName}>{currentRestaurant}</h1>
