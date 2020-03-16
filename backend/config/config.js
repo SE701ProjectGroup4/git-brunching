@@ -3,5 +3,5 @@ export default {
     address: '127.0.0.1',
     port: 3001
   },
-  mock: true
+  mock: false
 };
