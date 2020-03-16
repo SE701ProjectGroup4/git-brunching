@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -6,8 +6,11 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
+import { getRestaurants } from "../store/restaurant/restaurantAction";
 
 const RestaurantTile = (props) => {
   const { setRestaurant } = props;
@@ -16,6 +19,8 @@ const RestaurantTile = (props) => {
     changePath("/booking", history);
     setRestaurant(restaurant);
   };
+
+  useEffect(props.getRestaurants, []);
   const fakeData = [
     {
       name: "NANDOZ",
@@ -69,4 +74,18 @@ const RestaurantTile = (props) => {
   );
 };
 
-export default RestaurantTile;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return ({
+    ...state,
+  });
+};
+
+const mapDispatchToProps = (dispatch) => {
+  console.log("goes hereeee");
+  return bindActionCreators({
+    getRestaurants,
+  }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);
