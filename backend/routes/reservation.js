@@ -357,7 +357,36 @@ router.delete('/:reservationID', async (req, res) => {
   res.json({ result: 'Deleted reservation' });
 });
 
-// This call gets the list of available tables for reservation
+/**
+ * @swagger
+ *
+ * /reservation:
+ *   get:
+ *     description: Get a list of tables that are free for booking 
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: integer
+ *      - name: numberOfGuests
+ *        description: The number of guests that the table is being booked for 
+ *        required: true
+ *        type: integer
+ *      - name: time 
+ *        description: The start time of the booking
+ *        required: true
+ *        type: string
+ *      - name: date
+ *        description: Date for when the booking is made 
+ *        required: true
+ *        type: date
+ *     responses:
+ *       200:
+ *         description: Returns the list of table objects
+ */
 router.get('/available', async (req, res) => {
   const { date, time, numberOfGuests, restaurantID } = req.body;
 
