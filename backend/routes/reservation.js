@@ -371,20 +371,20 @@ router.delete('/:reservationID', async (req, res) => {
  *         in: query
  *         required: true
  *         type: integer
- *      - name: numberOfGuests
- *        description: The number of guests that the table is being booked for
- *        required: true
- *        type: integer
- *      - name: time
- *        description: The start time of the booking
- *        required: true
- *        type: string
- *      - name: date
- *        description: Date for when the booking is made
- *        required: true
- *        type: date
+ *       - name: numberOfGuests
+ *         description: The number of guests that the table is being booked for
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: The start time of the booking
+ *         required: true
+ *         type: string
+ *       - name: date
+ *         description: Date for when the booking is made
+ *         required: true
+ *         type: date
  *     responses:
- *       200:
+ *        200:
  *         description: Returns the list of table ID's that are free for that restaurant
  */
 router.get('/available', async (req, res) => {
