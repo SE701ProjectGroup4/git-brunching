@@ -11,6 +11,7 @@ const styles = {
     border: 0,
   },
   input: {
+    height: "45px",
     borderRadius: "50px",
     border: 0,
   },
@@ -27,7 +28,6 @@ const SearchBar = (props) => {
       InputProps={{
         className: classes.input,
       }}
-      label="Search field"
       type="search"
     />
   );

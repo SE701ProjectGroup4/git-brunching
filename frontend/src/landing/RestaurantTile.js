@@ -25,6 +25,22 @@ const RestaurantTile = (props) => {
       name: "KCF",
       img: "./images/kcf.png",
     },
+    {
+      name: "KCF",
+      img: "./images/kcf.png",
+    },
+    {
+      name: "KCF",
+      img: "./images/kcf.png",
+    },
+    {
+      name: "KCF",
+      img: "./images/kcf.png",
+    },
+    {
+      name: "KCF",
+      img: "./images/kcf.png",
+    },
   ];
 
   const columns = 3;
@@ -43,11 +59,11 @@ const RestaurantTile = (props) => {
         cols={columns}
       >
         {fakeData.map((data) => (
-          <GridListTile key={data.name}>
-            <Card onClick={() => toBooking(data.name)}>
+          <GridListTile key={data.name} className={style.gridTile}>
+            <Card onClick={() => toBooking(data.name)} className={style.card}>
               <CardActionArea>
                 <CardMedia
-                  style={{ height: 200 }}
+                  style={{ height: cellHeight }}
                   image={data.img}
                   title={data.name}
                 />
