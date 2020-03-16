@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
+import Button from "@material-ui/core/Button";
 import style from "./LandingPage.module.css";
 import BookingEditPopupButton from "./edit/BookingEditPopupButton";
 import RestaurantTile from "./RestaurantTile";
@@ -26,13 +27,24 @@ const LandingPage = (props) => {
         </div>
         <div className={style.searchContainer}>
           <SearchBar />
-          <BookingEditPopupButton IDSwitchMethod={toBooking} />
+          <div className={style.buttonHolder}>
+            <BookingEditPopupButton IDSwitchMethod={toBooking} />
+            <div>
+              <Button
+                variant="outlined"
+                className={style.restaurantButton}
+                onClick={() => changePath("/restaurant", history)}
+              >
+                {/* Todo replace with something else */}
+                RESTAURANT
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <div className={style.content}>
         <RestaurantTile setRestaurant={setRestaurant} />
       </div>
-      {/* Probably make it it's own component */}
     </div>
   );
 };

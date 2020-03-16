@@ -7,6 +7,7 @@ import { StylesProvider } from "@material-ui/core/styles";
 import LandingPage from "./landing/LandingPage";
 import BookingPage from "./booking/BookingPage";
 import NotFound from "./general/NotFound";
+import RestaurantViewBookingPage from "./restaurant/RestaurantViewBookingPage";
 
 const App = () => {
   const [currentRestaurant, setRestaurant] = useState(null);
@@ -21,6 +22,12 @@ const App = () => {
               path="/booking"
               component={() => (
                 <BookingPage currentRestaurant={currentRestaurant} />
+              )}
+            />
+            <Route
+              path="/restaurant"
+              component={() => (
+                <RestaurantViewBookingPage />
               )}
             />
             <Route
