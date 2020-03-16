@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { TextField } from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { TextField, Button } from "@material-ui/core";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
@@ -14,16 +17,59 @@ const timeMessages = messages.time;
 const TimeContainer = (props) => {
   const history = useHistory();
   // Update this in the future to get time as well
-  const { oldSeats, oldDate } = props;
+  // updated for time
+  const { oldSeats, oldDate, oldTime } = props;
 
-  const [seats, changeSeats] = useState((oldSeats == null) ? "" : oldSeats);
-  const [selectedDate, setSelectedDate] = useState((oldDate == null) ? new Date() : oldDate);
+  const [seats, changeSeats] = useState(oldSeats == null ? "" : oldSeats);
+  const [selectedDate, setSelectedDate] = useState(
+    oldDate == null ? new Date() : oldDate,
+  );
+  // adding below for time
+  const [selectedTime, setSelectedTime] = useState(
+    oldTime == null ? "" : oldTime,
+  );
 
   const handleTimeConfirmation = () => {
     changePath("/details", history);
-    props.onConfirmClick(selectedDate, seats, null);
+    props.onConfirmClick(selectedDate, seats, selectedTime, null);
   };
 
+  const handleTime = (value) => {
+    setSelectedTime(value);
+  };
+
+  const times = [
+    {
+      time: "9-10am",
+      color: selectedTime === "9-10am" ? "secondary" : "primary",
+    },
+    {
+      time: "10-11am",
+      color: selectedTime === "10-11am" ? "secondary" : "primary",
+    },
+    {
+      time: "11am-12pm",
+      color: selectedTime === "11am-12pm" ? "secondary" : "primary",
+    },
+    {
+      time: "12-1pm",
+      color: selectedTime === "12-1pm" ? "secondary" : "primary",
+    },
+    {
+      time: "1-2pm",
+      color: selectedTime === "1-2pm" ? "secondary" : "primary",
+    },
+    {
+      time: "2-3pm",
+      color: selectedTime === "2-3pm" ? "secondary" : "primary",
+    },
+    { time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary" },
+  ];
+
+  // const handleColor = value => {
+  //   const colorClass = selectedTime === value ? "secondary" : "primary";
+  //   return colorClass;
+  // };
   /**
    * Upon clicking, we want to update the store with inputted values
    */
@@ -57,16 +103,86 @@ const TimeContainer = (props) => {
         </div>
         <div className={style.contentContainer}>
           {/* Time fields go here */}
+          {times.map((time) => (
+            <Button
+              // className={style.test}
+              key={`time_button_${time.time}`}
+              variant="contained"
+              value={time.time}
+              color={time.color}
+              onClick={(e) => handleTime(e.currentTarget.value)}
+            >
+              {time.time}
+            </Button>
+          ))}
+          {/* <Button
+            className={style.test}
+            variant="contained"
+            value="9-10am"
+            color={handleColor(value)}
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            9-10 am
+          </Button> */}
+          {/* <Button
+            variant="contained"
+            value="10-11am"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            10-11 am
+          </Button>
+          <Button
+            variant="contained"
+            value="11am-12pm"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            11am-12pm
+          </Button>
+          <Button
+            variant="contained"
+            value="12-1pm"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            12-1 pm
+          </Button>
+          <Button
+            variant="contained"
+            value="1-2pm"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            1-2 pm
+          </Button>
+          <Button
+            variant="contained"
+            value="2-3pm"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            2-3 pm
+          </Button>
+          <Button
+            variant="contained"
+            value="3-4pm"
+            color="primary"
+            onClick={e => handleTime(e.currentTarget.value)}
+          >
+            3-4 pm
+          </Button> */}
+
           <div className={style.inputContainer}>
-            <TextField
-              type="number"
-              value={0}
-            />
+            <p>Current Selected Time</p>
+            {/* <TextField type="string" value={selectedTime} /> */}
           </div>
         </div>
       </div>
       <div className={style.buttonContainer}>
-        <button onClick={handleTimeConfirmation}>{timeMessages.buttonNextText}</button>
+        <button onClick={handleTimeConfirmation}>
+          {timeMessages.buttonNextText}
+        </button>
       </div>
     </div>
   );
@@ -79,7 +195,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => { dispatch(addBooking(date, seats, time, "", null)); },
+  onConfirmClick: (date, seats, time) => {
+    dispatch(addBooking(date, seats, time, "", null));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);
