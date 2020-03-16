@@ -11,7 +11,6 @@ import { addBookingDetails } from "../store/booking/bookingActions";
 const detailMessages = messages.details;
 const DetailsContainer = (props) => {
   const history = useHistory();
-<<<<<<< HEAD
 
   const {
     oldName,
@@ -30,8 +29,6 @@ const DetailsContainer = (props) => {
     props.onConfirmClick(name, phone, email, notes);
   };
 
-=======
->>>>>>> unneeded comments removed
   return (
     <div className={style.contentContainer}>
       {/* Input fields go here */}
