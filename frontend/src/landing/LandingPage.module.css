@@ -75,6 +75,12 @@
     grid-area: edit;
 }
 
+.buttonHolder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+}
+
 .tileContainer {
     background-color: blue;
 }
@@ -120,4 +126,16 @@
 .editButton:hover {
     background-color: #61c766;
     color: white;
+}
+
+
+.restaurantButton {
+    background-color: #61c766;
+    color: white;
+}
+
+.restaurantButton:hover {
+    color: #61c766;
+    border: 1px solid #61c766;
+    background-color: white;
 }

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Card from "@material-ui/core/Card";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
@@ -72,23 +71,21 @@ const DetailsContainer = (props) => {
               <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
             </div>
             <div className={style.buttonContainer}>
-              <BottomNavigation>
-                <button
-                  className={style.changePageButton}
-                  variant="contained"
-                  onClick={() => changePath("/", history)}
-                >
-                  {detailMessages.buttonBackText}
-                </button>
-                <button
-                  className={style.changePageButton}
-                  type="submit"
-                  variant="contained"
-                  onClick={handleDetailsConfirmation}
-                >
-                  {detailMessages.buttonNextText}
-                </button>
-              </BottomNavigation>
+              <button
+                className={style.changePageButton}
+                variant="contained"
+                onClick={() => changePath("/", history)}
+              >
+                {detailMessages.buttonBackText}
+              </button>
+              <button
+                className={style.changePageButton}
+                type="submit"
+                variant="contained"
+                onClick={handleDetailsConfirmation}
+              >
+                {detailMessages.buttonNextText}
+              </button>
             </div>
           </form>
         </Card>
