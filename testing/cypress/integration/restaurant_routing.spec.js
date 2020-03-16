@@ -8,17 +8,16 @@ context('Actions', () => {
 
   describe('Navigate to Nandoz Page', function() {
     it('Home page loaded successful', function() {
-      cy.visit('http://192.168.86.34:3000');
+      cy.visit('localhost:3000');
       cy.contains('Footer');
     });
 
     it('Select Nandoz', function() {
-        cy.get('#root > div > div > div.LandingPage_tileContainer__1yaPd > div:nth-child(1)')
+        cy.get('#root > div > div > div:nth-child(3) > ul > li:nth-child(1) > div > div')
           .click();
     });
 
     it('Nandoz Page loaded successful', function() {
-      //cy.go('/back').contains('NANDOZ')
       cy.url().should('include', '/booking');
       cy.contains('NANDOZ');
       cy.contains('AT TIME');
@@ -30,12 +29,12 @@ context('Actions', () => {
 
   describe('Navigate to KCF Page', function() {
     it('Home page loaded successful', function() {
-      cy.visit('http://192.168.86.34:3000');
+      cy.visit('localhost:3000');
       cy.contains('Footer');
     });
 
     it('Select KCF', function() {
-        cy.get('#root > div > div > div.LandingPage_tileContainer__1yaPd > div:nth-child(2)')
+        cy.get('#root > div > div > div:nth-child(3) > ul > li:nth-child(2) > div > div')
           .click();
     });
 
