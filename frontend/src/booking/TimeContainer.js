@@ -66,10 +66,6 @@ const TimeContainer = (props) => {
     { time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary" },
   ];
 
-  // const handleColor = value => {
-  //   const colorClass = selectedTime === value ? "secondary" : "primary";
-  //   return colorClass;
-  // };
   /**
    * Upon clicking, we want to update the store with inputted values
    */
@@ -116,63 +112,6 @@ const TimeContainer = (props) => {
               {time.time}
             </Button>
           ))}
-          {/* <Button
-            className={style.test}
-            variant="contained"
-            value="9-10am"
-            color={handleColor(value)}
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            9-10 am
-          </Button> */}
-          {/* <Button
-            variant="contained"
-            value="10-11am"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            10-11 am
-          </Button>
-          <Button
-            variant="contained"
-            value="11am-12pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            11am-12pm
-          </Button>
-          <Button
-            variant="contained"
-            value="12-1pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            12-1 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="1-2pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            1-2 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="2-3pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            2-3 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="3-4pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            3-4 pm
-          </Button> */}
 
           <div className={style.inputContainer}>
             <p>Current Selected Time</p>
