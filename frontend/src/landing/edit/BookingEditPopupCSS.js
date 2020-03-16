@@ -1,4 +1,4 @@
-import color from "../general/colorScheme";
+import color from "../../general/colorScheme";
 
 /**
  * Stores the stylesheet for booking edit popup components

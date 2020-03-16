@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import BookingEditPopupDialog from "../booking/BookingEditPopupDialog";
-import textHolder from "../general/textHolder";
-import style from "./LandingPage.module.css";
+import BookingEditPopupDialog from "./BookingEditPopupDialog";
+import textHolder from "../../general/textHolder";
+import style from "../LandingPage.module.css";
 
 /**
  * A button which summons the popup to edit bookings.

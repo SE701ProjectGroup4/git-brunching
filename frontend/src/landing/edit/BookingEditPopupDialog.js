@@ -8,9 +8,9 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import { styled } from "@material-ui/core";
 import style from "./BookingEditPopup.module.css";
-import changePath from "../general/helperFunctions";
-import textHolder from "../general/textHolder";
-import css from "../landing/BookingEditPopupCSS";
+import changePath from "../../general/helperFunctions";
+import textHolder from "../../general/textHolder";
+import css from "./BookingEditPopupCSS";
 
 /**
  * The popup itself which is used to edit bookings
