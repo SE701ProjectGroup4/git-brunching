@@ -9,6 +9,7 @@ import NotFound from "../general/NotFound";
 import ContentContainer from "./ContentContainer";
 import { ReactComponent as Logo } from "../general/Logo2.svg";
 import changePath from "../general/helperFunctions";
+import ConfirmedBooking from "./ConfirmedBooking";
 
 const BookingPage = (props) => {
   const memoryHistory = createMemoryHistory();
@@ -35,7 +36,8 @@ const BookingPage = (props) => {
             <Router history={memoryHistory}>
               <Switch>
                 <Route path="/details" component={() => <ContentContainer type="detail" />} />
-                <Route path="/confirmation" component={() => <ContentContainer type="confirmation" history={history} />} />
+                <Route path="/confirmation" component={() => <ContentContainer type="confirmation" />} />
+                <Route path="/complete" component={() => <ConfirmedBooking history={history} />} />
                 <Route path="/" component={() => <ContentContainer type="time" />} />
               </Switch>
             </Router>

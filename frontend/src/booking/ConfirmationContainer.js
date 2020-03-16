@@ -14,7 +14,6 @@ const ConfirmationContainer = (props) => {
   const history = useHistory();
 
   const {
-    browserHistory,
     name,
     phone,
     email,
@@ -26,10 +25,7 @@ const ConfirmationContainer = (props) => {
 
 
   const completeBooking = () => {
-    // TODO: persist the booking and open a modal giving the user the bookingID
-    // This confirms or rejects the booking (if another booking was made
-    // with same time very recently)
-    changePath("/", browserHistory);
+    changePath("/complete", history);
   };
 
   return (

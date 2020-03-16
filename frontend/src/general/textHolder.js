@@ -22,7 +22,7 @@ const messages = {
   },
   confirmation: {
     buttonBackText: "Back",
-    buttonNextText: "Finish",
+    buttonNextText: "Confirm",
     name: "Name",
     email: "Email",
     phone: "Phone",
