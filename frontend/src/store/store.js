@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
+import { createEpicMiddleware } from "redux-observable";
 import rootReducer from "./rootReducer";
+import rootEpic from "./rootEpic";
 
 /**
  * A logger is used for debugging.
@@ -15,7 +17,12 @@ const logger = () => (next) => (action) => {
   console.log("NEXT ACTION:", returnValue);
 };
 
+const observableMiddleware = createEpicMiddleware();
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+
+const store = createStore(rootReducer, applyMiddleware(logger, observableMiddleware));
+
+observableMiddleware.run(rootEpic);
+
 
 export default store;
