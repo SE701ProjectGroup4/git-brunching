@@ -46,6 +46,7 @@ const RestaurantTile = (props) => {
 const Tiles = ({ restaurants, toBooking }) => {
   const cellHeight = 250;
   const columns = 3;
+
   return (
     <GridList
       cellHeight={cellHeight}
@@ -72,10 +73,23 @@ const Tiles = ({ restaurants, toBooking }) => {
   );
 };
 
+const fakeData = [
+  {
+    Id: 0,
+    Name: "KCF",
+  },
+  {
+    Id: 1,
+    Name: "NANDOZ",
+  },
+];
+
 
 const mapStateToProps = (state) => ({
   loading: state.restaurantReducer.isLoading,
-  restaurants: state.restaurantReducer.restaurants,
+  // Used for API calling
+  // restaurants: state.restaurantReducer.restaurants,
+  restaurants: fakeData,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
