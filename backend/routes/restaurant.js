@@ -153,4 +153,42 @@ router.delete('/', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ *
+ * /restaurant/{restaurantID}/reservations:
+ *   get:
+ *     description: gets a collection of reservations for a given restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved
+ */
+router.get('/:restaurantID/reservations', (req, res) => {
+  const id = req.params.restaurantID;
+
+  if (!id) {
+    res.status(400).json({ error: 'path param: {id} malformed' });
+    return;
+  }
+
+  connection.query(
+    `SELECT * FROM RESERVATION WHERE RestaurantID = ${id}`,
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
 export default router;
