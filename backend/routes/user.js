@@ -57,36 +57,16 @@ router.put('/', async (req, res) => {
 
   // For each parameter, check if it has been provided in endpoint, otherwise use previous value.
   // The mock SQL doesn't return a proper result, so a default value is assigned when testing
-  if (body.firstName) {
-    newFirstName = body.firstName;
-  } else if (config.mock) {
+  if (config.mock) {
     newFirstName = 'test';
-  } else {
-    newFirstName = result[0].FirstName;
-  }
-
-  if (body.lastName) {
-    newLastName = body.lastName;
-  } else if (config.mock) {
     newLastName = 'user';
-  } else {
-    newLastName = result[0].LastName;
-  }
-
-  if (body.phone) {
-    newPhone = body.phone;
-  } else if (config.mock) {
     newPhone = '091234567';
-  } else {
-    newPhone = result[0].Phone;
-  }
-
-  if (body.email) {
-    newEmail = body.email;
-  } else if (config.mock) {
     newEmail = 'testuser@email.com';
   } else {
-    newEmail = result[0].Email;
+    newFirstName = body.firstName || result[0].FirstName;
+    newLastName = body.lastName || result[0].LastName;
+    newPhone = body.phone || result[0].Phone;
+    newEmail = body.email || result[0].Email;
   }
 
   const { err } = await connection.asyncQuery(
