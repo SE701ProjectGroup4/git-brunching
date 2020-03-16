@@ -4,29 +4,14 @@ import config from '../../config/config';
 
 chai.use(chaiHttp);
 
-// Testing /reservation/ POST endpoint
+// Testing /reservation/ PUT endpoint
 
-describe('POST /reservation/update', () => {
-  it('1. should return expected error when no reservationID is provided', async () => {
+describe('PUT /reservation', () => {
+  it('1. should return "This reservation does not exist" for a non-existant reservationID', async () => {
     let response = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
-      .post('/update')
+      .put('/300')
       .send({});
-
-    assert.isObject(response, 'Expected the response to be an object');
-    assert.isObject(response.body, 'Expected the response to have a body object');
-
-    const { error } = response.body;
-    assert.strictEqual(error, 'reservation/update POST endpoint needs a reservationID body param');
-  });
-
-  it('2. should return "This reservation does not exist" for a non-existant reservationID', async () => {
-    let response = await chai
-      .request(`${config.listen.address}:${config.listen.port}/reservation`)
-      .post('/update')
-      .send({
-        reservationID: '300'
-      });
 
     assert.isObject(response, 'Expected the response to be an object');
     assert.isObject(response.body, 'Expected the response to have a body object');

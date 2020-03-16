@@ -86,8 +86,9 @@ router.get('/all', async (req, res) => {
 });
 
 // Update a reservation when a user needs to change a field.
-router.post('/update', async (req, res) => {
-  const { reservationID, date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
+router.put('/:reservationID', async (req, res) => {
+  const { date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
+  const reservationID = req.params.reservationID;
 
   if (!reservationID) {
     res.status(400).json({ error: 'reservation/update POST endpoint needs a reservationID body param' });
