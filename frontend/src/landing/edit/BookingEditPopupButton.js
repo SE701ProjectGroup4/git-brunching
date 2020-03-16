@@ -1,9 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { styled } from "@material-ui/core/styles";
 import BookingEditPopupDialog from "./BookingEditPopupDialog";
-import textHolder from "../general/textHolder";
-import css from "./BookingEditPopupCSS";
+import textHolder from "../../general/textHolder";
+import style from "../LandingPage.module.css";
 
 /**
  * A button which summons the popup to edit bookings.
@@ -11,8 +10,6 @@ import css from "./BookingEditPopupCSS";
 const BookingEditPopupButton = (props) => {
   const { IDSwitchMethod } = props;
   const [open, setOpen] = React.useState(false);
-
-  const PopupButton = styled(Button)(css.button);
 
   /**
      * Opens the popup
@@ -30,9 +27,13 @@ const BookingEditPopupButton = (props) => {
 
   return (
     <div>
-      <PopupButton variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        className={style.editButton}
+        onClick={handleClickOpen}
+      >
         {textHolder.bookingsPopup.buttonText}
-      </PopupButton>
+      </Button>
       <BookingEditPopupDialog open={open} onClose={handleClose} IDSwitchMethod={IDSwitchMethod} />
     </div>
   );

@@ -1,4 +1,4 @@
-import color from "../general/colorScheme";
+import color from "../../general/colorScheme";
 
 /**
  * Stores the stylesheet for booking edit popup components
@@ -6,7 +6,7 @@ import color from "../general/colorScheme";
  */
 const css = {
   button: {
-    background: color.primary,
+    color: color.primary,
   },
 
 };

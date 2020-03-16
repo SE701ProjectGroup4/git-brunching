@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router, Route, Switch,
+} from "react-router-dom";
 import { StylesProvider } from "@material-ui/core/styles";
 import LandingPage from "./landing/LandingPage";
 import BookingPage from "./booking/BookingPage";

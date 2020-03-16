@@ -8,8 +8,8 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import { styled } from "@material-ui/core";
 import style from "./BookingEditPopup.module.css";
-import changePath from "../general/helperFunctions";
-import textHolder from "../general/textHolder";
+import changePath from "../../general/helperFunctions";
+import textHolder from "../../general/textHolder";
 import css from "./BookingEditPopupCSS";
 
 /**
@@ -71,7 +71,14 @@ const BookingEditPopupDialog = (props) => {
   return (
     (isInput)
       ? (
-        <Dialog onClose={handleClosePopup} transitionDuration={0} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog
+          onClose={handleClosePopup}
+          transitionDuration={0}
+          aria-labelledby="simple-dialog-title"
+          open={open}
+          // Needed to prevent tiles from jumping to the right
+          disableScrollLock
+        >
           <div>
             <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
             <div>

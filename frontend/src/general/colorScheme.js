@@ -3,8 +3,8 @@
  * @type {{}}
  */
 const colour = {
-  primary: "White",
-  secondary: "Purple",
+  primary: "#61c766",
+  secondary: "#61c766",
   hoverSelect: "#D3D3D3", // Light Grey
 };
 
