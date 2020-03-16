@@ -86,21 +86,18 @@ router.get('/all', async (req, res) => {
 });
 
 // Update a reservation when a user needs to change a field.
-// The applicable fields to change are:
-// Notes, Number Of Guests, Date, Time, userPhoneNo, userEmailAddress
 router.post('/update', async (req, res) => {
-  const { reservationID, date, time, numberOfGuests, notes, phoneNo, email } = req.body;
+  const { reservationID, date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
 
   if (!reservationID) {
     res.status(400).json({ error: 'reservation/update POST endpoint needs a reservationID body param' });
     return;
   }
 
-  const {
-    error: reservationQueryError,
-    result: reservationQueryResult
-  } = await connection.asyncQuery('SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;',
-    [reservationID]);
+  const { error: reservationQueryError, result: reservationQueryResult } = await connection.asyncQuery(
+    'SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;',
+    [reservationID]
+  );
 
   // check that this is an applicable booking to update (i.e more than 1 hour away)
   const validationResult = validateTime(reservationQueryResult, reservationQueryError, 'update');
@@ -110,22 +107,23 @@ router.post('/update', async (req, res) => {
     return;
   }
 
-  const {
-    error: userQueryError,
-    result: userQueryResult
-  } = await connection.asyncQuery('SELECT Phone, Email FROM USER WHERE ID = ?;', [reservationQueryResult[0].userID]);
+  const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
+    'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].userID]
+  );
 
   if (userQueryError) {
     res.status(400).json({ error: userQueryError });
   }
 
-  // Update old values
+  // For each parameter, check if it has been provided in endpoint, otherwise use previous value.
   const newNotes = notes || reservationQueryResult[0].Notes;
   const newDate = date || reservationQueryResult[0].Date;
   const newTime = time || reservationQueryResult[0].Time;
   const newNoOfGuests = numberOfGuests || reservationQueryResult[0].NumberOfGuests;
 
-  const newPhone = phoneNo || userQueryResult[0].Phone;
+  const newFirstName = firstName || userQueryResult[0].FirstName;
+  const newLastName = lastName || userQueryResult[0].LastName;
+  const newPhone = phoneNumber || userQueryResult[0].Phone;
   const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
@@ -140,8 +138,8 @@ router.post('/update', async (req, res) => {
 
   // update user details
   const { error: userUpdateError } = await connection.asyncQuery(
-    'UPDATE USER SET Phone = ?, Email = ? WHERE ID = ?;',
-    [newPhone, newEmail, reservationQueryResult[0].userID]
+    'UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;',
+    [newFirstName, newLastName, newPhone, newEmail, reservationQueryResult[0].userID]
   );
 
   if (userUpdateError) {
