@@ -7,6 +7,7 @@ import BookingEditPopupButton from "../booking/BookingEditPopupButton";
 import RestaurantTile from "./RestaurantTile";
 import changePath from "../general/helperFunctions";
 import Logo from "../general/Logo";
+import SearchBar from "./SearchBar";
 
 const landingText = messages.landingPage;
 
@@ -22,14 +23,25 @@ const LandingPage = (props) => {
   return (
     <div className={style.landingPageContainer}>
       <div className={style.header}>
-        <div className={style.logo}><Logo /></div>
-        <p className={style.title}>GIT BRUNCHING</p>
-      </div>
-      <div className={style.content}>
+        <div className={style.titleContainer}>
+          <div className={style.logo}>
+            <Logo />
+          </div>
+          <p className={style.title}>GIT BRUNCHING</p>
+        </div>
         <div className={style.searchContainer}>
-          <TextField id="standard-search" label="Search field" type="search" />
+          {/*<TextField*/}
+          {/*  id="standard-search"*/}
+          {/*  variant="filled"*/}
+          {/*  label="Search field"*/}
+          {/*  type="search"*/}
+          {/*  className={style.search}*/}
+          {/*/>*/}
+          <SearchBar />
           <BookingEditPopupButton IDSwitchMethod={toBooking} />
         </div>
+      </div>
+      <div className={style.content}>
         <RestaurantTile setRestaurant={setRestaurant} />
       </div>
       {/* Probably make it it's own component */}
