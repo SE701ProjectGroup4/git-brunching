@@ -102,7 +102,7 @@ const TimeContainer = (props) => {
           {/* Time fields go here */}
           {times.map((time) => (
             <Button
-              // className={style.test}
+              className={style.test}
               key={`time_button_${time.time}`}
               variant="contained"
               value={time.time}
