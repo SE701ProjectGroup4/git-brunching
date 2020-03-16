@@ -40,6 +40,38 @@ const TimeContainer = props => {
     setSelectedTime(value);
   };
 
+  const times = [
+    {
+      time: "9-10am",
+      color: selectedTime === "9-10am" ? "secondary" : "primary"
+    },
+    {
+      time: "10-11am",
+      color: selectedTime === "10-11am" ? "secondary" : "primary"
+    },
+    {
+      time: "11am-12pm",
+      color: selectedTime === "11am-12pm" ? "secondary" : "primary"
+    },
+    {
+      time: "12-1pm",
+      color: selectedTime === "12-1pm" ? "secondary" : "primary"
+    },
+    {
+      time: "1-2pm",
+      color: selectedTime === "1-2pm" ? "secondary" : "primary"
+    },
+    {
+      time: "2-3pm",
+      color: selectedTime === "2-3pm" ? "secondary" : "primary"
+    },
+    { time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary" }
+  ];
+
+  // const handleColor = value => {
+  //   const colorClass = selectedTime === value ? "secondary" : "primary";
+  //   return colorClass;
+  // };
   /**
    * Upon clicking, we want to update the store with inputted values
    */
@@ -73,15 +105,28 @@ const TimeContainer = props => {
         </div>
         <div className={style.contentContainer}>
           {/* Time fields go here */}
-          <Button
+          {times.map(time => (
+            <Button
+              // className={style.test}
+              key={`time_button_${time.time}`}
+              variant="contained"
+              value={time.time}
+              color={time.color}
+              onClick={e => handleTime(e.currentTarget.value)}
+            >
+              {time.time}
+            </Button>
+          ))}
+          {/* <Button
+            className={style.test}
             variant="contained"
             value="9-10am"
-            color="primary"
+            color={handleColor(value)}
             onClick={e => handleTime(e.currentTarget.value)}
           >
             9-10 am
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             variant="contained"
             value="10-11am"
             color="primary"
@@ -128,7 +173,7 @@ const TimeContainer = props => {
             onClick={e => handleTime(e.currentTarget.value)}
           >
             3-4 pm
-          </Button>
+          </Button> */}
 
           <div className={style.inputContainer}>
             <p>Current Selected Time</p>
