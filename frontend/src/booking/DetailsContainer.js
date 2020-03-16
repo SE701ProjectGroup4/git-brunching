@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Card from "@material-ui/core/Card";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
@@ -10,7 +9,7 @@ import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
 
 const detailMessages = messages.details;
-const DetailsContainer = () => {
+const DetailsContainer = (props) => {
   const history = useHistory();
 
   const {
