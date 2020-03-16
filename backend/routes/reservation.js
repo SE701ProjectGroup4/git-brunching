@@ -41,11 +41,11 @@ const validateTime = (databaseRow, databaseError, action) => {
 };
 
 // Retrieve a single reservation for a user to check their reservation.
-router.get('/single', async (req, res) => {
-  const { reservationID } = req.query;
+router.get('/:reservationId', async (req, res) => {
+  const reservationID = req.params.reservationId;
 
   if (!reservationID) {
-    res.status(400).json({ error: 'reservation/single GET endpoint needs a reservationID query param' });
+    res.status(400).json({ error: 'GET reservation/{id} invocation error: {id} needs to be an int' });
     return;
   }
 
@@ -64,11 +64,11 @@ router.get('/single', async (req, res) => {
 });
 
 // Retrieve all reservation from a single restaurant. Used by restaurant manager to see all reservations.
-router.get('/all', async (req, res) => {
+router.get('/', async (req, res) => {
   const { restaurantID } = req.query;
 
   if (!restaurantID) {
-    res.status(400).json({ error: 'reservation/all GET endpoint needs a restaurantID query param' });
+    res.status(400).json({ error: 'GET reservation invocation error: missing ?restaurantID= query param' });
     return;
   }
 
@@ -89,10 +89,10 @@ router.get('/all', async (req, res) => {
 // Update a reservation when a user needs to change a field.
 router.put('/:reservationID', async (req, res) => {
   const { date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
-  const reservationID = req.params.reservationID;
+  const { reservationID } = req.params;
 
   if (!reservationID) {
-    res.status(400).json({ error: 'reservation/update POST endpoint needs a reservationID body param' });
+    res.status(400).json({ error: 'PUT reservation/{id} invocation error: {id} needs to be an int ' });
     return;
   }
 
@@ -152,7 +152,7 @@ router.put('/:reservationID', async (req, res) => {
 });
 
 // Add a new reservation when a user wants to book a table.
-router.post('/single', async (req, res) => {
+router.post('/', async (req, res) => {
   // Generate a random, unique id.
   const reservationID = uniqid();
   const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
@@ -160,7 +160,7 @@ router.post('/single', async (req, res) => {
   if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
     res.status(400).json({
       error:
-        'reservation/single POST endpoint needs: date, time, numberOfGuests, tableID, restaurantID and userID body params'
+        'POST reservation invocation error: post body needs { date, time, numberOfGuests, tableID, restaurantID, userID }'
     });
     return;
   }
@@ -180,11 +180,11 @@ router.post('/single', async (req, res) => {
 });
 
 // Delete a reservation when a customer want to cancel a booking.
-router.delete('/single', async (req, res) => {
-  const { reservationID } = req.query;
+router.delete('/:reservationID', async (req, res) => {
+  const { reservationID } = req.params;
 
   if (!reservationID) {
-    res.status(400).json({ error: 'reservation/single DELETE endpoint needs a reservationID query param' });
+    res.status(400).json({ error: 'DELETE reservation/{id} invocation error: {id} must be an int' });
     return;
   }
 
