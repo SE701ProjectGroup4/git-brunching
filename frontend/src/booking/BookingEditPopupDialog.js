@@ -10,7 +10,7 @@ import { styled } from "@material-ui/core";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../general/helperFunctions";
 import textHolder from "../general/textHolder";
-import css from "./BookingEditPopupCSS";
+import css from "../landing/BookingEditPopupCSS";
 
 /**
  * The popup itself which is used to edit bookings

@@ -6,7 +6,7 @@ import color from "../general/colorScheme";
  */
 const css = {
   button: {
-    background: color.primary,
+    color: color.primary,
   },
 
 };

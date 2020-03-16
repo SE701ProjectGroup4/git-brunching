@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 import style from "./LandingPage.module.css";
-import BookingEditPopupButton from "../booking/BookingEditPopupButton";
+import BookingEditPopupButton from "./BookingEditPopupButton";
 import RestaurantTile from "./RestaurantTile";
 import changePath from "../general/helperFunctions";
 import SearchBar from "./SearchBar";

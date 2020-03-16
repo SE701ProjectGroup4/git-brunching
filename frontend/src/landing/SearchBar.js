@@ -1,6 +1,8 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import { InputAdornment } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
 
 const styles = {
   root: {
@@ -26,6 +28,11 @@ const SearchBar = (props) => {
       variant="outlined"
       className={classes.root}
       InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Search />
+          </InputAdornment>
+        ),
         className: classes.input,
       }}
       type="search"
