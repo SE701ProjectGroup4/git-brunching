@@ -12,7 +12,7 @@ const messages = {
   details: {
     buttonNextText: "Done",
     buttonBackText: "Back",
-    placeholder: "AT DETAILS",
+    infoMessage: "Tell me about about yourself :P",
   },
   time: {
     buttonNextText: "Next",

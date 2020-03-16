@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import style from "./BookingPage.module.css";
+import Button from "@material-ui/core/Button";
+import style from "./DetailsContainer.module.css";
+import landingStyle from "../landing/LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
@@ -30,59 +31,57 @@ const DetailsContainer = (props) => {
   };
 
   return (
-    <div className={style.contentContainer}>
-      <div className={style.inputContainer}>
-        <p>Enter Your Details</p>
-        <div className="form-group">
-          <label className={style.formlabel}>Name</label>
-          <TextField
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => changeName(e.target.value)}
-            className="form-value"
-          />
-        </div>
-        <div className="form-group">
-          <label className={style.formlabel}>Phone Number</label>
-          <TextField
-            type="text"
-            name="phonenumber"
-            value={phone}
-            onChange={(e) => changePhone(e.target.value)}
-            className="form-value"
-          />
-        </div>
-        <div className="form-group">
-          <label className={style.formlabel}>Email</label>
-          <TextField
-            type="text"
-            name="email"
-            value={email}
-            onChange={(e) => changeEmail(e.target.value)}
-            className="form-value"
-          />
-        </div>
-        <div className="form-group">
-          <label className={style.formlabel}>Notes</label>
-          <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
-        </div>
+    <div className={style.detailsContentContainer}>
+      <div className={style.detailContainer}>
+        <p className={style.info}>{detailMessages.infoMessage}</p>
+        <TextField
+          type="text"
+          name="name"
+          label="Name"
+          value={name}
+          onChange={(e) => changeName(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          type="text"
+          label="Phone Number"
+          name="phonenumber"
+          value={phone}
+          onChange={(e) => changePhone(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          type="text"
+          label="Email"
+          name="email"
+          value={email}
+          onChange={(e) => changeEmail(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          value={notes}
+          multiline
+          rowsMax={5}
+          rows={5}
+          label="Notes"
+          onChange={(e) => changeNotes(e.target.value)}
+        />
         <div className={style.buttonContainer}>
-          <button
-            className={style.changePageButton}
+          <Button
+            className={landingStyle.secondaryButton}
             variant="contained"
             onClick={() => changePath("/", history)}
           >
             {detailMessages.buttonBackText}
-          </button>
-          <button
-            className={style.changePageButton}
+          </Button>
+          <Button
+            className={landingStyle.primaryButton}
             type="submit"
             variant="contained"
             onClick={handleDetailsConfirmation}
           >
             {detailMessages.buttonNextText}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
