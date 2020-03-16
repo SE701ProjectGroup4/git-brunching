@@ -73,23 +73,23 @@ const Tiles = ({ restaurants, toBooking }) => {
   );
 };
 
-const fakeData = [
-  {
-    Id: 0,
-    Name: "KCF",
-  },
-  {
-    Id: 1,
-    Name: "NANDOZ",
-  },
-];
+// const fakeData = [
+//   {
+//     Id: 0,
+//     Name: "KCF",
+//   },
+//   {
+//     Id: 1,
+//     Name: "NANDOZ",
+//   },
+// ];
 
 
 const mapStateToProps = (state) => ({
   loading: state.restaurantReducer.isLoading,
   // Used for API calling
-  // restaurants: state.restaurantReducer.restaurants,
-  restaurants: fakeData,
+  restaurants: state.restaurantReducer.restaurants,
+  // restaurants: fakeData,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
