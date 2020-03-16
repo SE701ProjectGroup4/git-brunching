@@ -407,7 +407,7 @@ router.get('/available', async (req, res) => {
                                                                         't.ID = r.TableID AND ' +
                                                                         'r.Date = ? AND ' +
                                                                         'r.Time = ? );',
-    [restaurantID, numberOfGuests, date, time]
+    [restaurantID, numberOfGuests, numberOfGuests, date, time]
   );
 
   if (error) {
