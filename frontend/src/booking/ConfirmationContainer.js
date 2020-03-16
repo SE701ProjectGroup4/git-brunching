@@ -36,25 +36,25 @@ const ConfirmationContainer = (props) => {
     <div className={style.bookingDetailsContainer}>
       {/* TODO: Put hard coded text into textHolder */}
       <div className={style.twoContent}>
-        <p className={classNames(style.title, style.title1)}>Name</p>
+        <p className={classNames(style.title, style.title1)}>{confirmationMessages.name}</p>
         <p className={classNames(style.value, style.value1)}>{name}</p>
-        <p className={classNames(style.title, style.title2)}>Email</p>
+        <p className={classNames(style.title, style.title2)}>{confirmationMessages.email}</p>
         <p className={classNames(style.value, style.value2)}>{email}</p>
       </div>
       <div className={style.twoContent}>
-        <p className={classNames(style.title, style.title1)}>Phone</p>
+        <p className={classNames(style.title, style.title1)}>{confirmationMessages.phone}</p>
         <p className={classNames(style.value, style.value1)}>{phone}</p>
-        <p className={classNames(style.title, style.title2)}>Seats</p>
+        <p className={classNames(style.title, style.title2)}>{confirmationMessages.seats}</p>
         <p className={classNames(style.value, style.value2)}>{seats}</p>
       </div>
       <div className={style.twoContent}>
-        <p className={classNames(style.title, style.title1)}>Date</p>
+        <p className={classNames(style.title, style.title1)}>{confirmationMessages.date}</p>
         <p className={classNames(style.value, style.value1)}>{`${date}`}</p>
-        <p className={classNames(style.title, style.title2)}>Time</p>
+        <p className={classNames(style.title, style.title2)}>{confirmationMessages.time}</p>
         <p className={classNames(style.value, style.value2)}>{`${time}`}</p>
       </div>
       <div className={classNames(style.content, style.notes)}>
-        <p className={classNames(style.title, style.title1)}>Notes</p>
+        <p className={classNames(style.title, style.title1)}>{confirmationMessages.notes}</p>
         <div className={style.notesContainer}>
           <p className={classNames(style.value, style.value1)}>{notes}</p>
         </div>

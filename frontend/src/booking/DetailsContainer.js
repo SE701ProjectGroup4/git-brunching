@@ -31,66 +31,60 @@ const DetailsContainer = (props) => {
 
   return (
     <div className={style.contentContainer}>
-      {/* Input fields go here */}
       <div className={style.inputContainer}>
-        <Card className={style.detailsCard}>
-          <h1>Enter Your Details</h1>
-          <form>
-            <div className="form-group">
-              <label className={style.formlabel}>Name</label>
-              <TextField
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => changeName(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Phone Number</label>
-              <TextField
-                type="text"
-                name="phonenumber"
-                value={phone}
-                onChange={(e) => changePhone(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Email</label>
-              <TextField
-                type="text"
-                name="email"
-                value={email}
-                onChange={(e) => changeEmail(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Notes</label>
-              <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
-            </div>
-            <div className={style.buttonContainer}>
-              <button
-                className={style.changePageButton}
-                variant="contained"
-                onClick={() => changePath("/", history)}
-              >
-                {detailMessages.buttonBackText}
-              </button>
-              <button
-                className={style.changePageButton}
-                type="submit"
-                variant="contained"
-                onClick={handleDetailsConfirmation}
-              >
-                {detailMessages.buttonNextText}
-              </button>
-            </div>
-          </form>
-        </Card>
+        <p>Enter Your Details</p>
+        <div className="form-group">
+          <label className={style.formlabel}>Name</label>
+          <TextField
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => changeName(e.target.value)}
+            className="form-value"
+          />
+        </div>
+        <div className="form-group">
+          <label className={style.formlabel}>Phone Number</label>
+          <TextField
+            type="text"
+            name="phonenumber"
+            value={phone}
+            onChange={(e) => changePhone(e.target.value)}
+            className="form-value"
+          />
+        </div>
+        <div className="form-group">
+          <label className={style.formlabel}>Email</label>
+          <TextField
+            type="text"
+            name="email"
+            value={email}
+            onChange={(e) => changeEmail(e.target.value)}
+            className="form-value"
+          />
+        </div>
+        <div className="form-group">
+          <label className={style.formlabel}>Notes</label>
+          <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
+        </div>
+        <div className={style.buttonContainer}>
+          <button
+            className={style.changePageButton}
+            variant="contained"
+            onClick={() => changePath("/", history)}
+          >
+            {detailMessages.buttonBackText}
+          </button>
+          <button
+            className={style.changePageButton}
+            type="submit"
+            variant="contained"
+            onClick={handleDetailsConfirmation}
+          >
+            {detailMessages.buttonNextText}
+          </button>
+        </div>
       </div>
-      <div className={style.timeContainer} />
     </div>
   );
 };
