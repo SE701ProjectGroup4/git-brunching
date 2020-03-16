@@ -11,7 +11,7 @@
 .current {
     color: black;
     font-weight: bolder;
-    border-bottom: 3px solid #6369ff;
+    border-bottom: 3px solid #61c766;
     animation: fade-in 3s;
 }
 

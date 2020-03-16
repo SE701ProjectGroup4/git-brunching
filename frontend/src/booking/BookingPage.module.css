@@ -13,6 +13,11 @@
   grid-area: content;
 }
 
+.logo {
+  width: 150px;
+  cursor: pointer;
+}
+
 .headerContainer {
   width: 100%;
 }
@@ -22,6 +27,7 @@
   padding-top: 20px;
   border-bottom: solid 1px rgba(200,200,200,0.5);
   grid-template-rows: 50px auto;
+  justify-items: center;
 }
 
 .restaurantName {

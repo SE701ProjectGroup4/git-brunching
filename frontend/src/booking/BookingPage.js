@@ -8,6 +8,7 @@ import style from "./BookingPage.module.css";
 import NotFound from "../general/NotFound";
 import ContentContainer from "./ContentContainer";
 import { ReactComponent as Logo } from "../general/Logo2.svg";
+import changePath from "../general/helperFunctions";
 
 const BookingPage = (props) => {
   const memoryHistory = createMemoryHistory();
@@ -22,7 +23,11 @@ const BookingPage = (props) => {
             {/* A surrounding div for styling purposes */}
             <div className={style.headerContainer}>
               <div className={style.header}>
-                <Logo />
+                <div
+                  className={style.logo}
+                  onClick={() => changePath("/", history)}>
+                  <Logo />
+                </div>
                 <h1 className={style.restaurantName}>{currentRestaurant}</h1>
               </div>
             </div>
