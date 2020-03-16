@@ -362,7 +362,7 @@ router.delete('/:reservationID', async (req, res) => {
  *
  * /reservation:
  *   get:
- *     description: Get a list of tables that are free for booking 
+ *     description: Get a list of tables that are free for booking
  *     produces:
  *       - application/json
  *     parameters:
@@ -372,20 +372,20 @@ router.delete('/:reservationID', async (req, res) => {
  *         required: true
  *         type: integer
  *      - name: numberOfGuests
- *        description: The number of guests that the table is being booked for 
+ *        description: The number of guests that the table is being booked for
  *        required: true
  *        type: integer
- *      - name: time 
+ *      - name: time
  *        description: The start time of the booking
  *        required: true
  *        type: string
  *      - name: date
- *        description: Date for when the booking is made 
+ *        description: Date for when the booking is made
  *        required: true
  *        type: date
  *     responses:
  *       200:
- *         description: Returns the list of table objects
+ *         description: Returns the list of table ID's that are free for that restaurant
  */
 router.get('/available', async (req, res) => {
   const { date, time, numberOfGuests, restaurantID } = req.body;
@@ -399,7 +399,7 @@ router.get('/available', async (req, res) => {
   }
 
   const { error, result } = await connection.asyncQuery(
-    'SELECT * ' +
+    'SELECT t.ID ' +
     'FROM restaurant_db.TABLE t ' +
     'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND NOT EXISTS ( SELECT * ' +
                                                   'FROM RESERVATION r ' +
