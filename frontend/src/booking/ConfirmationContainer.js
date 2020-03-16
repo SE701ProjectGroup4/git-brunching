@@ -10,14 +10,23 @@ const confirmationMessages = messages.confirmation;
 const ConfirmationContainer = (props) => {
   const history = useHistory();
 
-  const { browserHistory, name, phone, email, notes, seats, date, time } = props;
+  const {
+    browserHistory,
+    name,
+    phone,
+    email,
+    notes,
+    seats,
+    date,
+    time,
+  } = props;
 
   const completeBooking = () => {
     // TODO: persist the booking and open a modal giving the user the bookingID
     // This confirms or rejects the booking (if another booking was made
     // with same time very recently)
-    changePath("/", browserHistory)
-  }
+    changePath("/", browserHistory);
+  };
 
   return (
     <div className={style.bookingDetailsContainer}>

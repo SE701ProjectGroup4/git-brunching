@@ -42,7 +42,7 @@ const bookingReducer = (state, action) => {
         phone: action.phone,
         email: action.email,
         notes: action.notes,
-      }
+      };
     default:
       return {
         ...state,

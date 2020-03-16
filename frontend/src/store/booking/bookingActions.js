@@ -1,6 +1,6 @@
 export const actionType = {
   ADD_BOOKING_TIME: "ADD_BOOKING_TIME",
-  ADD_BOOKING_DETAILS: "ADD_BOOKING_DETAILS"
+  ADD_BOOKING_DETAILS: "ADD_BOOKING_DETAILS",
 };
 
 const addBookingTime = (date, seats, time) => ({
@@ -16,7 +16,7 @@ const addBookingDetails = (name, phone, email, notes) => ({
   phone,
   email,
   notes,
-})
+});
 
 export {
   addBookingTime,
