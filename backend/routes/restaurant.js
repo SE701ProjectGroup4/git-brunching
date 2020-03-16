@@ -180,7 +180,7 @@ router.get('/:restaurantID/reservations', (req, res) => {
   }
 
   connection.query(
-    `SELECT * FROM RESERVATION WHERE RestaurantID = ${id}`,
+    'SELECT * FROM RESERVATION WHERE RestaurantID = ?', [id],
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
