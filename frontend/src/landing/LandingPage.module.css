@@ -1,18 +1,44 @@
 .landingPageContainer {
     display: grid;
-    grid-template-rows: 30% 10% auto 10%;
+    grid-template-rows: 40% auto 10%;
     height: 100%;
     width: 100%;
+    /*padding: 20px 50px 0 50px;*/
+}
+
+.card {
+    background-color: red;
 }
 
 .header {
     height: 100%;
     width: 100%;
-    background-color: yellow;
+    padding-top: 50px;
+    background: rgb(49,219,94);
+    background: linear-gradient(90deg, rgba(49,219,94,1) 0%, rgba(72,236,154,1) 99%);
+    display: grid;
+    grid-template-columns: 1fr auto auto 1fr;
+    grid-column-gap: 20px;
+    grid-template-areas: ". logo text .";
+    /*background-color: yellow;*/
 }
 
+.logo {
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    width: 75px;
+    height: 75px;
+    grid-area: logo;
+}
+
+.title {
+    font-size: 40px;
+    grid-area: text;
+    margin: 0;
+    padding: 0;
+}
 .searchContainer {
-    background-color: red;
+    /*background-color: red;*/
 }
 
 .tileContainer {
@@ -27,6 +53,7 @@
 
 .footer {
     background-color: orange;
+    margin: 0 -50px 0 -50px;
 }
 
 .gridList {
