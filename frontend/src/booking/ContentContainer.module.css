@@ -1,0 +1,29 @@
+.progress {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 30px;
+    text-align: center;
+}
+
+.nameContainer {
+}
+
+.current {
+    color: black;
+    font-weight: bolder;
+    border-bottom: 3px solid #6369ff;
+    animation: fade-in 3s;
+}
+
+@keyframes fade-in {
+    0% { opacity: 20}
+    100% { opacity: 100}
+}
+
+
+
+.disabled {
+    color: grey;
+    border-bottom: 1px solid lightgray;
+
+}
