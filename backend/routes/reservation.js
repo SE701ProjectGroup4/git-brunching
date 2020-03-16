@@ -357,4 +357,37 @@ router.delete('/:reservationID', async (req, res) => {
   res.json({ result: 'Deleted reservation' });
 });
 
+//This call gets the list of available tables for reservation
+router.get('/available', async (req, res) => {
+  const { date, time, numberOfGuests, restaurantID } = req.body;
+
+  console.log(req.body)
+  if (!date || !time || !numberOfGuests || !restaurantID) {
+    res.status(400).json({
+      error:
+        'reservation/available GET endpoint needs: date, time, numberOfGuests and restaurantID body params'
+    });
+    return;
+  }
+
+  const { error, result } = await connection.asyncQuery(
+    "SELECT * " +
+    "FROM restaurant_db.TABLE t " +
+    "WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND NOT EXISTS ( SELECT * " +
+                                                  "FROM RESERVATION r " +
+                                                  "WHERE t.RestaurantID = r.RestaurantID AND " +
+                                                  "t.ID = r.TableID AND " +
+                                                  "r.Date = ? AND " +
+                                                  "r.Time = ? );" ,
+    [restaurantID, numberOfGuests, date, time])
+
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json({ result });
+
+});
+
+
 export default router;
