@@ -41,14 +41,16 @@ const DetailsContainer = (props) => {
         <TextField
           type="text"
           name="name"
-          label="Name"
+          label="Name*"
+          inputProps={{ maxLength: 40 }}
           value={name}
           onChange={(e) => changeName(e.target.value)}
           className="form-value"
         />
         <TextField
           type="text"
-          label="Phone Number"
+          inputProps={{ maxLength: 40 }}
+          label="Phone Number*"
           name="phonenumber"
           value={phone}
           onChange={(e) => changePhone(e.target.value)}
@@ -56,7 +58,8 @@ const DetailsContainer = (props) => {
         />
         <TextField
           type="text"
-          label="Email"
+          label="Email*"
+          inputProps={{ maxLength: 40 }}
           name="email"
           value={email}
           onChange={(e) => changeEmail(e.target.value)}
@@ -70,6 +73,7 @@ const DetailsContainer = (props) => {
           label="Notes"
           onChange={(e) => changeNotes(e.target.value)}
         />
+        <p className={style.footerText}>{detailMessages.footerText}</p>
         <div className={classNames(style.buttonContainer, confirmationStyle.buttonHolder)}>
           <Button
             className={classNames(landingStyle.primaryButton, confirmationStyle.edit)}

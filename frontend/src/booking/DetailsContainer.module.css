@@ -21,3 +21,10 @@
 .buttonContainer {
     margin: 0;
 }
+
+.footerText {
+    color: #757575;
+    margin: 0;
+    font-style: italic;
+    font-size: 12px;
+}

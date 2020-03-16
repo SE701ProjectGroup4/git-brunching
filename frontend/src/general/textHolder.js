@@ -13,6 +13,7 @@ const messages = {
     buttonNextText: "Done",
     buttonBackText: "Back",
     infoMessage: "Tell me about about yourself :P",
+    footerText: "* Required",
   },
   time: {
     buttonNextText: "Next",
@@ -20,7 +21,7 @@ const messages = {
     placeholder: "AT TIME",
   },
   confirmation: {
-    buttonBackText: "Back To Editing",
+    buttonBackText: "Back",
     buttonNextText: "Finish",
     name: "Name",
     email: "Email",
@@ -28,7 +29,7 @@ const messages = {
     seats: "Seats",
     date: "Date",
     time: "Time",
-    notes: "Notes*",
+    notes: "Notes",
   },
   bookingsPopup: {
     buttonText: "Edit Booking",

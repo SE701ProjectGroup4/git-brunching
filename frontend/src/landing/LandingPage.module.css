@@ -136,7 +136,7 @@
 }
 
 .secondaryButton:hover {
-    color: #61c766;
+    color: #f2fff0;
     border: 1px solid #61c766;
-    background-color: white;
+    background-color: #459651;
 }
