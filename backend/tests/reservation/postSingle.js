@@ -26,7 +26,7 @@ describe('POST reservations/single', () => {
 
     const { reservationID, result } = response.body;
     assert.strictEqual(result, 'Added single reservation');
-    assert.isNumber(reservationID, 'Expected reservationID to be a number');
+    assert.isString(reservationID, 'Expected reservationID to be a string');
   });
 
   it('2. should return expected error when the date parameter is missing.', async () => {
@@ -167,6 +167,6 @@ describe('POST reservations/single', () => {
 
     const { reservationID, result } = response.body;
     assert.strictEqual(result, 'Added single reservation');
-    assert.isNumber(reservationID, 'Expected reservationID to be a number');
+    assert.isString(reservationID, 'Expected reservationID to be a string');
   });
 });
