@@ -368,19 +368,22 @@ router.delete('/:reservationID', async (req, res) => {
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
- *         in: query
+ *         in: formData
  *         required: true
  *         type: integer
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
+ *         in: formData
  *         required: true
  *         type: integer
  *       - name: time
  *         description: The start time of the booking
+ *         in: formData
  *         required: true
  *         type: string
  *       - name: date
  *         description: Date for when the booking is made
+ *         in: formData
  *         required: true
  *         type: date
  *     responses:
