@@ -19,13 +19,11 @@ const RestaurantTile = (props) => {
   const fakeData = [
     {
       name: "NANDOZ",
-      times: [],
-      img: "",
+      img: "./images/nandoz.png",
     },
     {
       name: "KCF",
-      times: [],
-      img: "",
+      img: "./images/kcf.png",
     },
   ];
 
@@ -45,7 +43,7 @@ const RestaurantTile = (props) => {
         cols={columns}
       >
         {fakeData.map((data) => (
-          <GridListTile key={data.title}>
+          <GridListTile key={data.name}>
             <Card onClick={() => toBooking(data.name)}>
               <CardActionArea>
                 <CardMedia
