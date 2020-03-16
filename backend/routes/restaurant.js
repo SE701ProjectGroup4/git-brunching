@@ -92,11 +92,6 @@ router.get('/getall', (req, res) => {
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: restaurantID
- *         description: Primary Key of Restaurant database table
- *         in: formData
- *         required: true
- *         type: integer
  *       - name: name
  *         description: Name of restaurant
  *         in: formData
@@ -109,12 +104,12 @@ router.get('/getall', (req, res) => {
 router.post('/', (req, res) => {
   const { body } = req;
 
-  if (!body.restaurantID || !body.name) {
-    res.status(400).json({ error: '/restaurant POST endpoint needs a restaurantID and name body param' });
+  if (!body.name) {
+    res.status(400).json({ error: '/restaurant POST endpoint needs name body param' });
     return;
   }
 
-  connection.query('INSERT INTO RESTAURANT VALUES (?, ?);', [body.restaurantID, body.name], error => {
+  connection.query('INSERT INTO RESTAURANT (`Name`) VALUES (?);', [body.name], error => {
     if (error) {
       res.status(400).json({ error });
       return;
