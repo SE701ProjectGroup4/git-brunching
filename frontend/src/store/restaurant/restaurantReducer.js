@@ -6,6 +6,12 @@ const initialState = {
   error: null,
 };
 
+/**
+ * Gets called whenever a restaurant action has been made
+ * This helps with showing the user when an API call is going on
+ * @param state
+ * @param action
+ */
 const restaurantReducer = (state, action) => {
   if (state == null) {
     return initialState;

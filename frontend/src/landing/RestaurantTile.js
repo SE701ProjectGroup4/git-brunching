@@ -73,6 +73,7 @@ const Tiles = ({ restaurants, toBooking }) => {
   );
 };
 
+// Keep for testing purposes
 // const fakeData = [
 //   {
 //     Id: 0,

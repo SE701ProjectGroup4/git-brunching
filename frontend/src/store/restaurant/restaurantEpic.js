@@ -6,6 +6,8 @@ import { GET_ALL_RESTAURANTS } from "../../general/config";
 
 /**
  * Async call for receiving all restaurants
+ * This is a sequence of actions which determine if the API call
+ * succeeds or fails.
  * @param action$
  * @returns {*}
  */
