@@ -1,23 +1,59 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { connect } from "react-redux";
+import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 
 const confirmationMessages = messages.confirmation;
 
 const ConfirmationContainer = (props) => {
-  const { browserHistory, numberOfSeats } = props;
+  const history = useHistory();
+
+  const {
+    browserHistory,
+    name,
+    phone,
+    email,
+    notes,
+    seats,
+    date,
+    time,
+  } = props;
+
+  const completeBooking = () => {
+    // TODO: persist the booking and open a modal giving the user the bookingID
+    // This confirms or rejects the booking (if another booking was made
+    // with same time very recently)
+    changePath("/", browserHistory);
+  };
+
   return (
-    <div>
+    <div className={style.bookingDetailsContainer}>
       {/* TODO: Just a placeholder, edit later */}
-      <p>{`NUMBER OF SEATS: ${numberOfSeats}`}</p>
-      {confirmationMessages.confirmText}
-      <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
+      <div>
+        <p>{`Name: ${name}`}</p>
+        <p>{`Phone: ${phone}`}</p>
+        <p>{`Email: ${email}`}</p>
+        <p>{`Notes: ${notes}`}</p>
+        <p>{`Number of seats: ${seats}`}</p>
+        <p>{`Date: ${date}`}</p>
+        <p>{`Time: ${time}`}</p>
+      </div>
+      <button onClick={() => changePath("/details", history)}>{confirmationMessages.buttonBackText}</button>
+      <button onClick={completeBooking}>{confirmationMessages.buttonNextText}</button>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  numberOfSeats: state.bookingReducer.numberOfSeats,
+  name: state.bookingReducer.name,
+  phone: state.bookingReducer.phone,
+  email: state.bookingReducer.email,
+  notes: state.bookingReducer.notes,
+  seats: state.bookingReducer.seats,
+  date: state.bookingReducer.date,
+  time: state.bookingReducer.time,
 });
+
 export default connect(mapStateToProps, null)(ConfirmationContainer);

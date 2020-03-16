@@ -1,31 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Card from "@material-ui/core/Card";
 import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
+import { addBookingDetails } from "../store/booking/bookingActions";
 
 const detailMessages = messages.details;
-const DetailsContainer = () => {
+const DetailsContainer = (props) => {
   const history = useHistory();
-  //  functions that are used to navigate to previous and next screens
 
-  /**
-   * TO DO
-   * const [name, handleName] = useState("");
-  const [email, handleEmail] = useState("");
-  const [phoneNumber, handlePhoneNumber] = useState("");
-   * const handleNext = () => {
+  const {
+    oldName,
+    oldPhone,
+    oldEmail,
+    oldNotes,
+  } = props;
+
+  const [name, changeName] = useState((oldName == null) ? "" : oldName);
+  const [phone, changePhone] = useState((oldPhone == null) ? "" : oldPhone);
+  const [email, changeEmail] = useState((oldEmail == null) ? "" : oldEmail);
+  const [notes, changeNotes] = useState((oldNotes == null) ? "" : oldNotes);
+
+  const handleDetailsConfirmation = () => {
     changePath("/confirmation", history);
-    };
+    props.onConfirmClick(name, phone, email, notes);
+  };
 
-    const handlePrevious = () => {
-      changePath("/", history);
-    };
-
-  */
   return (
     <div className={style.contentContainer}>
       {/* Input fields go here */}
@@ -35,23 +39,37 @@ const DetailsContainer = () => {
           <form>
             <div className="form-group">
               <label className={style.formlabel}>Name</label>
-              <TextField type="text" name="name" className="form-value" />
+              <TextField
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => changeName(e.target.value)}
+                className="form-value"
+              />
             </div>
             <div className="form-group">
               <label className={style.formlabel}>Phone Number</label>
               <TextField
                 type="text"
                 name="phonenumber"
+                value={phone}
+                onChange={(e) => changePhone(e.target.value)}
                 className="form-value"
               />
             </div>
             <div className="form-group">
               <label className={style.formlabel}>Email</label>
-              <TextField type="text" name="email" className="form-value" />
+              <TextField
+                type="text"
+                name="email"
+                value={email}
+                onChange={(e) => changeEmail(e.target.value)}
+                className="form-value"
+              />
             </div>
             <div className="form-group">
               <label className={style.formlabel}>Notes</label>
-              <TextField />
+              <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
             </div>
             <div className={style.buttonContainer}>
               <BottomNavigation>
@@ -66,7 +84,7 @@ const DetailsContainer = () => {
                   className={style.changePageButton}
                   type="submit"
                   variant="contained"
-                  onClick={() => changePath("/confirmation", history)}
+                  onClick={handleDetailsConfirmation}
                 >
                   {detailMessages.buttonNextText}
                 </button>
@@ -80,4 +98,17 @@ const DetailsContainer = () => {
   );
 };
 
-export default DetailsContainer;
+const mapStateToProps = (state) => ({
+  oldName: state.bookingReducer.name,
+  oldPhone: state.bookingReducer.phone,
+  oldEmail: state.bookingReducer.email,
+  oldNotes: state.bookingReducer.notes,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onConfirmClick: (name, phone, email, notes) => {
+    dispatch(addBookingDetails(name, phone, email, notes));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsContainer);
