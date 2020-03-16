@@ -3,7 +3,7 @@
   width: 100%;
   display: grid;
   grid-template-areas: ". content .";
-  grid-template-columns: 200px auto 200px;
+  grid-template-columns: 1fr minmax(600px, 1000px) 1fr;
 
 }
 
@@ -86,9 +86,6 @@
 .changePageButton:hover {
   background-color: gray;
   color: white;
-}
-.bookingDetailsContainer {
-  text-align: center;
 }
 
 .detailsCard {

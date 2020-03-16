@@ -1,0 +1,80 @@
+.bookingDetailsContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.content,
+.twoContent {
+    text-align: center;
+}
+
+.twoContent {
+    display: grid;
+    grid-template-rows: 50px minmax(20px, 1fr);
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 100px;
+    grid-template-areas: "title1 title2" "value1 value2";
+}
+
+.content {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "title1" "value1";
+}
+
+.notesContainer {
+    width: 100%;
+    overflow: auto;
+    word-wrap: break-word;
+}
+
+.content.notes{
+    grid-template-rows: 50px 100px;
+}
+
+.title1 {
+    grid-area: title1;
+}
+
+.title2 {
+    grid-area: title2;
+}
+
+.value1 {
+    grid-area: value1;
+}
+
+.value2 {
+    grid-area: value2;
+}
+
+.title {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.value {
+
+}
+
+.title, .value {
+    margin: 0;
+}
+
+
+.buttonHolder {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 40px;
+    grid-template-areas: ". back confirm .";
+}
+
+.edit {
+    grid-area: back;
+}
+
+.confirm {
+    grid-area: confirm;
+}

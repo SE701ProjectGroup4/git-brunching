@@ -118,23 +118,24 @@
     background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%) !important;
 }
 
-.editButton {
+.primaryButton {
+    background-color: white;
     color: #61c766;
     border: 1px solid #61c766;
 }
 
-.editButton:hover {
+.primaryButton:hover {
     background-color: #61c766;
     color: white;
 }
 
 
-.restaurantButton {
+.secondaryButton {
     background-color: #61c766;
     color: white;
 }
 
-.restaurantButton:hover {
+.secondaryButton:hover {
     color: #61c766;
     border: 1px solid #61c766;
     background-color: white;
