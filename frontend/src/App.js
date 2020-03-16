@@ -13,7 +13,7 @@ const App = () => {
       <StylesProvider injectFirst>
         <Router>
           <Switch>
-            {/* A state is stored instead of creating a different route for each booking page because
+            {/* state is stored instead of creating a different route for each booking page because
           it was easier to implement */}
             <Route
               path="/booking"
