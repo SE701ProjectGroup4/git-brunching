@@ -1,14 +1,19 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { connect } from "react-redux";
+import style from "./BookingPage.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 
 const confirmationMessages = messages.confirmation;
 
 const ConfirmationContainer = (props) => {
-  const { name, phone, email, notes, seats, date, time } = props;
+  const history = useHistory();
+
+  const { browserHistory, name, phone, email, notes, seats, date, time } = props;
+
   return (
-    <div>
+    <div className={style.bookingDetailsContainer}>
       {/* TODO: Just a placeholder, edit later */}
       <div>
         <p>{`Name: ${name}`}</p>
@@ -19,6 +24,7 @@ const ConfirmationContainer = (props) => {
         <p>{`Date: ${date}`}</p>
         <p>{`Time: ${time}`}</p>
       </div>
+      <button onClick={() => changePath("/details", history)}>{confirmationMessages.buttonBackText}</button>
       <button onClick={() => changePath("/", browserHistory)}>{confirmationMessages.buttonNextText}</button>
     </div>
   );

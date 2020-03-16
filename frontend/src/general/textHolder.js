@@ -20,6 +20,7 @@ const messages = {
     placeholder: "AT TIME",
   },
   confirmation: {
+    buttonBackText: "Back To Editing",
     buttonNextText: "Finish",
     confirmText: "Number: 12123 blah blah",
   },
