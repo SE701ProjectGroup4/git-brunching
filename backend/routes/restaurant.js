@@ -53,7 +53,7 @@ router.get('/:restaurantID', async (req, res) => {
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
- *         in: query
+ *         in: path
  *         required: true
  *         type: integer
  *     responses:
@@ -82,7 +82,7 @@ router.get('/:restaurantID/openhours', async (req, res) => {
 /**
  * @swagger
  *
- * /restaurant/getall:
+ * /restaurant:
  *   get:
  *     description: Fetch a list of all the restaurants name and ID
  *     produces:
@@ -96,7 +96,7 @@ router.get('/', (req, res) => {
   const input = req.query;
 
   if (JSON.stringify(input) !== '{}') {
-    res.status(400).json({ error: '/restaurant/getall GET endpoint needs no query param' });
+    res.status(400).json({ error: '/restaurant GET endpoint needs no query param' });
     return;
   }
 
