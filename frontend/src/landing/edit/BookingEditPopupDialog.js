@@ -68,6 +68,15 @@ const BookingEditPopupDialog = (props) => {
     changePath("/booking", history);
   };
 
+  /**
+     * Switches page to the specified restaurant booking page
+     */
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleChangeToBookingDetails();
+    }
+  };
+
   return (
     (isInput)
       ? (
@@ -78,12 +87,14 @@ const BookingEditPopupDialog = (props) => {
           open={open}
           // Needed to prevent tiles from jumping to the right
           disableScrollLock
+          fullWidth
+          maxWidth="xs"
         >
-          <div>
-            <DialogTitle id="simple-dialog-title">Input Booking ID</DialogTitle>
+          <div className={style.dialogContainer}>
+            <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Input Booking ID</DialogTitle>
             <div>
               {(!isError) ? (
-                <TextField id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} />
+                <TextField className={style.dialogContent} id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} onKeyDown={handleKeyDown} />
               ) : (
                 <TextField
                   error
@@ -92,23 +103,26 @@ const BookingEditPopupDialog = (props) => {
                   label="Insert ID here"
                   variant="outlined"
                   onChange={changeBookingID}
+                  onKeyDown={handleKeyDown}
+                  className={style.dialogContent}
                 />
               )}
             </div>
-            <div className={style.dialogContainer}>
-              <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup}>
-                {textHolder.bookingsPopup.popupCancel}
-              </PopupButton>
-              <PopupButton variant="outlined" fullWidth={false} onClick={handleChangeToBookingDetails}>
-                {textHolder.bookingsPopup.popupConfirm}
-              </PopupButton>
-            </div>
+          </div>
+          <div className={style.dialogButtonContainer}>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
+              {textHolder.bookingsPopup.popupCancel}
+            </PopupButton>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleChangeToBookingDetails} className={style.popupButton}>
+              {textHolder.bookingsPopup.popupConfirm}
+            </PopupButton>
           </div>
         </Dialog>
       )
       : (
         <Dialog onClose={handleClosePopup} aria-labelledby="simple-dialog-title" open={open}>
-          <div>
+          <div className={style.dialogContainer}>
+            <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
             <p>
               You have booked&nbsp;
               {" "}
@@ -127,11 +141,11 @@ const BookingEditPopupDialog = (props) => {
               <b>{dummyBooking.notes}</b>
             </p>
           </div>
-          <div className={style.dialogContainerDetails}>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking}>
+          <div className={style.dialogButtonContainer}>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
               {textHolder.bookingsPopup.popupEdit}
             </PopupButton>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup}>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
               {textHolder.bookingsPopup.popupOK}
             </PopupButton>
           </div>
