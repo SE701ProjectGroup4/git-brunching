@@ -17,7 +17,6 @@ const ConfirmedBooking = (props) => {
         <p>{`Booking reference is: ${booking.reservationID}`}</p>
         <Button onClick={() => changePath("/", history)} className={style.finishButton}>
           {confirmedMessages.buttonText}
-
         </Button>
       </div>
     );

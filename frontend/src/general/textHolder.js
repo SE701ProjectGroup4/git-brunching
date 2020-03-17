@@ -43,6 +43,10 @@ const messages = {
     title: "Booking Complete!!!",
     buttonText: "Finish",
   },
+  confirmed: {
+    title: "Booking Complete!!!",
+    buttonText: "Finish",
+  },
   notFound: {
     message: "Oops! We can't seem to find the page you're looking for.",
   },

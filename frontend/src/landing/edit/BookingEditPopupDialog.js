@@ -71,6 +71,7 @@ const BookingEditPopupDialog = (props) => {
     if (bookingID.length !== 0) {
       setReservationCode(bookingID);
       setLoading(true);
+
       // TODO: move to the store as an epic
       getRestaurantByReference(bookingID).then((r) => {
         const data = r.result[0];
