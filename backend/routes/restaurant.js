@@ -42,7 +42,24 @@ router.get('/:restaurantID', async (req, res) => {
   });
 });
 
-// Gets specific restaurant opening hours, used by front end to build restaurant opening hours for end user.
+/**
+ * @swagger
+ *
+ * /restaurant/{restaurantID}/openhours:
+ *   get:
+ *     description: Fetch the opening hours of the restaurent
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary key of the restaurant used on the database
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns all restaurant objects
+ */
 router.get('/:restaurantID/openhours', async (req, res) => {
   const { restaurantID } = req.params;
   if (!restaurantID) {
@@ -70,21 +87,15 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *     description: Fetch all restaurant objects from the database
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: restaurantID
- *         description: Primary Key of Restaurant database table
- *         in: path
- *         required: true
- *         type: integer
  *     responses:
  *       200:
- *         description: Returns restaurant object
+ *         description: Returns all restaurant objects
  */
 router.get('/', (req, res) => {
   const input = req.query;
 
   if (JSON.stringify(input) !== '{}') {
-    res.status(400).json({ error: '/restaurant/getall GET endpoint needs no query param' });
+    res.status(400).json({ error: '/restaurant/ GET endpoint needs no query param' });
     return;
   }
 
