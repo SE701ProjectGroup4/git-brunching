@@ -58,14 +58,12 @@
   grid-template-columns: 100px auto 100px;;
   grid-template-areas: ". booking .";
 }
-x
 .bookingDetailsContainer {
   display: grid;
   grid-template-rows: auto auto 200px auto;
   grid-row-gap: 20px;
   margin-top: 30px;
   grid-area:booking;
-
 }
 
 .bookingDetail {
