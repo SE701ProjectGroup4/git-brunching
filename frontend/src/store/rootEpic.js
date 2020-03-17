@@ -7,7 +7,6 @@ const rootEpic = combineEpics(
   restaurantEpic,
   bookingEpic,
   editReservation,
-
   // pingEpic,
 );
 

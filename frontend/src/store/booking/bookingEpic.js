@@ -74,8 +74,6 @@ const editReservation = (action$, store) => action$.pipe(
       }),
     });
 
-    console.log(bookingData.date)
-
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
@@ -101,7 +99,6 @@ const editReservation = (action$, store) => action$.pipe(
   })),
 );
 
-// todo:
 // const getReservationByID = (action$, store) => action$.pipe(
 //   filter((action) => action.type === actionType.GET_BOOKING_BY_REFERENCE),
 //   mergeMap(async (action) => {

@@ -6,7 +6,6 @@ const initialState = {
   error: null,
   selected: null,
   mode: "",
-
 };
 
 /**
@@ -48,7 +47,6 @@ const restaurantReducer = (state, action) => {
         ...state,
         mode: action.mode,
       };
-
     default:
       return { ...state };
   }

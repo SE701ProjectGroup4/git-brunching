@@ -112,7 +112,6 @@ const TimeContainer = (props) => {
     setSelectedTime(value);
   };
 
-
   /**
    * Upon clicking, we want to update the store with inputted values
    */

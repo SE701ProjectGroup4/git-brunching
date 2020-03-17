@@ -37,7 +37,6 @@ const RestaurantTile = (props) => {
     reset();
     select(restaurant);
     changeMode("CREATE");
-
   };
 
   useEffect(getAll, []);
@@ -104,6 +103,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   select: selectRestaurant,
   changeMode: setMode,
   reset: resetBooking,
+
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);
