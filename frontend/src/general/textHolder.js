@@ -39,7 +39,7 @@ const messages = {
     popupOK: "OK",
   },
   notFound: {
-    message: "404 NOT FOUND",
+    message: "Oops! We can't seem to find the page you're looking for.",
   },
 
 };
