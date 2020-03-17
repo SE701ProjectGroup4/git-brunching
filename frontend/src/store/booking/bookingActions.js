@@ -10,7 +10,6 @@ export const actionType = {
   GET_BOOKING_BY_REFERENCE: "GET_BOOKING_BY_REFERENCE",
   SET_BOOKING_CODE: "SET_BOOKING_CODE",
   RESET_BOOKING: "RESET_BOOKING",
-
 };
 
 const addBookingTime = (date, seats, time) => ({

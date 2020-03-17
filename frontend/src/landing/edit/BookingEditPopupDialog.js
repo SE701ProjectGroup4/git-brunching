@@ -15,7 +15,6 @@ import css from "./BookingEditPopupCSS";
 import getRestaurantByReference from "./getRestaurantByReference";
 import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
-
 import getUserById from "./getUserById";
 import getRestaurantByID from "./getRestaurantByID";
 
@@ -44,7 +43,6 @@ const BookingEditPopupDialog = (props) => {
   const {
     onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
     date, seats, time, name, notes,
-
   } = props;
   const PopupButton = styled(Button)(css.button);
 
@@ -104,7 +102,6 @@ const BookingEditPopupDialog = (props) => {
     changeMode("EDIT");
     IDSwitchMethod(dummyBooking.name);
     changePath("/booking", history);
-
   };
 
   /**

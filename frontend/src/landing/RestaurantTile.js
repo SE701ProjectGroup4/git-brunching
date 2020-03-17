@@ -16,6 +16,7 @@ import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/r
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
 
+
 /**
  * After the API has been loaded, we check if we have received any data.
  * @param restaurants
@@ -29,7 +30,6 @@ const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
 const RestaurantTile = (props) => {
   const {
     getAll, loading, restaurants, select, changeMode, reset,
-
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
@@ -103,7 +103,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   select: selectRestaurant,
   changeMode: setMode,
   reset: resetBooking,
-
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);

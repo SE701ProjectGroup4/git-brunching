@@ -1,7 +1,6 @@
-import {catchError, filter, mergeMap } from "rxjs/operators";
+import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 import { RESERVATION, USER } from "../../general/config";
-
 
 
 const addReservation = (action$, store) => action$.pipe(
@@ -38,9 +37,9 @@ const addReservation = (action$, store) => action$.pipe(
         date: "2020-03-20",
         time: "14:00:00",
         restaurantID: restaurantData.selected.ID,
-        numberOfGuests: 3,
+        numberOfGuests: bookingData.seats,
         tableID: 300,
-        userID: 300,
+        userID: user.userID,
       }),
     }).then((res) => res.json());
 
@@ -73,6 +72,25 @@ const editReservation = (action$, store) => action$.pipe(
         reservationID: bookingData.bookingCode,
       }),
     });
+
+    const editBooking = await fetch(USER, {
+      method: "PUT",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: bookingData.name,
+        lastName: " ",
+        phone: bookingData.phone,
+        email: bookingData.email,
+        reservationID: bookingData.bookingCode,
+      }),
+    });
+
+    console.log(editBooking)
 
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",
