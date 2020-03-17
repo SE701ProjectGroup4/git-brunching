@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import style from "./BookingPage.module.css";
+import Button from "@material-ui/core/Button";
+import classNames from "classnames";
+import style from "./DetailsContainer.module.css";
+import landingStyle from "../landing/LandingPage.module.css";
+import confirmationStyle from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
@@ -29,68 +32,67 @@ const DetailsContainer = (props) => {
     props.onConfirmClick(name, phone, email, notes);
   };
 
+  const isSubmittable = (name.length > 0 && phone.length > 0 && email.length > 0);
+
   return (
-    <div className={style.contentContainer}>
-      {/* Input fields go here */}
-      <div className={style.inputContainer}>
-        <Card className={style.detailsCard}>
-          <h1>Enter Your Details</h1>
-          <form>
-            <div className="form-group">
-              <label className={style.formlabel}>Name</label>
-              <TextField
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => changeName(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Phone Number</label>
-              <TextField
-                type="text"
-                name="phonenumber"
-                value={phone}
-                onChange={(e) => changePhone(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Email</label>
-              <TextField
-                type="text"
-                name="email"
-                value={email}
-                onChange={(e) => changeEmail(e.target.value)}
-                className="form-value"
-              />
-            </div>
-            <div className="form-group">
-              <label className={style.formlabel}>Notes</label>
-              <TextField value={notes} onChange={(e) => changeNotes(e.target.value)} />
-            </div>
-            <div className={style.buttonContainer}>
-              <button
-                className={style.changePageButton}
-                variant="contained"
-                onClick={() => changePath("/", history)}
-              >
-                {detailMessages.buttonBackText}
-              </button>
-              <button
-                className={style.changePageButton}
-                type="submit"
-                variant="contained"
-                onClick={handleDetailsConfirmation}
-              >
-                {detailMessages.buttonNextText}
-              </button>
-            </div>
-          </form>
-        </Card>
+    <div className={style.detailsContentContainer}>
+      <div className={style.detailContainer}>
+        <p className={style.info}>{detailMessages.infoMessage}</p>
+        <TextField
+          type="text"
+          name="name"
+          label="Name*"
+          inputProps={{ maxLength: 40 }}
+          value={name}
+          onChange={(e) => changeName(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          type="text"
+          inputProps={{ maxLength: 40 }}
+          label="Phone Number*"
+          name="phonenumber"
+          value={phone}
+          onChange={(e) => changePhone(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          type="text"
+          label="Email*"
+          inputProps={{ maxLength: 40 }}
+          name="email"
+          value={email}
+          onChange={(e) => changeEmail(e.target.value)}
+          className="form-value"
+        />
+        <TextField
+          value={notes}
+          multiline
+          rowsMax={5}
+          rows={5}
+          label="Notes"
+          onChange={(e) => changeNotes(e.target.value)}
+        />
+        <p className={style.footerText}>{detailMessages.footerText}</p>
+        <div className={classNames(style.buttonContainer, confirmationStyle.buttonHolder)}>
+          <Button
+            className={classNames(landingStyle.primaryButton, confirmationStyle.edit)}
+            variant="contained"
+            onClick={() => changePath("/", history)}
+          >
+            {detailMessages.buttonBackText}
+          </Button>
+          <Button
+            disabled={!isSubmittable}
+            className={classNames(landingStyle.secondaryButton, confirmationStyle.confirm)}
+            type="submit"
+            variant="contained"
+            onClick={handleDetailsConfirmation}
+          >
+            {detailMessages.buttonNextText}
+          </Button>
+        </div>
       </div>
-      <div className={style.timeContainer} />
     </div>
   );
 };

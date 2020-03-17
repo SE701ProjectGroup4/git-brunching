@@ -1,9 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
-import style from "./BookingPage.module.css";
+import classNames from "classnames";
+import Button from "@material-ui/core/Button";
+import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
+import landingStyle from "../landing/LandingPage.module.css";
 
 const confirmationMessages = messages.confirmation;
 
@@ -11,7 +14,6 @@ const ConfirmationContainer = (props) => {
   const history = useHistory();
 
   const {
-    browserHistory,
     name,
     phone,
     email,
@@ -21,27 +23,56 @@ const ConfirmationContainer = (props) => {
     time,
   } = props;
 
+
   const completeBooking = () => {
-    // TODO: persist the booking and open a modal giving the user the bookingID
-    // This confirms or rejects the booking (if another booking was made
-    // with same time very recently)
-    changePath("/", browserHistory);
+    changePath("/complete", history);
   };
 
   return (
     <div className={style.bookingDetailsContainer}>
-      {/* TODO: Just a placeholder, edit later */}
-      <div>
-        <p>{`Name: ${name}`}</p>
-        <p>{`Phone: ${phone}`}</p>
-        <p>{`Email: ${email}`}</p>
-        <p>{`Notes: ${notes}`}</p>
-        <p>{`Number of seats: ${seats}`}</p>
-        <p>{`Date: ${date}`}</p>
-        <p>{`Time: ${time}`}</p>
+      <div className={style.contentContainer}>
+        {/* TODO: Put hard coded text into textHolder */}
+        <div className={style.twoContent}>
+          <p className={classNames(style.title, style.title1)}>{confirmationMessages.name}</p>
+          <p className={classNames(style.value, style.value1)}>{name}</p>
+          <p className={classNames(style.title, style.title2)}>{confirmationMessages.email}</p>
+          <p className={classNames(style.value, style.value2)}>{email}</p>
+        </div>
+        <div className={style.twoContent}>
+          <p className={classNames(style.title, style.title1)}>{confirmationMessages.phone}</p>
+          <p className={classNames(style.value, style.value1)}>{phone}</p>
+          <p className={classNames(style.title, style.title2)}>{confirmationMessages.seats}</p>
+          <p className={classNames(style.value, style.value2)}>{seats}</p>
+        </div>
+        <div className={style.twoContent}>
+          <p className={classNames(style.title, style.title1)}>{confirmationMessages.date}</p>
+          <p className={classNames(style.value, style.value1)}>{`${date}`}</p>
+          <p className={classNames(style.title, style.title2)}>{confirmationMessages.time}</p>
+          <p className={classNames(style.value, style.value2)}>{`${time}`}</p>
+        </div>
+        <div className={classNames(style.content, style.notes)}>
+          <p className={classNames(style.title, style.title1)}>{confirmationMessages.notes}</p>
+          <div className={style.notesContainer}>
+            <p className={classNames(style.value, style.value1)}>{notes}</p>
+          </div>
+        </div>
+        <div className={style.buttonHolder}>
+          <Button
+            variant="outlined"
+            className={classNames(landingStyle.primaryButton, style.edit)}
+            onClick={() => changePath("/details", history)}
+          >
+            {confirmationMessages.buttonBackText}
+          </Button>
+          <Button
+            variant="outlined"
+            className={classNames(landingStyle.secondaryButton, style.confirm)}
+            onClick={completeBooking}
+          >
+            {confirmationMessages.buttonNextText}
+          </Button>
+        </div>
       </div>
-      <button onClick={() => changePath("/details", history)}>{confirmationMessages.buttonBackText}</button>
-      <button onClick={completeBooking}>{confirmationMessages.buttonNextText}</button>
     </div>
   );
 };

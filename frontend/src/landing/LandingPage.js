@@ -32,7 +32,7 @@ const LandingPage = (props) => {
             <div>
               <Button
                 variant="outlined"
-                className={style.restaurantButton}
+                className={style.secondaryButton}
                 onClick={() => changePath("/restaurant", history)}
               >
                 {/* Todo replace with something else */}

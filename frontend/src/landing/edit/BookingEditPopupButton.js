@@ -29,7 +29,7 @@ const BookingEditPopupButton = (props) => {
     <div>
       <Button
         variant="outlined"
-        className={style.editButton}
+        className={style.primaryButton}
         onClick={handleClickOpen}
       >
         {textHolder.bookingsPopup.buttonText}

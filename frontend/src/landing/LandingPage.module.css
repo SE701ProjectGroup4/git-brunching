@@ -118,24 +118,25 @@
     background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%) !important;
 }
 
-.editButton {
-    color: #61c766;
-    border: 1px solid #61c766;
-}
-
-.editButton:hover {
-    background-color: #61c766;
-    color: white;
-}
-
-
-.restaurantButton {
-    background-color: #61c766;
-    color: white;
-}
-
-.restaurantButton:hover {
-    color: #61c766;
-    border: 1px solid #61c766;
+.primaryButton {
     background-color: white;
+    color: #61c766;
+    border: 1px solid #61c766;
+}
+
+.primaryButton:hover {
+    background-color: #61c766;
+    color: white;
+}
+
+
+.secondaryButton {
+    background-color: #61c766;
+    color: white;
+}
+
+.secondaryButton:hover {
+    color: #f2fff0;
+    border: 1px solid #61c766;
+    background-color: #459651;
 }

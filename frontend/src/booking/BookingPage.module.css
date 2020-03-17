@@ -1,6 +1,40 @@
 .container {
   height: 100%;
   width: 100%;
+  display: grid;
+  grid-template-areas: ". content .";
+  grid-template-columns: 1fr minmax(600px, 1000px) 1fr;
+
+}
+
+.contentContainer {
+  height: 100%;
+  width: 100%;
+  grid-area: content;
+}
+
+.logo {
+  width: 150px;
+  cursor: pointer;
+}
+
+.headerContainer {
+  width: 100%;
+}
+
+.header {
+  display: grid;
+  padding-top: 20px;
+  border-bottom: solid 1px rgba(200,200,200,0.5);
+  grid-template-rows: 50px auto;
+  justify-items: center;
+}
+
+.restaurantName {
+  font-weight: bold;
+  margin: 0;
+  font-size: 65px;
+  text-align: center;
 }
 
 .submitbutton {
@@ -52,9 +86,6 @@
 .changePageButton:hover {
   background-color: gray;
   color: white;
-}
-.bookingDetailsContainer {
-  text-align: center;
 }
 
 .detailsCard {

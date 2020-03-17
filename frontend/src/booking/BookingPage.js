@@ -6,10 +6,10 @@ import {
 } from "react-router";
 import style from "./BookingPage.module.css";
 import NotFound from "../general/NotFound";
-import TimeContainer from "./TimeContainer";
-import DetailsContainer from "./DetailsContainer";
-import ConfirmationContainer from "./ConfirmationContainer";
-
+import ContentContainer from "./ContentContainer";
+import { ReactComponent as Logo } from "../general/Logo2.svg";
+import changePath from "../general/helperFunctions";
+import ConfirmedBooking from "./ConfirmedBooking";
 
 const BookingPage = (props) => {
   const memoryHistory = createMemoryHistory();
@@ -20,20 +20,29 @@ const BookingPage = (props) => {
     <div className={style.container}>
       { currentRestaurant == null ? <NotFound />
         : (
-          <>
-            <div className={style.header}>
-              <h1>{currentRestaurant}</h1>
+          <div className={style.contentContainer}>
+            {/* A surrounding div for styling purposes */}
+            <div className={style.headerContainer}>
+              <div className={style.header}>
+                <div
+                  className={style.logo}
+                  onClick={() => changePath("/", history)}
+                >
+                  <Logo />
+                </div>
+                <h1 className={style.restaurantName}>{currentRestaurant}</h1>
+              </div>
             </div>
-            <div className={style.progressBar} />
             {/* Memory is used to navigate as we don't want to change URL each time */}
             <Router history={memoryHistory}>
               <Switch>
-                <Route path="/details" component={() => <DetailsContainer />} />
-                <Route path="/confirmation" component={() => <ConfirmationContainer browserHistory={history} />} />
-                <Route path="/" component={() => <TimeContainer />} />
+                <Route path="/details" component={() => <ContentContainer type="detail" />} />
+                <Route path="/confirmation" component={() => <ContentContainer type="confirmation" />} />
+                <Route path="/complete" component={() => <ConfirmedBooking history={history} />} />
+                <Route path="/" component={() => <ContentContainer type="time" />} />
               </Switch>
             </Router>
-          </>
+          </div>
         )}
 
     </div>
