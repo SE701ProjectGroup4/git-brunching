@@ -53,7 +53,7 @@ const validateTime = (databaseRow, databaseError, action) => {
  *         name: reservationId
  *         description: Primary Key of reservation database table
  *         required: true
- *         type: integer
+ *         type: string
  *     responses:
  *       200:
  *         description: Returns reservation object
@@ -323,7 +323,7 @@ router.post('/', async (req, res) => {
  *         description: Primary Key of reservation database table
  *         in: path
  *         required: true
- *         type: integer
+ *         type: string
  *     responses:
  *       200:
  *         description: Returns success message for deleting reservation on the database
@@ -370,7 +370,7 @@ router.delete('/:reservationID', async (req, res) => {
  *         description: Primary Key of Restaurant database table
  *         in: query
  *         required: true
- *         type: integer
+ *         type: string
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
  *         in: query
