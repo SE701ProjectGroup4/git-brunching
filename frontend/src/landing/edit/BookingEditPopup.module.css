@@ -33,3 +33,10 @@
 .dialogTitle {
     border-bottom: 1px solid #61c766;
 }
+
+.loader {
+    width: 400px;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
-import { styled } from "@material-ui/core";
+import { CircularProgress, styled } from "@material-ui/core";
 import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
@@ -32,6 +32,7 @@ const BookingEditPopupDialog = (props) => {
 
 
   const history = useHistory();
+  const [isLoading, setLoading] = useState(false);
   const [isInput, changeInput] = useState(true);
   const [isError, changeError] = useState(false);
   const [bookingID, changeBookingID] = useState("");
@@ -67,7 +68,7 @@ const BookingEditPopupDialog = (props) => {
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
       setReservationCode(bookingID);
-
+      setLoading(true);
       // TODO: move to the store as an epic
       getRestaurantByReference(bookingID).then((r) => {
         const data = r.result[0];
@@ -79,6 +80,7 @@ const BookingEditPopupDialog = (props) => {
             select({ ID: data.userID, Name: restaurantData.Name });
             addTime(data.Date, data.NumberOfGuests, data.Time);
             addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
+            setLoading(false);
           });
         });
       });
@@ -157,35 +159,42 @@ const BookingEditPopupDialog = (props) => {
       )
       : (
         <Dialog onClose={handleClosePopup} aria-labelledby="simple-dialog-title" open={open}>
-          <div className={style.dialogContainer}>
-            <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
-            <div>
-              <p>{`Name: ${name}`}</p>
-            </div>
-            <div>
-              <p>{`Date: ${date}`}</p>
-            </div>
-            <div>
-              <p>{`Number of seats: ${seats}`}</p>
-            </div>
-            <div>
-              <p>{`Time: ${time}`}</p>
-            </div>
-            <div>
-              <p>{`Note: ${notes}`}</p>
-            </div>
-          </div>
-          <div className={style.dialogTripleButtonContainer}>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
-              {textHolder.bookingsPopup.popupDelete}
-            </PopupButton>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
-              {textHolder.bookingsPopup.popupEdit}
-            </PopupButton>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
-              {textHolder.bookingsPopup.popupOK}
-            </PopupButton>
-          </div>
+          { isLoading ? <div className={style.loader}><CircularProgress /></div>
+            : (
+              <>
+                <div className={style.dialogContainer}>
+                  <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
+                  <div>
+                    <p>{`Name: ${name}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Date: ${date}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Number of seats: ${seats}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Time: ${time}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Note: ${notes}`}</p>
+                  </div>
+                </div>
+                <div className={style.dialogTripleButtonContainer}>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupDelete}
+                  </PopupButton>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupEdit}
+                  </PopupButton>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupOK}
+                  </PopupButton>
+                </div>
+
+              </>
+            )}
+
         </Dialog>
       )
   );
