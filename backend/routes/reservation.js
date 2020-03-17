@@ -278,7 +278,7 @@ router.put('/:reservationID', async (req, res) => {
  *         description: ID for the user
  *         in: formData
  *         required: true
- *         type: string  
+ *         type: string
  *     responses:
  *       200:
  *         description: Return success message for adding reservation
