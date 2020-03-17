@@ -40,7 +40,24 @@ const validateTime = (databaseRow, databaseError, action) => {
   return {};
 };
 
-// Retrieve a single reservation for a user to check their reservation.
+/**
+ * @swagger
+ *
+ * /reservation/{reservationId}:
+ *   get:
+ *     description: Fetch a reservation object
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: reservationId
+ *         description: Primary Key of Restaurant database table
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns restaurant object
+ */
 router.get('/:reservationId', async (req, res) => {
   const reservationID = req.params.reservationId;
 
