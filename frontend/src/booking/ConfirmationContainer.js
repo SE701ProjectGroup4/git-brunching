@@ -3,12 +3,12 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
+import { bindActionCreators } from "redux";
 import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
-import {bindActionCreators} from "redux";
-import {createBooking} from "../store/booking/bookingActions";
+import { createBooking } from "../store/booking/bookingActions";
 
 const confirmationMessages = messages.confirmation;
 
@@ -26,11 +26,11 @@ const ConfirmationContainer = (props) => {
     addReservation,
   } = props;
 
-
   const completeBooking = () => {
     addReservation();
     changePath("/complete", history);
   };
+
 
   return (
     <div className={style.bookingDetailsContainer}>

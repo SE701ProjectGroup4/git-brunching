@@ -50,24 +50,20 @@ const bookingReducer = (state, action) => {
         notes: action.notes,
       };
     case actionType.ADD_BOOKING:
-      console.log("GETS CALLED HERE")
       return {
         ...state,
         loading: true,
       };
     case actionType.ADD_BOOKING_SUCCESS:
-      console.log("SUCCCCCCCCCCE")
       return {
         ...state,
-        payload: action.payload,
+        payload: action.statusText,
         loading: false,
       };
     case actionType.ADD_BOOKING_FAIL:
-      console.log("FAAAAAAAAAAAAAAAAAIl")
-
       return {
         ...state,
-        error: action.error,
+        error: action.statusText,
         loading: false,
       };
     default:
