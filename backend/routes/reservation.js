@@ -51,12 +51,12 @@ const validateTime = (databaseRow, databaseError, action) => {
  *     parameters:
  *       - in: path
  *         name: reservationId
- *         description: Primary Key of Restaurant database table
+ *         description: Primary Key of reservation database table
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: Returns restaurant object
+ *         description: Returns reservation object
  */
 router.get('/:reservationId', async (req, res) => {
   const reservationID = req.params.reservationId;
@@ -67,8 +67,8 @@ router.get('/:reservationId', async (req, res) => {
   }
 
   const { error, result } = await connection.asyncQuery(
-    'SELECT ' +
-    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
+    'SELECT * ' +
+    'FROM RESERVATION ' +
     'WHERE ID = ? ',
     [reservationID]
   );
@@ -80,7 +80,24 @@ router.get('/:reservationId', async (req, res) => {
   res.json({ result });
 });
 
-// Retrieve all reservation from a single restaurant. Used by restaurant manager to see all reservations.
+/**
+ * @swagger
+ *
+ * /reservation/{restaurantID}:
+ *   get:
+ *     description: Fetch a all reservation for a restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns a list of reservation for made for the restaurant
+ */
 router.get('/', async (req, res) => {
   const { restaurantID } = req.query;
 
@@ -103,7 +120,62 @@ router.get('/', async (req, res) => {
   res.json({ result });
 });
 
-// Update a reservation when a user needs to change a field.
+/**
+ * @swagger
+ *
+ * /reservation/{reservationID}:
+ *   put:
+ *     summary: Used to update reservation information
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: integer
+ *       - name: numberOfGuests
+ *         description: The number of guests that the table is being booked for
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: The start time of the booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: date
+ *         description: Date for when the booking is made
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: note
+ *         description: Notes reguarding the booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: firstName
+ *         description: First name of the person booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: lastName
+ *         description: Last name of the person booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: phoneNumber
+ *         description: Phone number of the person booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: Email of the person booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ */
 router.put('/:reservationID', async (req, res) => {
   const { date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
   const { reservationID } = req.params;
@@ -168,7 +240,49 @@ router.put('/:reservationID', async (req, res) => {
   res.json({ result: 'Updated reservation', reservationID });
 });
 
-// Add a new reservation when a user wants to book a table.
+/**
+ * @swagger
+ *
+ * /reservation:
+ *   post:
+ *     description: Fetch a all reservation for a restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *       - name: numberOfGuests
+ *         description: The number of guests that the table is being booked for
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: The start time of the booking
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: date
+ *         description: Date for when the booking is made
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: tableID
+ *         description: ID for the table being booked
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: userID
+ *         description: ID for the user
+ *         in: formData
+ *         required: true
+ *         type: string  
+ *     responses:
+ *       200:
+ *         description: Returns a list of reservation for made for the restaurant
+ */
 router.post('/', async (req, res) => {
   // Generate a random, unique id.
   const reservationID = uniqid();
@@ -196,7 +310,24 @@ router.post('/', async (req, res) => {
   res.json({ result: 'Added single reservation', reservationID });
 });
 
-// Delete a reservation when a customer want to cancel a booking.
+/**
+ * @swagger
+ *
+ * /reservation/{reservationID}:
+ *   delete:
+ *     description: Deletes a reservation on the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: reservationID
+ *         description: Primary Key of reservation database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully deleted reservation to database
+ */
 router.delete('/:reservationID', async (req, res) => {
   const { reservationID } = req.params;
 
