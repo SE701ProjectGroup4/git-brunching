@@ -1,0 +1,30 @@
+.confirmContainer {
+    text-align: center;
+}
+
+.loader {
+    margin-top: 100px;
+    text-align: center;
+}
+.title {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.finishButton {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    margin: 15px 32px;
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+.finishButton:hover {
+    background-color: #357937; /* Green */
+}
