@@ -115,64 +115,67 @@ const TimeContainer = (props) => {
    * Upon clicking, we want to update the store with inputted values
    */
   return (
-    <div className={style.bookingDetailsContainer}>
-      <div className={style.bookingDetail}>
-        <TextField
-          type="number"
-          className={style.textField}
-          label="Number of Guests"
-          variant="outlined"
-          value={seats}
-          onChange={(e) => changeSeats(e.target.value)}
-        />
-      </div>
-      <div className={style.bookingDetail}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            style={{ width: "100%" }}
-            inputVariant="outlined"
-            format="dd-MM-yyyy"
-            margin="normal"
-            label="Select a Date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(format(e, "yyyy-MM-dd"))}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
+    <div className={style.stylingParent}>
+      <div className={style.bookingDetailsContainer}>
+        <div className={style.bookingDetail}>
+          <TextField
+            type="number"
+            className={style.textField}
+            label="Number of Guests"
+            variant="outlined"
+            value={seats}
+            onChange={(e) => changeSeats(e.target.value)}
           />
-        </MuiPickersUtilsProvider>
-      </div>
-      {hideTimes ? null
-        : (
-          <div className={style.buttonContainer}>
-            {generateAllTimes(9, 22).map((time) => (
-              <Button
-              // className={style.timeButton}
-                key={`time_button_${time.time}`}
-                variant="contained"
-                disabled={!(availableTimes.find((x) => x.time === time.time))}
-                value={time}
-                color={time.time === selectedTime ? "secondary" : "primary"}
-                onClick={() => handleTime(time.time)}
-              >
-                {time.time}
-              </Button>
-            ))}
-          </div>
-        )}
-      <div className={style.submitButtonContainer}>
-        <Button
-          className={style.submitButton}
-          variant="contained"
-          color="primary"
-          onClick={handleTimeConfirmation}
-          disabled={seats.length === 0 || selectedTime.length === 0}
-        >
-          {timeMessages.buttonNextText}
-        </Button>
+        </div>
+        <div className={style.bookingDetail}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              style={{ width: "100%" }}
+              inputVariant="outlined"
+              format="dd-MM-yyyy"
+              margin="normal"
+              label="Select a Date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(format(e, "yyyy-MM-dd"))}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        {hideTimes ? null
+          : (
+            <div className={style.buttonContainer}>
+              {generateAllTimes(9, 22).map((time) => (
+                <Button
+                  // className={style.timeButton}
+                  key={`time_button_${time.time}`}
+                  variant="contained"
+                  disabled={!(availableTimes.find((x) => x.time === time.time))}
+                  value={time}
+                  color={time.time === selectedTime ? "secondary" : "primary"}
+                  onClick={() => handleTime(time.time)}
+                >
+                  {time.time}
+                </Button>
+              ))}
+            </div>
+          )}
+        <div className={style.submitButtonContainer}>
+          <Button
+            className={style.submitButton}
+            variant="contained"
+            color="primary"
+            onClick={handleTimeConfirmation}
+            disabled={seats.length === 0 || selectedTime.length === 0}
+          >
+            {timeMessages.buttonNextText}
+          </Button>
+        </div>
       </div>
     </div>
+
   );
 };
 
