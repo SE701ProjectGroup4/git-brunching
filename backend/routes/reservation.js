@@ -281,7 +281,7 @@ router.put('/:reservationID', async (req, res) => {
  *         type: string  
  *     responses:
  *       200:
- *         description: Returns a list of reservation for made for the restaurant
+ *         description: Return success message for adding reservation
  */
 router.post('/', async (req, res) => {
   // Generate a random, unique id.
@@ -326,7 +326,7 @@ router.post('/', async (req, res) => {
  *         type: integer
  *     responses:
  *       200:
- *         description: Successfully deleted reservation to database
+ *         description: Returns success message for deleting reservation on the database
  */
 router.delete('/:reservationID', async (req, res) => {
   const { reservationID } = req.params;

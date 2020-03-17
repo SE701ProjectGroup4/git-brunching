@@ -62,7 +62,24 @@ router.get('/:restaurantID/openhours', async (req, res) => {
   );
 });
 
-// Gets all restaurants ID and name from database. Used to get all available restaurants by front end.
+/**
+ * @swagger
+ *
+ * /restaurant:
+ *   get:
+ *     description: Fetch all restaurant objects from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns restaurant object
+ */
 router.get('/', (req, res) => {
   const input = req.query;
 
