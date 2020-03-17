@@ -199,7 +199,7 @@ router.put('/:reservationID', async (req, res) => {
   }
 
   const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
-    'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].userID]
+    'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]
   );
 
   if (userQueryError) {
