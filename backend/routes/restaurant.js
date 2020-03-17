@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   get:
  *     description: Fetch a restaurant object
  *     produces:
