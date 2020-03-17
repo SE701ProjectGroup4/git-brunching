@@ -83,13 +83,13 @@ router.get('/:reservationId', async (req, res) => {
 /**
  * @swagger
  *
- * /reservation/{restaurantID}:
+ * /reservation:
  *   get:
  *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: restaurantID
  *         description: Primary Key of Restaurant database table
  *         required: true
