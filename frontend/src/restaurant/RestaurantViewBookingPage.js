@@ -1,6 +1,6 @@
 import React from "react";
-import style from "./RestaurantViewBookingPage.module.css";
 import Button from "@material-ui/core/Button";
+import style from "./RestaurantViewBookingPage.module.css";
 import { ReactComponent as Logo } from "../general/Logo2.svg";
 
 const mockBookings = [
@@ -14,7 +14,7 @@ const mockBookings = [
     RestaurantID: 300,
     Name: "Bob",
     Phone: "027 1234 567",
-    Email: "bob@gmail.com"
+    Email: "bob@gmail.com",
   },
   {
     ID: "1thes4k7vpjq5s",
@@ -26,7 +26,7 @@ const mockBookings = [
     RestaurantID: 300,
     Name: "Kelly",
     Phone: "027 765 4321",
-    Email: "kelly@gmail.com"
+    Email: "kelly@gmail.com",
   },
   {
     ID: "ppisnotgood123",
@@ -38,8 +38,8 @@ const mockBookings = [
     RestaurantID: 300,
     Name: "John Carpenter",
     Phone: "027 123 1111",
-    Email: "johnny@gmail.com"
-  }
+    Email: "johnny@gmail.com",
+  },
 ];
 
 const RestaurantViewBookingPage = () => {
@@ -52,37 +52,51 @@ const RestaurantViewBookingPage = () => {
     tableID,
     name,
     phone,
-    email
-  ) => {
-    return (
-      <div className={style.bookingContainer}>
-        <div>
-          <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
-        </div>
-        <div>
-          <span className={style.date}>{`${date}`}</span>
-          <span className={style.time}>{time}</span>
-        </div>
-        <div className={style.userDetails}>
-          <p>
-            Name: {name} <br />
-            Phone: {phone} <br />
-            Email: {email} <br />
-            Guests: {numberOfGuests} <br />
-            <span className={style.notes}>{`Notes: ${notes}`}</span>
-          </p>
-        </div>
-        <div className={style.buttonWrapper}>
-          <Button className={style.secondaryButton} variant="contained">
-            Modify
-          </Button>
-          <Button className={style.secondaryButton} variant="contained">
-            Delete
-          </Button>
-        </div>
+    email,
+  ) => (
+    <div className={style.bookingContainer}>
+      <div>
+        <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
       </div>
-    );
-  };
+      <div>
+        <span className={style.date}>{`${date}`}</span>
+        <span className={style.time}>{time}</span>
+      </div>
+      <div className={style.userDetails}>
+        <p>
+          Name:
+          {" "}
+          {name}
+          {" "}
+          <br />
+          Phone:
+          {" "}
+          {phone}
+          {" "}
+          <br />
+          Email:
+          {" "}
+          {email}
+          {" "}
+          <br />
+          Guests:
+          {" "}
+          {numberOfGuests}
+          {" "}
+          <br />
+          <span className={style.notes}>{`Notes: ${notes}`}</span>
+        </p>
+      </div>
+      <div className={style.buttonWrapper}>
+        <Button className={style.secondaryButton} variant="contained">
+          Modify
+        </Button>
+        <Button className={style.secondaryButton} variant="contained">
+          Delete
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <div className={style.container}>
@@ -96,7 +110,7 @@ const RestaurantViewBookingPage = () => {
           </div>
           <div className={style.listWrapper}>
             <ul className={style.bookingList}>
-              {mockBookings.map(booking => (
+              {mockBookings.map((booking) => (
                 <li className={style.booking} key={booking.ID}>
                   {createBookingItem(
                     booking.ID,
@@ -107,7 +121,7 @@ const RestaurantViewBookingPage = () => {
                     booking.TableID,
                     booking.Name,
                     booking.Phone,
-                    booking.Email
+                    booking.Email,
                   )}
                 </li>
               ))}

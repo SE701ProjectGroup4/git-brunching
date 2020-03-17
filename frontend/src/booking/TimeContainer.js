@@ -53,7 +53,7 @@ const timeMessages = messages.time;
 const generateAllTimes = (start, end) => {
   const times = [];
 
-  for (let i = start; i < end; i++) {
+  for (let i = start; i < end; i += 1) {
     times.push({
       time: i > 9 ? `${i}:00:00` : `0${i}:00:00`,
     });
@@ -166,7 +166,7 @@ const TimeContainer = (props) => {
           variant="contained"
           color="primary"
           onClick={handleTimeConfirmation}
-          disabled={seats.length === 0 || selectedTime.length == 0}
+          disabled={seats.length === 0 || selectedTime.length === 0}
         >
           {timeMessages.buttonNextText}
         </Button>

@@ -39,7 +39,7 @@ const BookingEditPopupDialog = (props) => {
   // console.log(data.result);
   const {
     onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
-    date, seats, time, name, phone, email, notes,
+    date, seats, time, name, notes,
   } = props;
   const PopupButton = styled(Button)(css.button);
 

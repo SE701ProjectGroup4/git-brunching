@@ -8,8 +8,7 @@ import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
-import {createBooking, editBooking} from "../store/booking/bookingActions";
-import { editReservation } from "../store/booking/bookingEpic";
+import { createBooking, editBooking } from "../store/booking/bookingActions";
 
 const confirmationMessages = messages.confirmation;
 

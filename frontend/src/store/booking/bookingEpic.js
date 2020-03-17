@@ -1,6 +1,6 @@
 import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
-import { GET_ALL_RESTAURANTS, RESERVATION, USER } from "../../general/config";
+import { RESERVATION, USER } from "../../general/config";
 
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
@@ -55,11 +55,9 @@ const editReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.EDIT_BOOKING),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
-    console.log(bookingData);
     const restaurantData = store.value.restaurantReducer;
-    console.log(restaurantData);
 
-    const editBooking = await fetch(USER, {
+    await fetch(USER, {
       method: "PUT",
       mode: "cors",
       credentials: "same-origin",
@@ -103,6 +101,7 @@ const editReservation = (action$, store) => action$.pipe(
   })),
 );
 
+// todo:
 // const getReservationByID = (action$, store) => action$.pipe(
 //   filter((action) => action.type === actionType.GET_BOOKING_BY_REFERENCE),
 //   mergeMap(async (action) => {
@@ -120,6 +119,3 @@ export default addReservation;
 export {
   editReservation,
 };
-// export {
-//   getReservationByID,
-// }
