@@ -37,16 +37,41 @@
   text-align: center;
 }
 
-.submitbutton {
+.submitButton {
   background-color: #4caf50; /* Green */
   border: none;
-  color: #4caf50;
+  color: white;
   margin: 15px 32px;
   padding: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+.submitButton:hover {
+  background-color: #347736; /* Green */
+
+}
+
+.bookingDetailsContainer {
+  display: grid;
+  grid-template-rows: auto auto 200px auto;
+  grid-row-gap: 20px;
+  margin-top: 30px;
+}
+
+.bookingDetail {
+  width: 100%;
+}
+
+.submitButtonContainer {
+  text-align: center;
+  width: 100%;
+}
+
+.textField {
+  width: 100%;
 }
 
 .form-value {
@@ -96,17 +121,34 @@
 }
 
 .buttonContainer {
+  height: 100%;
+  width: 100%;
   display: grid;
   /* grid-template-columns: 50px 50px 50px 50px; */
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
   padding: 5px;
-  background-color: #4caf50;
-  /* grid-row-gap: 5px; */
-  column-gap: 5px;
+  overflow-y: auto;
 }
 
-.test {
-  /* background-color: #66bb6a; */
-  padding:1px;
+.timeButton {
+   background-color: #66bb6a;
+}
+
+.timeButton:hover {
+  background-color: #39693c;
+}
+
+.timeButton:active {
+  background-color: red;
+}
+
+.timeButton:focus {
+  background-color: red;
+}
+
+.timeButton:target {
+  background-color: red;
 }
