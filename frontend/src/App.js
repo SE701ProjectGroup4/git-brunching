@@ -10,7 +10,6 @@ import NotFound from "./general/NotFound";
 import RestaurantViewBookingPage from "./restaurant/RestaurantViewBookingPage";
 
 const App = () => {
-  const [currentRestaurant, setRestaurant] = useState(null);
   return (
     <div className="App">
       <StylesProvider injectFirst>
@@ -21,7 +20,7 @@ const App = () => {
             <Route
               path="/booking"
               component={() => (
-                <BookingPage currentRestaurant={currentRestaurant} />
+                <BookingPage />
               )}
             />
             <Route
@@ -33,7 +32,7 @@ const App = () => {
             <Route
               exact
               path="/"
-              component={() => <LandingPage setRestaurant={setRestaurant} />}
+              component={() => <LandingPage />}
             />
             <Route component={NotFound} />
           </Switch>

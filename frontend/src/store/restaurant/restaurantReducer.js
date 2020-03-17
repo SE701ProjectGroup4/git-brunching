@@ -4,6 +4,7 @@ const initialState = {
   restaurants: [],
   isLoading: false,
   error: null,
+  selected: null,
 };
 
 /**
@@ -34,6 +35,11 @@ const restaurantReducer = (state, action) => {
         ...state,
         isLoading: false,
         error: action.message,
+      };
+    case actionType.SELECT_RESTAURANTS:
+      return {
+        ...state,
+        selected: action.selected,
       };
     default:
       return { ...state };

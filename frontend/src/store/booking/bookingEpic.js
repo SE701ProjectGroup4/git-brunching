@@ -1,12 +1,10 @@
-import { catchError, filter, mergeMap } from "rxjs/operators";
+import {catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
-import {GET_ALL_RESTAURANTS, POST_RESERVATION} from "../../general/config";
+import { POST_RESERVATION } from "../../general/config";
 
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
   mergeMap(async (action) => {
-    console.log("fuck");
-    console.log(store);
     const booking = await fetch(POST_RESERVATION, {
       method: "POST",
       mode: "cors",
@@ -26,7 +24,6 @@ const addReservation = (action$, store) => action$.pipe(
     }).then((res) => res.json());
 
 
-    console.log("waitingindgindsidnisnf")
     return { ...action, type: actionType.ADD_BOOKING_SUCCESS, booking };
   }),
   catchError((err) => Promise.resolve({

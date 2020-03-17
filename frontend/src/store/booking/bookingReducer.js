@@ -10,7 +10,7 @@ const initialState = {
   email: null,
   notes: null,
 
-  payload: null,
+  booking: null,
   error: null,
   loading: false,
 };
@@ -26,8 +26,6 @@ const bookingReducer = (state, action) => {
     return initialState;
   }
 
-  console.log(state);
-  console.log(action);
   switch (action.type) {
     case actionType.SEAT_BOOKING:
       return {
@@ -57,7 +55,7 @@ const bookingReducer = (state, action) => {
     case actionType.ADD_BOOKING_SUCCESS:
       return {
         ...state,
-        payload: action.statusText,
+        booking: action.booking,
         loading: false,
       };
     case actionType.ADD_BOOKING_FAIL:
