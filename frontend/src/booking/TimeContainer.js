@@ -5,6 +5,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
@@ -42,34 +43,45 @@ const TimeContainer = (props) => {
     {
       time: "9-10am",
       color: selectedTime === "9-10am" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-18"),
     },
     {
       time: "10-11am",
       color: selectedTime === "10-11am" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
     },
     {
       time: "11am-12pm",
       color: selectedTime === "11am-12pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
     },
     {
       time: "12-1pm",
       color: selectedTime === "12-1pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
     },
     {
       time: "1-2pm",
       color: selectedTime === "1-2pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
     },
     {
       time: "2-3pm",
       color: selectedTime === "2-3pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-21"),
     },
-    { time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary" },
+    {
+      time: "3-4pm",
+      color: selectedTime === "3-4pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-22"),
+    },
+    {
+      time: "4-5pm",
+      color: selectedTime === "4-5pm" ? "secondary" : "primary",
+      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-23"),
+    },
   ];
 
-  // const handleColor = value => {
-  //   const colorClass = selectedTime === value ? "secondary" : "primary";
-  //   return colorClass;
-  // };
   /**
    * Upon clicking, we want to update the store with inputted values
    */
@@ -104,86 +116,33 @@ const TimeContainer = (props) => {
         </div>
         <div className={style.contentContainer}>
           {/* Time fields go here */}
-          {times.map((time) => (
-            <Button
-              // className={style.test}
-              key={`time_button_${time.time}`}
-              variant="contained"
-              value={time.time}
-              color={time.color}
-              onClick={(e) => handleTime(e.currentTarget.value)}
-            >
-              {time.time}
-            </Button>
-          ))}
-          {/* <Button
-            className={style.test}
-            variant="contained"
-            value="9-10am"
-            color={handleColor(value)}
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            9-10 am
-          </Button> */}
-          {/* <Button
-            variant="contained"
-            value="10-11am"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            10-11 am
-          </Button>
-          <Button
-            variant="contained"
-            value="11am-12pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            11am-12pm
-          </Button>
-          <Button
-            variant="contained"
-            value="12-1pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            12-1 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="1-2pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            1-2 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="2-3pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            2-3 pm
-          </Button>
-          <Button
-            variant="contained"
-            value="3-4pm"
-            color="primary"
-            onClick={e => handleTime(e.currentTarget.value)}
-          >
-            3-4 pm
-          </Button> */}
+          <div className={style.buttonContainer}>
+            {times.map((time) => (
+              <Button
+                className={style.test}
+                key={`time_button_${time.time}`}
+                variant="contained"
+                disabled={time.disable}
+                value={time.time}
+                color={time.color}
+                onClick={(e) => handleTime(e.currentTarget.value)}
 
-          <div className={style.inputContainer}>
+              >
+                {time.time}
+              </Button>
+            ))}
+          </div>
+
+          {/* <div className={style.inputContainer}>
             <p>Current Selected Time</p>
             {/* <TextField type="string" value={selectedTime} /> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
-      <div className={style.buttonContainer}>
-        <button onClick={handleTimeConfirmation}>
+      <div className={style.submitbutton}>
+        <Button variant="contained" color="primary" onClick={handleTimeConfirmation}>
           {timeMessages.buttonNextText}
-        </button>
+        </Button>
       </div>
     </div>
   );

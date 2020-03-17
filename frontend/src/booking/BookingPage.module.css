@@ -40,8 +40,9 @@
 .submitbutton {
   background-color: #4caf50; /* Green */
   border: none;
-  color: white;
+  color: #4caf50;
   margin: 15px 32px;
+  padding: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -92,4 +93,20 @@
   text-align: center;
   position: absolute;
   left: 25%;
+}
+
+.buttonContainer {
+  display: grid;
+  /* grid-template-columns: 50px 50px 50px 50px; */
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  padding: 5px;
+  background-color: #4caf50;
+  /* grid-row-gap: 5px; */
+  column-gap: 5px;
+}
+
+.test {
+  /* background-color: #66bb6a; */
+  padding:1px;
 }
