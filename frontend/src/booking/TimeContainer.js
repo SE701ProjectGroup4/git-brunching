@@ -108,6 +108,7 @@ const TimeContainer = (props) => {
           <div className={style.buttonContainer}>
             {times.map((time) => (
               <Button
+                className={style.test}
                 key={`time_button_${time.time}`}
                 variant="contained"
                 value={time.time}
@@ -125,10 +126,10 @@ const TimeContainer = (props) => {
           {/* </div> */}
         </div>
       </div>
-      <div className={style.buttonContainer}>
-        <button onClick={handleTimeConfirmation}>
+      <div className={style.submitbutton}>
+        <Button variant="contained" color="#4caf50" onClick={handleTimeConfirmation}>
           {timeMessages.buttonNextText}
-        </button>
+        </Button>
       </div>
     </div>
   );
