@@ -13,6 +13,7 @@ import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import {getRestaurants, selectRestaurant, setMode} from "../store/restaurant/restaurantAction";
 import NoRestaurants from "./NoRestaurants";
+import {resetBooking} from "../store/booking/bookingActions";
 
 /**
  * After the API has been loaded, we check if we have received any data.
@@ -26,11 +27,12 @@ const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
 
 const RestaurantTile = (props) => {
   const {
-    getAll, loading, restaurants, select, changeMode,
+    getAll, loading, restaurants, select, changeMode, reset,
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
     changePath("/booking", history);
+    reset();
     select(restaurant);
     changeMode("CREATE");
   };
@@ -98,6 +100,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
   select: selectRestaurant,
   changeMode: setMode,
+  reset: resetBooking,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);

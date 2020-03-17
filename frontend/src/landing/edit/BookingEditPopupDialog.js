@@ -13,8 +13,8 @@ import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import css from "./BookingEditPopupCSS";
 import getRestaurantByReference from "./getRestaurantByReference";
-import {addBookingDetails, addBookingTime, getBookingCode, setBookingCode} from "../../store/booking/bookingActions";
-import {selectRestaurant, setMode} from "../../store/restaurant/restaurantAction";
+import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
+import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
 import getUserById from "./getUserById";
 import getRestaurantByID from "./getRestaurantByID";
 
@@ -39,6 +39,7 @@ const BookingEditPopupDialog = (props) => {
   // console.log(data.result);
   const {
     onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
+    date, seats, time, name, phone, email, notes,
   } = props;
   const PopupButton = styled(Button)(css.button);
 
@@ -89,11 +90,9 @@ const BookingEditPopupDialog = (props) => {
      * Switches page to the specified restaurant booking page
      */
   const handleEditBooking = () => {
-    console.log("goes here");
     changeMode("EDIT");
     IDSwitchMethod(dummyBooking.name);
     changePath("/booking", history);
-
   };
 
   /**
@@ -158,23 +157,21 @@ const BookingEditPopupDialog = (props) => {
         <Dialog onClose={handleClosePopup} aria-labelledby="simple-dialog-title" open={open}>
           <div className={style.dialogContainer}>
             <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
-            <p>
-              You have booked&nbsp;
-              {" "}
-              <b>{dummyBooking.tables}</b>
-              {" "}
-              table(s) for&nbsp;
-              <b>{dummyBooking.people}</b>
-              {" "}
-              people at&nbsp;
-              &quot;
-              <b>{dummyBooking.name}</b>
-              &quot;!!
-              <br />
-              You have given the extra notes:
-              <br />
-              <b>{dummyBooking.notes}</b>
-            </p>
+            <div>
+              <p>{`Name: ${name}`}</p>
+            </div>
+            <div>
+              <p>{`Date: ${date}`}</p>
+            </div>
+            <div>
+              <p>{`Number of seats: ${seats}`}</p>
+            </div>
+            <div>
+              <p>{`Time: ${time}`}</p>
+            </div>
+            <div>
+              <p>{`Note: ${notes}`}</p>
+            </div>
           </div>
           <div className={style.dialogButtonContainer}>
             <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>

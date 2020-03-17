@@ -1,12 +1,28 @@
-import {catchError, filter, mergeMap } from "rxjs/operators";
+import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
-import {GET_ALL_RESTAURANTS, RESERVATION} from "../../general/config";
+import { GET_ALL_RESTAURANTS, RESERVATION, USER } from "../../general/config";
 
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
+
+    const user = await fetch(USER, {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: bookingData.name,
+        lastName: " ",
+        phone: bookingData.phone,
+        email: bookingData.email,
+      }),
+    }).then((res) => res.json());
 
     const booking = await fetch(RESERVATION, {
       method: "POST",
@@ -20,9 +36,9 @@ const addReservation = (action$, store) => action$.pipe(
         date: "2020-03-20",
         time: "14:00:00",
         restaurantID: restaurantData.selected.ID,
-        numberOfGuests: 3,
+        numberOfGuests: bookingData.seats,
         tableID: 300,
-        userID: 300,
+        userID: user.userID,
       }),
     }).then((res) => res.json());
 
@@ -43,6 +59,25 @@ const editReservation = (action$, store) => action$.pipe(
     const restaurantData = store.value.restaurantReducer;
     console.log(restaurantData);
 
+    const editBooking = await fetch(USER, {
+      method: "PUT",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: bookingData.name,
+        lastName: " ",
+        phone: bookingData.phone,
+        email: bookingData.email,
+        reservationID: bookingData.bookingCode,
+      }),
+    });
+
+    console.log(editBooking)
+
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
@@ -57,10 +92,6 @@ const editReservation = (action$, store) => action$.pipe(
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         note: bookingData.notes,
-        firstName: bookingData.name,
-        lastName: "", // We'll just ignore this for now
-        phoneNumber: bookingData.phone,
-        email: bookingData.email,
       }),
     }).then((res) => res.json());
 

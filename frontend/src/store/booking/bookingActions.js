@@ -9,6 +9,7 @@ export const actionType = {
   EDIT_BOOKING_FAIL: "EDIT_BOOKING_FAIL",
   GET_BOOKING_BY_REFERENCE: "GET_BOOKING_BY_REFERENCE",
   SET_BOOKING_CODE: "SET_BOOKING_CODE",
+  RESET_BOOKING: "RESET_BOOKING",
 };
 
 const addBookingTime = (date, seats, time) => ({
@@ -39,6 +40,10 @@ const setBookingCode = (bookingCode) => ({
   bookingCode,
 });
 
+const resetBooking = () => ({
+  type: actionType.RESET_BOOKING,
+});
+
 const getBookingByReference = (booking) => ({
   type: actionType.GET_BOOKING_BY_REFERENCE,
   booking,
@@ -51,4 +56,5 @@ export {
   getBookingByReference,
   editBooking,
   setBookingCode,
+  resetBooking,
 };
