@@ -64,6 +64,45 @@ router.post('/', async (req, res) => {
 /**
  * @swagger
  *
+ * /user/{userID}:
+ *   get:
+ *     description: Get a list of tables that are free for booking
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: userID
+ *         description: Primary Key of User database table
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *        200:
+ *         description: Returns the user that is associated with that ID 
+ */
+router.get('/:userID', async (req, res) => {
+  const { userID } = req.params;
+
+  if (!userID) {
+    res.status(400).json({ error: '/user GET endpoint needs userID in path params' });
+    return;
+  }
+
+  const { error, result } = await connection.asyncQuery(
+    'SELECT * FROM restaurant_db.USER WHERE ID = ? ',
+    [userID]
+  );
+
+  if (error) {
+    res.status(400).json({ error });
+    return;
+  }
+
+  res.json({ result });
+});
+
+/**
+ * @swagger
+ *
  * /user:
  *   put:
  *     description: |
