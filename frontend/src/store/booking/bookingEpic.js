@@ -34,7 +34,7 @@ const addReservation = (action$, store) => action$.pipe(
       },
       body: JSON.stringify({
         date: bookingData.date,
-        time: "14:00:00",
+        time: "12:00:00",
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         tableID: 300,
@@ -74,7 +74,6 @@ const editReservation = (action$, store) => action$.pipe(
       }),
     });
 
-
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
@@ -85,7 +84,7 @@ const editReservation = (action$, store) => action$.pipe(
       },
       body: JSON.stringify({
         date: bookingData.date,
-        time: "14:00:00",
+        time: "13:00:00",
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         note: bookingData.notes,
