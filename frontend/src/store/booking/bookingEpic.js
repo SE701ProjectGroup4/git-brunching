@@ -34,7 +34,7 @@ const addReservation = (action$, store) => action$.pipe(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        date: "2020-03-20",
+        date: bookingData.date,
         time: "14:00:00",
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
@@ -90,7 +90,6 @@ const editReservation = (action$, store) => action$.pipe(
       }),
     });
 
-    console.log(editBooking)
 
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",

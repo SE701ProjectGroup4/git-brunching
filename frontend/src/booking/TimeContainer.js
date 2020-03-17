@@ -103,6 +103,7 @@ const TimeContainer = (props) => {
   // const showTimes = seats.length > 0 && selectedDate != null;
   const hideTimes = seats.length === 0 || selectedDate == null;
 
+
   const handleTimeConfirmation = () => {
     changePath("/details", history);
     onConfirmClick(selectedDate, seats, selectedTime, null);
