@@ -45,7 +45,7 @@ router.get('/:restaurantID', async (req, res) => {
 /**
  * @swagger
  *
- * /restaurant/{id}/openhours:
+ * /restaurant/{restaurantID}/openhours:
  *   get:
  *     description: Fetch a restaurant's open hours
  *     produces:
@@ -63,7 +63,7 @@ router.get('/:restaurantID', async (req, res) => {
 router.get('/:restaurantID/openhours', async (req, res) => {
   const { restaurantID } = req.params;
   if (!restaurantID) {
-    res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
+    res.status(400).json({ error: 'GET /restaurant/{restaurantID}/openhours invocation error: {restaurantID} must be an int' });
     return;
   }
 
@@ -150,7 +150,7 @@ router.post('/', (req, res) => {
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   delete:
  *     description: Deletes a restaurant object to the database
  *     produces:
