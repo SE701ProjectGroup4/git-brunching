@@ -78,6 +78,7 @@ const BookingEditPopupDialog = (props) => {
           const userData = res.result[0];
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
             const restaurantData = restaurant[0];
+
             // select({ID: data.userID, Name: "KCF"})
             select({ ID: data.userID, Name: restaurantData.Name });
             addTime(data.Date, data.NumberOfGuests, data.Time);
