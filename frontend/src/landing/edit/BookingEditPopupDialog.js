@@ -200,7 +200,6 @@ const BookingEditPopupDialog = (props) => {
 
               </>
             )}
-
         </Dialog>
       )
   );
