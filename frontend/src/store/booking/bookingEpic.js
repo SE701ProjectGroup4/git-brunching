@@ -1,4 +1,4 @@
-import { catchError, filter, mergeMap } from "rxjs/operators";
+import {catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 import { RESERVATION, USER } from "../../general/config";
 
@@ -44,7 +44,6 @@ const addReservation = (action$, store) => action$.pipe(
     }).then((res) => res.json());
 
 
-    console.log("waitingindgindsidnisnf")
     return { ...action, type: actionType.ADD_BOOKING_SUCCESS, booking };
   }),
   catchError((err) => Promise.resolve({

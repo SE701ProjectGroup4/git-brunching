@@ -9,6 +9,7 @@ import BookingPage from "./booking/BookingPage";
 import NotFound from "./general/NotFound";
 import RestaurantViewBookingPage from "./restaurant/RestaurantViewBookingPage";
 
+<<<<<<< HEAD
 const App = () => (
   <div className="App">
     <StylesProvider injectFirst>
@@ -39,5 +40,39 @@ const App = () => (
     </StylesProvider>
   </div>
 );
+=======
+const App = () => {
+  return (
+    <div className="App">
+      <StylesProvider injectFirst>
+        <Router>
+          <Switch>
+            {/* state is stored instead of creating a different route for each booking page because
+          it was easier to implement */}
+            <Route
+              path="/booking"
+              component={() => (
+                <BookingPage />
+              )}
+            />
+            <Route
+              path="/restaurant"
+              component={() => (
+                <RestaurantViewBookingPage />
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              component={() => <LandingPage />}
+            />
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
+      </StylesProvider>
+    </div>
+  );
+};
+>>>>>>> Put restaurant in the store
 
 export default App;

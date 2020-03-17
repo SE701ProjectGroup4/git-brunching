@@ -12,6 +12,7 @@ import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
 
@@ -28,6 +29,7 @@ const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
 const RestaurantTile = (props) => {
   const {
     getAll, loading, restaurants, select, changeMode, reset,
+
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
@@ -35,6 +37,7 @@ const RestaurantTile = (props) => {
     reset();
     select(restaurant);
     changeMode("CREATE");
+
   };
 
   useEffect(getAll, []);

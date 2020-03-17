@@ -4,6 +4,7 @@ export const actionType = {
   ADD_RESTAURANTS_FAIL: "ADD_RESTAURANTS_FAIL",
   SELECT_RESTAURANTS: "SELECT_RESTAURANTS",
   SET_MODE: "SET_MODE",
+
 };
 
 const getRestaurants = () => ({
