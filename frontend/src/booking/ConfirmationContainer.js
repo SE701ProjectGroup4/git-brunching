@@ -7,6 +7,8 @@ import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
+import {bindActionCreators} from "redux";
+import {createBooking} from "../store/booking/bookingActions";
 
 const confirmationMessages = messages.confirmation;
 
@@ -21,10 +23,12 @@ const ConfirmationContainer = (props) => {
     seats,
     date,
     time,
+    addReservation,
   } = props;
 
 
   const completeBooking = () => {
+    addReservation();
     changePath("/complete", history);
   };
 
@@ -85,6 +89,13 @@ const mapStateToProps = (state) => ({
   seats: state.bookingReducer.seats,
   date: state.bookingReducer.date,
   time: state.bookingReducer.time,
+  loading: state.bookingReducer.loading,
+  payload: state.bookingReducer.payload,
+  error: state.bookingReducer.error,
 });
 
-export default connect(mapStateToProps, null)(ConfirmationContainer);
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  addReservation: createBooking,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationContainer);

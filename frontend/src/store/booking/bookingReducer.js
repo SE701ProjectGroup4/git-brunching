@@ -9,6 +9,10 @@ const initialState = {
   phone: null,
   email: null,
   notes: null,
+
+  payload: null,
+  error: null,
+  loading: false,
 };
 
 /**
@@ -16,12 +20,14 @@ const initialState = {
  * The bookingReducer will apply the new state to whatever is in the bookings section
  * @param state
  * @param action
- * @returns {{numberOfSeats: null}}
  */
 const bookingReducer = (state, action) => {
   if (state == null) {
     return initialState;
   }
+
+  console.log(state);
+  console.log(action);
   switch (action.type) {
     case actionType.SEAT_BOOKING:
       return {
@@ -42,6 +48,27 @@ const bookingReducer = (state, action) => {
         phone: action.phone,
         email: action.email,
         notes: action.notes,
+      };
+    case actionType.ADD_BOOKING:
+      console.log("GETS CALLED HERE")
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.ADD_BOOKING_SUCCESS:
+      console.log("SUCCCCCCCCCCE")
+      return {
+        ...state,
+        payload: action.payload,
+        loading: false,
+      };
+    case actionType.ADD_BOOKING_FAIL:
+      console.log("FAAAAAAAAAAAAAAAAAIl")
+
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
       };
     default:
       return {

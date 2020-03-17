@@ -23,7 +23,6 @@ const fetchRestaurants = (action$) => action$.pipe(
   })),
 );
 
-
 // A PLACEHOLDER
 export const pingEpic = (action$) => action$.pipe(
   filter((action) => action.type === actionType.ADD_RESTAURANTS),
