@@ -5,6 +5,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
@@ -36,38 +37,57 @@ const TimeContainer = (props) => {
 
   const handleTime = (value) => {
     setSelectedTime(value);
+    console.log(selectedDate);
+    console.log(format(selectedDate, "yyyy-MM-dd"));
+    console.log(typeof (format(selectedDate, "yyyy-MM-dd")));
+    console.log(typeof (selectedDate));
+    console.log(((format(selectedDate, "yyyy-MM-dd")) === "2020-03-18"));
   };
+
+  // const disabled = true;
+  // const able = false;
+  let formattedDate = ((format(selectedDate, "yyyy-MM-dd")));
 
   const times = [
     {
       time: "9-10am",
       color: selectedTime === "9-10am" ? "secondary" : "primary",
+      disabled: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-18"),
     },
     {
       time: "10-11am",
       color: selectedTime === "10-11am" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-18"),
     },
     {
       time: "11am-12pm",
       color: selectedTime === "11am-12pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-19"),
     },
     {
       time: "12-1pm",
       color: selectedTime === "12-1pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-20"),
     },
     {
       time: "1-2pm",
       color: selectedTime === "1-2pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-20"),
     },
     {
       time: "2-3pm",
       color: selectedTime === "2-3pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-21"),
     },
     {
-      time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary",
+      time: "3-4pm",
+      color: selectedTime === "3-4pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-22"),
     },
     {
-      time: "4-5pm", color: selectedTime === "4-5pm" ? "secondary" : "primary",
+      time: "4-5pm",
+      color: selectedTime === "4-5pm" ? "secondary" : "primary",
+      disablity: !!(format(selectedDate, "yyyy-MM-dd")).includes("2020-03-23"),
     },
   ];
 
@@ -111,9 +131,13 @@ const TimeContainer = (props) => {
                 className={style.test}
                 key={`time_button_${time.time}`}
                 variant="contained"
+                disabled={time.disabled}
                 value={time.time}
                 color={time.color}
+                // disabled
                 onClick={(e) => handleTime(e.currentTarget.value)}
+              // onClick={console.log(time.disability)}
+
               >
                 {time.time}
               </Button>
@@ -127,7 +151,7 @@ const TimeContainer = (props) => {
         </div>
       </div>
       <div className={style.submitbutton}>
-        <Button variant="contained" color="#4caf50" onClick={handleTimeConfirmation}>
+        <Button variant="contained" color="primary" onClick={handleTimeConfirmation}>
           {timeMessages.buttonNextText}
         </Button>
       </div>
