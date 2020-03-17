@@ -12,6 +12,7 @@ const initialState = {
   booking: null,
   error: null,
   loading: false,
+  bookingCode: "",
 };
 
 /**
@@ -58,9 +59,31 @@ const bookingReducer = (state, action) => {
         error: action.statusText,
         loading: false,
       };
+    case actionType.EDIT_BOOKING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.EDIT_BOOKING_SUCCESS:
+      return {
+        ...state,
+        booking: action.booking,
+        loading: false,
+      };
+    case actionType.EDIT_BOOKING_FAIL:
+      return {
+        ...state,
+        error: action.statusText,
+        loading: false,
+      };
     case actionType.GET_BOOKING_BY_REFERENCE:
       return {
         ...state,
+      };
+    case actionType.SET_BOOKING_CODE:
+      return {
+        ...state,
+        bookingCode: action.bookingCode,
       };
     default:
       return {

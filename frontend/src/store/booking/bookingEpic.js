@@ -35,6 +35,44 @@ const addReservation = (action$, store) => action$.pipe(
   })),
 );
 
+const editReservation = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.EDIT_BOOKING),
+  mergeMap(async (action) => {
+    const bookingData = store.value.bookingReducer;
+    console.log(bookingData);
+    const restaurantData = store.value.restaurantReducer;
+    console.log(restaurantData);
+
+    const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
+      method: "PUT",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: "2020-03-20",
+        time: "14:00:00",
+        restaurantID: restaurantData.selected.ID,
+        numberOfGuests: bookingData.seats,
+        note: bookingData.notes,
+        firstName: bookingData.name,
+        lastName: "", // We'll just ignore this for now
+        phoneNumber: bookingData.phone,
+        email: bookingData.email,
+      }),
+    }).then((res) => res.json());
+
+
+    return { ...action, type: actionType.EDIT_BOOKING_SUCCESS, booking };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.EDIT_BOOKING_FAIL,
+    message: err.message,
+  })),
+);
+
 // const getReservationByID = (action$, store) => action$.pipe(
 //   filter((action) => action.type === actionType.GET_BOOKING_BY_REFERENCE),
 //   mergeMap(async (action) => {
@@ -49,6 +87,9 @@ const addReservation = (action$, store) => action$.pipe(
 
 export default addReservation;
 
+export {
+  editReservation,
+};
 // export {
 //   getReservationByID,
 // }

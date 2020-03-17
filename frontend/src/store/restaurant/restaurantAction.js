@@ -3,6 +3,7 @@ export const actionType = {
   ADD_RESTAURANTS_SUCCESS: "ADD_RESTAURANTS_SUCCESS",
   ADD_RESTAURANTS_FAIL: "ADD_RESTAURANTS_FAIL",
   SELECT_RESTAURANTS: "SELECT_RESTAURANTS",
+  SET_MODE: "SET_MODE",
 };
 
 const getRestaurants = () => ({
@@ -12,6 +13,11 @@ const getRestaurants = () => ({
 const selectRestaurant = (selected) => ({
   type: actionType.SELECT_RESTAURANTS,
   selected,
+});
+
+const setMode = (mode) => ({
+  type: actionType.SET_MODE,
+  mode,
 });
 
 const addRestaurants = (restaurants) => ({
@@ -29,4 +35,5 @@ export {
   getRestaurants,
   addRestaurantsFail,
   selectRestaurant,
+  setMode,
 };

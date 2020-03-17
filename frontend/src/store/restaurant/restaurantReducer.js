@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   error: null,
   selected: null,
+  mode: "",
 };
 
 /**
@@ -40,6 +41,11 @@ const restaurantReducer = (state, action) => {
       return {
         ...state,
         selected: action.selected,
+      };
+    case actionType.SET_MODE:
+      return {
+        ...state,
+        mode: action.mode,
       };
     default:
       return { ...state };

@@ -8,7 +8,8 @@ import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
-import { createBooking } from "../store/booking/bookingActions";
+import {createBooking, editBooking} from "../store/booking/bookingActions";
+import { editReservation } from "../store/booking/bookingEpic";
 
 const confirmationMessages = messages.confirmation;
 
@@ -24,10 +25,16 @@ const ConfirmationContainer = (props) => {
     date,
     time,
     addReservation,
+    edit,
+    mode,
   } = props;
 
   const completeBooking = () => {
-    addReservation();
+    if (mode === "CREATE") {
+      addReservation();
+    } else {
+      edit();
+    }
     changePath("/complete", history);
   };
 
@@ -92,10 +99,12 @@ const mapStateToProps = (state) => ({
   loading: state.bookingReducer.loading,
   payload: state.bookingReducer.payload,
   error: state.bookingReducer.error,
+  mode: state.restaurantReducer.mode,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   addReservation: createBooking,
+  edit: editBooking,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationContainer);

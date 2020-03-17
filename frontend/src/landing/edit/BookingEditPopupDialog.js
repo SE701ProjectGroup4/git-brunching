@@ -13,8 +13,8 @@ import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import css from "./BookingEditPopupCSS";
 import getRestaurantByReference from "./getRestaurantByReference";
-import { addBookingDetails, addBookingTime } from "../../store/booking/bookingActions";
-import { selectRestaurant } from "../../store/restaurant/restaurantAction";
+import {addBookingDetails, addBookingTime, getBookingCode, setBookingCode} from "../../store/booking/bookingActions";
+import {selectRestaurant, setMode} from "../../store/restaurant/restaurantAction";
 import getUserById from "./getUserById";
 import getRestaurantByID from "./getRestaurantByID";
 
@@ -38,7 +38,7 @@ const BookingEditPopupDialog = (props) => {
   // const [data, setData] = useState({});
   // console.log(data.result);
   const {
-    onClose, open, IDSwitchMethod, addTime, addDetails, select,
+    onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
   } = props;
   const PopupButton = styled(Button)(css.button);
 
@@ -65,6 +65,7 @@ const BookingEditPopupDialog = (props) => {
      */
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
+      setReservationCode(bookingID);
       getRestaurantByReference(bookingID).then((r) => {
         const data = r.result[0];
         getUserById(data.UserID).then((res) => {
@@ -88,8 +89,11 @@ const BookingEditPopupDialog = (props) => {
      * Switches page to the specified restaurant booking page
      */
   const handleEditBooking = () => {
+    console.log("goes here");
+    changeMode("EDIT");
     IDSwitchMethod(dummyBooking.name);
     changePath("/booking", history);
+
   };
 
   /**
@@ -206,6 +210,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addBookingDetails(name, phone, email, notes));
   },
   select: (restaurant) => dispatch(selectRestaurant(restaurant)),
+  changeMode: (mode) => dispatch(setMode(mode)),
+  setReservationCode: (code) => dispatch(setBookingCode(code)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingEditPopupDialog);

@@ -4,7 +4,11 @@ export const actionType = {
   ADD_BOOKING: "ADD_BOOKING",
   ADD_BOOKING_SUCCESS: "ADD_BOOKING_SUCCESS",
   ADD_BOOKING_FAIL: "ADD_BOOKING_FAIL",
+  EDIT_BOOKING: "EDIT_BOOKING",
+  EDIT_BOOKING_SUCCESS: "EDIT_BOOKING_SUCCESS",
+  EDIT_BOOKING_FAIL: "EDIT_BOOKING_FAIL",
   GET_BOOKING_BY_REFERENCE: "GET_BOOKING_BY_REFERENCE",
+  SET_BOOKING_CODE: "SET_BOOKING_CODE",
 };
 
 const addBookingTime = (date, seats, time) => ({
@@ -26,6 +30,15 @@ const createBooking = () => ({
   type: actionType.ADD_BOOKING,
 });
 
+const editBooking = () => ({
+  type: actionType.EDIT_BOOKING,
+});
+
+const setBookingCode = (bookingCode) => ({
+  type: actionType.SET_BOOKING_CODE,
+  bookingCode,
+});
+
 const getBookingByReference = (booking) => ({
   type: actionType.GET_BOOKING_BY_REFERENCE,
   booking,
@@ -36,4 +49,6 @@ export {
   addBookingDetails,
   createBooking,
   getBookingByReference,
+  editBooking,
+  setBookingCode,
 };

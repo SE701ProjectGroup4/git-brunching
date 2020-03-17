@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
-import { getRestaurants, selectRestaurant } from "../store/restaurant/restaurantAction";
+import {getRestaurants, selectRestaurant, setMode} from "../store/restaurant/restaurantAction";
 import NoRestaurants from "./NoRestaurants";
 
 /**
@@ -26,12 +26,13 @@ const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
 
 const RestaurantTile = (props) => {
   const {
-    getAll, loading, restaurants, select,
+    getAll, loading, restaurants, select, changeMode,
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
     changePath("/booking", history);
     select(restaurant);
+    changeMode("CREATE");
   };
 
   useEffect(getAll, []);
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
   select: selectRestaurant,
+  changeMode: setMode,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);

@@ -43,42 +43,42 @@ const TimeContainer = (props) => {
     {
       time: "9-10am",
       color: selectedTime === "9-10am" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-18"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-18"),
     },
     {
       time: "10-11am",
       color: selectedTime === "10-11am" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
     },
     {
       time: "11am-12pm",
       color: selectedTime === "11am-12pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-19"),
     },
     {
       time: "12-1pm",
       color: selectedTime === "12-1pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
     },
     {
       time: "1-2pm",
       color: selectedTime === "1-2pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-20"),
     },
     {
       time: "2-3pm",
       color: selectedTime === "2-3pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-21"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-21"),
     },
     {
       time: "3-4pm",
       color: selectedTime === "3-4pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-22"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-22"),
     },
     {
       time: "4-5pm",
       color: selectedTime === "4-5pm" ? "secondary" : "primary",
-      disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-23"),
+      // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-23"),
     },
   ];
 
