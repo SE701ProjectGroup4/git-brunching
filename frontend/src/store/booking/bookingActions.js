@@ -43,7 +43,6 @@ const setBookingCode = (bookingCode) => ({
 const resetBooking = () => ({
   type: actionType.RESET_BOOKING,
 });
-
 const getBookingByReference = (booking) => ({
   type: actionType.GET_BOOKING_BY_REFERENCE,
   booking,
@@ -57,4 +56,5 @@ export {
   editBooking,
   setBookingCode,
   resetBooking,
+
 };

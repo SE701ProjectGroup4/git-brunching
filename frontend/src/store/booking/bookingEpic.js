@@ -3,6 +3,7 @@ import { actionType } from "./bookingActions";
 import { RESERVATION, USER } from "../../general/config";
 
 
+
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
   mergeMap(async (action) => {
@@ -36,7 +37,7 @@ const addReservation = (action$, store) => action$.pipe(
       body: JSON.stringify({
         date: "2020-03-20",
         time: "14:00:00",
-        restaurantID: 300,
+        restaurantID: restaurantData.selected.ID,
         numberOfGuests: 3,
         tableID: 300,
         userID: 300,
@@ -51,7 +52,6 @@ const addReservation = (action$, store) => action$.pipe(
     message: err.message,
   })),
 );
-
 const editReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.EDIT_BOOKING),
   mergeMap(async (action) => {
@@ -119,3 +119,4 @@ export default addReservation;
 export {
   editReservation,
 };
+

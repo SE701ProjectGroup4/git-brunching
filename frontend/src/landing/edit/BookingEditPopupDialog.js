@@ -18,6 +18,7 @@ import { selectRestaurant, setMode } from "../../store/restaurant/restaurantActi
 import getUserById from "./getUserById";
 import getRestaurantByID from "./getRestaurantByID";
 
+
 /**
  * The popup itself which is used to edit bookings
  */
@@ -33,6 +34,7 @@ const BookingEditPopupDialog = (props) => {
 
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
+
   const [isInput, changeInput] = useState(true);
   const [isError, changeError] = useState(false);
   const [bookingID, changeBookingID] = useState("");
@@ -226,6 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
   select: (restaurant) => dispatch(selectRestaurant(restaurant)),
   changeMode: (mode) => dispatch(setMode(mode)),
   setReservationCode: (code) => dispatch(setBookingCode(code)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingEditPopupDialog);
