@@ -6,7 +6,39 @@ import config from '../config/config';
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
-// Add new user to database. Used when adding a new reservation, so that a user can identify themself.
+/**
+ * @swagger
+ *
+ * /user:
+ *   post:
+ *     description: Adds a user object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: firstName
+ *         description: User's given name
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: lastName
+ *         description: User's surname
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: phone
+ *         description: User's telephone number
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: User's email address
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Successfully added user to database
+ */
 router.post('/', async (req, res) => {
   const { body } = req;
 
@@ -29,7 +61,44 @@ router.post('/', async (req, res) => {
   res.json({ result: 'Added user', userID });
 });
 
-// Update user in database.
+/**
+ * @swagger
+ *
+ * /user:
+ *   put:
+ *     description: Update a user in the database, identified by the booking that user has made. At least one parameter out of firstName, lastName, phone, or email must be entered.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: firstName
+ *         description: User's new given name
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: lastName
+ *         description: User's new surname
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: phone
+ *         description: User's new telephone number
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: email
+ *         description: User's new email address
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: reservationID
+ *         description: ID of the reservation that the user has made. Primary key of reservation database table
+ *         in: formData
+ *         required: true
+ *         type: string 
+ *     responses:
+ *       200:
+ *         description: Successfully updated user in database
+ */
 router.put('/', async (req, res) => {
   const { body } = req;
 
