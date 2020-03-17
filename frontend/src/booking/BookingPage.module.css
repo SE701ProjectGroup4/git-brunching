@@ -94,6 +94,13 @@
   left: 25%;
 }
 
-.test {
-margin: 2px;
+.buttonContainer {
+  display: grid;
+  /* grid-template-columns: 50px 50px 50px 50px; */
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  padding-right: 10px;
+  background-color: #4caf50;
+  /* grid-row-gap: 5px; */
+  grid-column-gap: 5px;
 }

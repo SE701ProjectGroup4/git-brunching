@@ -63,7 +63,12 @@ const TimeContainer = (props) => {
       time: "2-3pm",
       color: selectedTime === "2-3pm" ? "secondary" : "primary",
     },
-    { time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary" },
+    {
+      time: "3-4pm", color: selectedTime === "3-4pm" ? "secondary" : "primary",
+    },
+    {
+      time: "4-5pm", color: selectedTime === "4-5pm" ? "secondary" : "primary",
+    },
   ];
 
   /**
@@ -100,23 +105,24 @@ const TimeContainer = (props) => {
         </div>
         <div className={style.contentContainer}>
           {/* Time fields go here */}
-          {times.map((time) => (
-            <Button
-              className={style.test}
-              key={`time_button_${time.time}`}
-              variant="contained"
-              value={time.time}
-              color={time.color}
-              onClick={(e) => handleTime(e.currentTarget.value)}
-            >
-              {time.time}
-            </Button>
-          ))}
+          <div className={style.buttonContainer}>
+            {times.map((time) => (
+              <Button
+                key={`time_button_${time.time}`}
+                variant="contained"
+                value={time.time}
+                color={time.color}
+                onClick={(e) => handleTime(e.currentTarget.value)}
+              >
+                {time.time}
+              </Button>
+            ))}
+          </div>
 
-          <div className={style.inputContainer}>
+          {/* <div className={style.inputContainer}>
             <p>Current Selected Time</p>
             {/* <TextField type="string" value={selectedTime} /> */}
-          </div>
+          {/* </div> */}
         </div>
       </div>
       <div className={style.buttonContainer}>
