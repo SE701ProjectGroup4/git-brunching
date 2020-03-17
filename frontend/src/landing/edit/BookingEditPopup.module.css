@@ -1,11 +1,29 @@
-.dialogContainer {
+.dialogButtonContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
+    height: 50px;
 }
 
-.dialogContainerDetails {
+.dialogContainer {
+    padding: 50px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 50px;
+    grid-template-rows: 0.5fr 1fr;
+    grid-row-gap: 10px;
+}
+
+.dialogTitle {
+    text-align: center;
+}
+
+.popupButton {
+    border-radius: 0 !important;
+    border-top: none;
+}
+
+.dialogContent {
+    width: 100%;
+}
+
+.dialogTitle {
+    border-bottom: 1px solid #61c766;
 }

@@ -93,3 +93,7 @@
   position: absolute;
   left: 25%;
 }
+
+.dialog {
+  padding: 20px;
+}
