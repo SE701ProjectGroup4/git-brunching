@@ -66,7 +66,9 @@ router.post('/', async (req, res) => {
  *
  * /user:
  *   put:
- *     description: Update a user in the database, identified by the booking that user has made. At least one parameter out of firstName, lastName, phone, or email must be entered.
+ *     description: |
+ *      Update a user in the database, identified by the booking that user has made.
+ *      At least one parameter out of firstName, lastName, phone, or email must be entered.
  *     produces:
  *       - application/json
  *     parameters:
@@ -94,7 +96,7 @@ router.post('/', async (req, res) => {
  *         description: ID of the reservation that the user has made. Primary key of reservation database table
  *         in: formData
  *         required: true
- *         type: string 
+ *         type: string
  *     responses:
  *       200:
  *         description: Successfully updated user in database
