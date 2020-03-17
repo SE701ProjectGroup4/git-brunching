@@ -72,7 +72,7 @@ const BookingEditPopupDialog = (props) => {
       // TODO: move to the store as an epic
       getRestaurantByReference(bookingID).then((r) => {
         const data = r.result[0];
-        getUserById(data.UserID).then((res) => {
+        getUserById(data ? data.UserID : null).then((res) => {
           const userData = res.result[0];
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
             const restaurantData = restaurant[0];
@@ -82,6 +82,9 @@ const BookingEditPopupDialog = (props) => {
             addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
             setLoading(false);
           });
+        }).catch(() => {
+          setLoading(false);
+          handleClosePopup();
         });
       });
       changeInput(false);

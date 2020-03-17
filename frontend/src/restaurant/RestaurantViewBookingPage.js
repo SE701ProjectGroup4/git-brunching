@@ -1,7 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router";
 import style from "./RestaurantViewBookingPage.module.css";
 import { ReactComponent as Logo } from "../general/Logo2.svg";
+import changePath from "../general/helperFunctions";
 
 const mockBookings = [
   {
@@ -43,6 +45,7 @@ const mockBookings = [
 ];
 
 const RestaurantViewBookingPage = () => {
+  const history = useHistory();
   const createBookingItem = (
     id,
     date,
@@ -103,7 +106,7 @@ const RestaurantViewBookingPage = () => {
       <div className={style.contentContainer}>
         <div className={style.headerContainer}>
           <div className={style.header}>
-            <div className={style.logo}>
+            <div className={style.logo} onClick={() => changePath("/", history)}>
               <Logo />
             </div>
             <h1 className={style.restaurantName}>El Pirata Porch</h1>
