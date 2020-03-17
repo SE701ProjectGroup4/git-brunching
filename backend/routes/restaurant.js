@@ -45,7 +45,7 @@ router.get('/:restaurantID', async (req, res) => {
 /**
  * @swagger
  *
- * /restaurant/openhours:
+ * /restaurant/{id}/openhours:
  *   get:
  *     description: Fetch a restaurant's open hours
  *     produces:
