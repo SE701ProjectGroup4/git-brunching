@@ -361,37 +361,37 @@ router.delete('/:reservationID', async (req, res) => {
  * @swagger
  *
  * /reservation/available:
- *   post:
+ *   get:
  *     description: Get a list of tables that are free for booking
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
- *         in: formData
+ *         in: query
  *         required: true
  *         type: integer
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
- *         in: formData
+ *         in: query
  *         required: true
  *         type: integer
  *       - name: time
  *         description: The start time of the booking
- *         in: formData
+ *         in: query
  *         required: true
  *         type: string
  *       - name: date
  *         description: Date for when the booking is made
- *         in: formData
+ *         in: query
  *         required: true
  *         type: string
  *     responses:
  *        200:
  *         description: Returns the list of table ID's that are free for that restaurant
  */
-router.post('/available', async (req, res) => {
-  const { date, time, numberOfGuests, restaurantID } = req.body;
+router.get('/available', async (req, res) => {
+  const { date, time, numberOfGuests, restaurantID } = req.query;
 
   if (!date || !time || !numberOfGuests || !restaurantID) {
     res.status(400).json({
