@@ -1,7 +1,6 @@
 import { actionType } from "./bookingActions";
 
 const initialState = {
-  numberOfSeats: null,
   date: null,
   seats: null,
   time: null,
@@ -27,11 +26,6 @@ const bookingReducer = (state, action) => {
   }
 
   switch (action.type) {
-    case actionType.SEAT_BOOKING:
-      return {
-        ...state,
-        numberOfSeats: action.numberOfSeats,
-      };
     case actionType.ADD_BOOKING_TIME:
       return {
         ...state,
@@ -63,6 +57,10 @@ const bookingReducer = (state, action) => {
         ...state,
         error: action.statusText,
         loading: false,
+      };
+    case actionType.GET_BOOKING_BY_REFERENCE:
+      return {
+        ...state,
       };
     default:
       return {

@@ -1,5 +1,5 @@
 import { useHistory } from "react-router";
-import React from "react";
+import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
@@ -7,10 +7,14 @@ import Button from "@material-ui/core/Button";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
 import { styled } from "@material-ui/core";
+import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import css from "./BookingEditPopupCSS";
+import getRestaurantByReference from "./getRestaurantByReference";
+import { addBookingDetails, addBookingTime } from "../../store/booking/bookingActions";
+import { selectRestaurant } from "../../store/restaurant/restaurantAction";
 
 /**
  * The popup itself which is used to edit bookings
@@ -24,11 +28,16 @@ const BookingEditPopupDialog = (props) => {
     notes: "Window table please",
   };
 
+
   const history = useHistory();
-  const [isInput, changeInput] = React.useState(true);
-  const [isError, changeError] = React.useState(false);
-  const [bookingID, changeBookingID] = React.useState("");
-  const { onClose, open, IDSwitchMethod } = props;
+  const [isInput, changeInput] = useState(true);
+  const [isError, changeError] = useState(false);
+  const [bookingID, changeBookingID] = useState("");
+  // const [data, setData] = useState({});
+  // console.log(data.result);
+  const {
+    onClose, open, IDSwitchMethod, addTime, addDetails, select,
+  } = props;
   const PopupButton = styled(Button)(css.button);
 
   /**
@@ -54,6 +63,13 @@ const BookingEditPopupDialog = (props) => {
      */
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
+      getRestaurantByReference(bookingID).then((r) => {
+        const data = r;
+        console.log(data);
+        select({ ID: 300, Name: "KCF" });
+        addTime("", "", "");
+        addDetails("", "", "", "");
+      });
       changeInput(false);
     } else {
       changeError(true);
@@ -94,7 +110,14 @@ const BookingEditPopupDialog = (props) => {
             <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Input Booking ID</DialogTitle>
             <div>
               {(!isError) ? (
-                <TextField className={style.dialogContent} id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} onKeyDown={handleKeyDown} />
+                <TextField
+                  className={style.dialogContent}
+                  id="outlined-basic"
+                  label="Insert ID here"
+                  variant="outlined"
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => changeBookingID(e.target.value)}
+                />
               ) : (
                 <TextField
                   error
@@ -102,7 +125,7 @@ const BookingEditPopupDialog = (props) => {
                   helperText="Cannot be Empty"
                   label="Insert ID here"
                   variant="outlined"
-                  onChange={changeBookingID}
+                  onChange={(e) => changeBookingID(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className={style.dialogContent}
                 />
@@ -159,4 +182,22 @@ BookingEditPopupDialog.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
-export default BookingEditPopupDialog;
+const mapStateToProps = (state) => ({
+  date: state.bookingReducer.date,
+  seats: state.bookingReducer.seats,
+  time: state.bookingReducer.time,
+  name: state.bookingReducer.name,
+  phone: state.bookingReducer.phone,
+  email: state.bookingReducer.email,
+  notes: state.bookingReducer.notes,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addTime: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  addDetails: (name, phone, email, notes) => {
+    dispatch(addBookingDetails(name, phone, email, notes));
+  },
+  select: (restaurant) => dispatch(selectRestaurant(restaurant)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingEditPopupDialog);

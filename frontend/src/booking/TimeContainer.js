@@ -103,7 +103,7 @@ const TimeContainer = (props) => {
             <KeyboardDatePicker
               disableToolbar
               inputVariant="outlined"
-              format="dd/MM/yyyy"
+              format="dd-MM-yyyy"
               margin="normal"
               label="Select a Date"
               value={selectedDate}

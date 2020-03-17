@@ -4,6 +4,7 @@ export const actionType = {
   ADD_BOOKING: "ADD_BOOKING",
   ADD_BOOKING_SUCCESS: "ADD_BOOKING_SUCCESS",
   ADD_BOOKING_FAIL: "ADD_BOOKING_FAIL",
+  GET_BOOKING_BY_REFERENCE: "GET_BOOKING_BY_REFERENCE",
 };
 
 const addBookingTime = (date, seats, time) => ({
@@ -25,8 +26,14 @@ const createBooking = () => ({
   type: actionType.ADD_BOOKING,
 });
 
+const getBookingByReference = (booking) => ({
+  type: actionType.GET_BOOKING_BY_REFERENCE,
+  booking,
+});
+
 export {
   addBookingTime,
   addBookingDetails,
   createBooking,
+  getBookingByReference,
 };
