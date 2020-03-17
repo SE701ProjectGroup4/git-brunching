@@ -10,6 +10,7 @@ import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
 import { createBooking, editBooking } from "../store/booking/bookingActions";
 
+
 const confirmationMessages = messages.confirmation;
 
 const ConfirmationContainer = (props) => {
