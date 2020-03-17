@@ -4,6 +4,12 @@
     height: 50px;
 }
 
+.dialogTripleButtonContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 50px;
+}
+
 .dialogContainer {
     padding: 50px;
     display: grid;

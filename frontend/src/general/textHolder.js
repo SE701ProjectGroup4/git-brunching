@@ -37,6 +37,7 @@ const messages = {
     popupConfirm: "Confirm",
     popupEdit: "Edit",
     popupOK: "OK",
+    popupDelete: "Delete",
   },
   confirmed: {
     title: "Booking Complete!!!",

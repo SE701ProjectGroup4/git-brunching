@@ -175,7 +175,10 @@ const BookingEditPopupDialog = (props) => {
               <p>{`Note: ${notes}`}</p>
             </div>
           </div>
-          <div className={style.dialogButtonContainer}>
+          <div className={style.dialogTripleButtonContainer}>
+            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+              {textHolder.bookingsPopup.popupDelete}
+            </PopupButton>
             <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
               {textHolder.bookingsPopup.popupEdit}
             </PopupButton>
