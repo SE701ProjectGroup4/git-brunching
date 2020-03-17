@@ -15,6 +15,8 @@ import css from "./BookingEditPopupCSS";
 import getRestaurantByReference from "./getRestaurantByReference";
 import { addBookingDetails, addBookingTime } from "../../store/booking/bookingActions";
 import { selectRestaurant } from "../../store/restaurant/restaurantAction";
+import getUserById from "./getUserById";
+import getRestaurantByID from "./getRestaurantByID";
 
 /**
  * The popup itself which is used to edit bookings
@@ -64,11 +66,17 @@ const BookingEditPopupDialog = (props) => {
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
       getRestaurantByReference(bookingID).then((r) => {
-        const data = r;
-        console.log(data);
-        select({ ID: 300, Name: "KCF" });
-        addTime("", "", "");
-        addDetails("", "", "", "");
+        const data = r.result[0];
+        getUserById(data.UserID).then((res) => {
+          const userData = res.result[0];
+          getRestaurantByID(data.RestaurantID).then((restaurant) => {
+            const restaurantData = restaurant.result[0];
+            // select({ID: data.userID, Name: "KCF"})
+            select({ ID: data.userID, Name: restaurantData.Name });
+            addTime(data.Date, data.NumberOfGuests, data.Time);
+            addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
+          });
+        });
       });
       changeInput(false);
     } else {
