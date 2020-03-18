@@ -98,7 +98,6 @@ const TimeContainer = (props) => {
     oldTime == null ? "" : oldTime,
   );
 
-
   // const showTimes = seats.length > 0 && selectedDate != null;
   const hideTimes = seats.length === 0 || selectedDate == null;
 
