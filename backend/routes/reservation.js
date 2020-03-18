@@ -420,5 +420,89 @@ router.get('/available', async (req, res) => {
   res.json({ result });
 });
 
+/**
+ * @swagger
+ *
+ * /reservation/free:
+ *   get:
+ *     description: Get a list of of hours where there is a table free for a restaurent
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: query
+ *         required: true
+ *         type: string
+ *       - name: numberOfGuests
+ *         description: The number of guests that the table is being booked for
+ *         in: query
+ *         required: true
+ *         type: integer
+ *       - name: date
+ *         description: Date for when the booking is made
+ *         in: query
+ *         required: true
+ *         type: string
+ *     responses:
+ *        200:
+ *         description: Returns the list of times that the restaurent has a table free
+ */
+router.get('/free', async (req, res) => {
+  const { date, numberOfGuests, restaurantID } = req.query;
+  
+  // Extracting day of the week from date
+  var reservationDate = new Date(date);
+  var dayNames = ['mon','tue','wed','thu','fri','sat','sun'];
+  var dayOfWeekIndex = reservationDate.getDay();
+  var day = dayNames[dayOfWeekIndex];
+  console.log(day);
+  print("kllsjahfljkashflkjas")
+  
+  // Getting opening hours for the restaurant for that day 
+  connection.query(
+    'SELECT  OpenTime, CloseTime from HOURS WHERE RestaurantID = ?; AND DayOfWeek = ?', [restaurantID, day],
+    (error, results) => {
+      if (error) {
+        res.status(404).json({ error:'Restaurent is not open today' });
+        return;
+      }
+    }
+  );
+  
+  // Getting opening time and closing time
+  var tempOpeningTime = new Date(results[0].OpenTime);
+  var openingTime =  tempOpeningTime.getHours();
+  var tempClosingTime = new Date(results[0].CloseTime);
+  var closingTime = tempClosingTime.getHours();
+  var availableHours = [];
+  for (i = openingTime; i < closingTime; i++){
+    // Checking if a table is free for all the opening hours
+    const { error, freeTables } = await connection.asyncQuery(
+      'SELECT t.ID ' +
+      'FROM restaurant_db.TABLE t ' +
+      'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+                                                                          'FROM RESERVATION r ' +
+                                                                          'WHERE t.RestaurantID = r.RestaurantID AND ' +
+                                                                          't.ID = r.TableID AND ' +
+                                                                          'r.Date = ? AND ' +
+                                                                          'r.Time = ? );',
+      [restaurantID, numberOfGuests, numberOfGuests, date, openingTime]
+    );
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    // Setting that tables are available for that hour
+    if (freeTables && freeTables > 0){
+      availableHours.push(i);
+    }
+    
+    }
+
+  res.json({availableHours});
+
+
+});
 
 export default router;
