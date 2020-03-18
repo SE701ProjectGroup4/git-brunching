@@ -5,27 +5,9 @@ import connection from '../../database';
 
 chai.use(chaiHttp);
 
-// before(async () => {
-//   const { error, result } = await connection.asyncQuery(
-//     `INSERT INTO restaurant_db.RESTAURANT VALUES (300, "Example resteraunt");`
-//   );
-
-//   console.log('Inserting starting reservations');
-//   console.log({ error, result });
-// });
 // Testing /reservation/all GET endpoint. Using ids 0-10
 describe('GET reservations/all', () => {
   it.only('4. should return reservation.', function(done) {
-    // const { error, result } = await connection.asyncQuery(
-    //   `BEGIN;
-    //   INSERT INTO restaurant_db.RESTAURANT VALUES (300, "Example resteraunt");
-    //   INSERT INTO restaurant_db.TABLE VALUES (300, 300, 1, 6);
-    //   INSERT INTO restaurant_db.USER VALUES (300, "First name", "Last name", "09 123,456", "example@email.com");
-    //   INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
-    //     VALUES (300, '2020-03-14', '11:30:00', '', '2', '300', '300', '300');
-    //   COMMIT;`
-    // );
-
     chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('/all')
@@ -37,24 +19,6 @@ describe('GET reservations/all', () => {
         assert.isObject(body, 'Expected response to contain a body object');
         assert.isArray(body.result, 'Expected response body to contain an array of results');
 
-        // assert.isAtLeast(body.result.length, 1, 'Expected at lease 1 result');
-
-        // const row = body.result[0];
-
-        // assert.deepEqual(
-        //   row,
-        //   {
-        //     ID: '300',
-        //     Date: '2020-03-14T00:00:00.000Z',
-        //     Time: '11:30:00',
-        //     Notes: '',
-        //     NumberOfGuests: 2,
-        //     TableID: 300,
-        //     RestaurantID: 300,
-        //     UserID: 300
-        //   },
-        //   'Expected the correct row to be returned from database'
-        // );
         connection.end();
         done();
       });
