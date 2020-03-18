@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "lintfix": "eslint --fix .",
     "start": "babel-node server",
-    "test": "mocha tests --recursive --require babel-polyfill --require @babel/register"
+    "mockTest": "bash test.sh",
+    "dockerTest": "mocha tests --recursive --require babel-polyfill --require @babel/register",
+    "hostedTest": "mocha tests --recursive --require babel-polyfill --require @babel/register"
   },
   "author": "",
   "license": "ISC",
