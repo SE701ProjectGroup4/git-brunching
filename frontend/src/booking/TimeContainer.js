@@ -14,41 +14,6 @@ import messages from "../general/textHolder";
 import { addBookingTime } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
-// const times = [
-//   {
-//     time: "09:00:00",
-//     color: selectedTime === "9-10am" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "10:00:00",
-//     color: selectedTime === "10-11am" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "11:00:00",
-//     color: selectedTime === "11am-12pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "12:00:00",
-//     color: selectedTime === "12-1pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "13:00:00",
-//     color: selectedTime === "1-2pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "14:00:00",
-//     color: selectedTime === "2-3pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "15:00:00",
-//     color: selectedTime === "3-4pm" ? "secondary" : "primary",
-//     // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-22"),
-//   },
-//   {
-//     time: "16:00:00",
-//     color: selectedTime === "4-5pm" ? "secondary" : "primary",
-//   },
-// ];
 
 const generateAllTimes = (start, end) => {
   const times = [];
@@ -97,7 +62,6 @@ const TimeContainer = (props) => {
   const [selectedTime, setSelectedTime] = useState(
     oldTime == null ? "" : oldTime,
   );
-
   // const showTimes = seats.length > 0 && selectedDate != null;
   const hideTimes = seats.length === 0 || selectedDate == null;
 

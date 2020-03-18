@@ -72,8 +72,6 @@ const editReservation = (action$, store) => action$.pipe(
       }),
     });
 
-    console.log(bookingData.date)
-
     const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
