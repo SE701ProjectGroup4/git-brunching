@@ -36,41 +36,40 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *         description: Returns the list of times that the restaurent has a table free
  */
 router.get('/free', async (req, res) => {
-    const { date, numberOfGuests, restaurantID } = req.query;
-    // Extracting day of the week from date
-    var reservationDate = new Date(date);
-    var dayNames = ['mon','tue','wed','thu','fri','sat','sun'];
-    var dayOfWeekIndex = reservationDate.getDay();
-    var day = dayNames[dayOfWeekIndex];
-    console.log(day, restaurantID)
+  const { date, numberOfGuests, restaurantID } = req.query;
+  // Extracting day of the week from date
+  const reservationDate = new Date(date);
+  const dayNames = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  const dayOfWeekIndex = reservationDate.getDay();
+  const day = dayNames[dayOfWeekIndex];
 
-    
-    // Getting opening hours for the restaurant for that day 
-    const { error: queryError, result: restaurentHours } = await connection.asyncQuery(
-      'SELECT OpenTime, CloseTime from HOURS WHERE RestaurantID = ? AND DayOfWeek = ?', [restaurantID, day]
-    );
 
-    if (queryError) {
-      res.status(500).json({ error });
-      return;
-    }
-    
-    if (!restaurentHours[0]) {
-      res.status(404).json({ error: "The restaurent is not open on this day" });
-      return;
-    }
+  // Getting opening hours for the restaurant for that day
+  const { error: queryError, result: restaurentHours } = await connection.asyncQuery(
+    'SELECT OpenTime, CloseTime from HOURS WHERE RestaurantID = ? AND DayOfWeek = ?', [restaurantID, day]
+  );
 
-    // Getting opening time and closing time
-    var tempOpeningTime = restaurentHours[0].OpenTime.split(':');
-    var openingTime =  tempOpeningTime[0];
-    var tempClosingTime = restaurentHours[0].CloseTime.split(':');
-    var closingTime = tempClosingTime[0];
-    var availableHours = [];
+  if (queryError) {
+    res.status(500).json({ error: 'Internal server error' });
+    return;
+  }
 
-    for (var i = openingTime; i < closingTime; i++){
-      // Checking if a table is free for all the opening hours
-      const { error: queryError, result: tableIDs } = await connection.asyncQuery(
-        'SELECT t.ID ' +
+  if (!restaurentHours[0]) {
+    res.status(404).json({ error: 'The restaurent is not open on this day' });
+    return;
+  }
+
+  // Getting opening time and closing time
+  const tempOpeningTime = restaurentHours[0].OpenTime.split(':');
+  const openingTime = tempOpeningTime[0];
+  const tempClosingTime = restaurentHours[0].CloseTime.split(':');
+  const closingTime = tempClosingTime[0];
+  const availableHours = [];
+
+  for (let i = openingTime; i < closingTime; i += 1) {
+    // Checking if a table is free for all the opening hours
+    const { error: tableQueryError, result: tableIDs } = await connection.asyncQuery(
+      'SELECT t.ID ' +
         'FROM restaurant_db.TABLE t ' +
         'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
                                                                             'FROM RESERVATION r ' +
@@ -78,25 +77,21 @@ router.get('/free', async (req, res) => {
                                                                             't.ID = r.TableID AND ' +
                                                                             'r.Date = ? AND ' +
                                                                             'r.Time = ? );',
-        [restaurantID, numberOfGuests, numberOfGuests, date, openingTime]
-        );
+      [restaurantID, numberOfGuests, numberOfGuests, date, openingTime]
+    );
 
-      if (queryError) {
-        res.status(400).json({ error });
-        return;
-      }
+    if (tableQueryError) {
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
 
-      
-      // Setting that tables are available for that hour
-      if (tableIDs[0]){
-        availableHours.push(`${i}`);
-      }
-      
-      }
-  !
-    res.json({availableHours});
-  
-  
-  });
 
-  export default router;
+    // Setting that tables are available for that hour
+    if (tableIDs[0]) {
+      availableHours.push(`${i}`);
+    }
+  }
+  res.json({ availableHours });
+});
+
+export default router;
