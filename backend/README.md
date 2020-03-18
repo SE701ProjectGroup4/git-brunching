@@ -1,6 +1,6 @@
 # Backend
 
-## Requirements
+## Requirements to Develop
 
 To run and develop this project, you will need Node.js and npm installed.
 
@@ -36,7 +36,9 @@ $ npm -v
 
 The above versions are what have been used for development, however, other versions may also work.
 
-<br/>
+---
+
+## Requirements to Run Tests
 
 To run the unit tests, you will need Docker installed.  
 If your computer does not meet Docker Desktop requirements for [Mac](https://docs.docker.com/docker-for-mac/install/#system-requirements) or [Windows](https://docs.docker.com/docker-for-windows/install/#system-requirements), you will need to use [Docker Toolbox](#docker-toolbox).
