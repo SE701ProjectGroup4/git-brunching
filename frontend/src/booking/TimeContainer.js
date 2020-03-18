@@ -54,6 +54,7 @@ const TimeContainer = (props) => {
     oldSeats, oldDate, oldTime, onConfirmClick,
   } = props;
 
+
   const [seats, changeSeats] = useState(oldSeats == null ? "" : oldSeats);
   const [selectedDate, setSelectedDate] = useState(
     oldDate == null ? format(new Date(Date.now()), "yyyy-MM-dd") : oldDate,

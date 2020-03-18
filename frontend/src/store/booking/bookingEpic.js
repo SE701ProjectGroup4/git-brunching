@@ -37,7 +37,7 @@ const addReservation = (action$, store) => action$.pipe(
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         tableID: 300,
-        note: "I AM A NOTE",
+        notes:  bookingData.notes,
         userID: user.userID,
       }),
     }).then((res) => res.json());
@@ -85,7 +85,7 @@ const editReservation = (action$, store) => action$.pipe(
         time: "13:00:00",
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
-        note: bookingData.notes,
+        notes: bookingData.notes,
       }),
     }).then((res) => res.json());
 

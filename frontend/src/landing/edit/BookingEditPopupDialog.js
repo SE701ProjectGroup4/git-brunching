@@ -11,11 +11,11 @@ import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
-import getRestaurantByReference from "./getRestaurantByReference";
+import getRestaurantByReference from "./services/getRestaurantByReference";
 import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
-import getUserById from "./getUserById";
-import getRestaurantByID from "./getRestaurantByID";
+import getUserById from "./services/getUserById";
+import getRestaurantByID from "./services/getRestaurantByID";
 
 
 /**
@@ -28,8 +28,6 @@ const BookingEditPopupDialog = (props) => {
   const [isInput, changeInput] = useState(true);
   const [isError, changeError] = useState(false);
   const [bookingID, changeBookingID] = useState("");
-  // const [data, setData] = useState({});
-  // console.log(data.result);
   const {
     onClose, open, addTime, addDetails, select, changeMode, setReservationCode,
     date, seats, time, name, notes,
@@ -65,6 +63,7 @@ const BookingEditPopupDialog = (props) => {
         getUserById(data ? data.UserID : null).then((res) => {
           const userData = res.result[0];
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
+            console.log(data.Date);
             changeInput(false);
             const restaurantData = restaurant[0];
             select({ ID: data.userID, Name: restaurantData.Name });

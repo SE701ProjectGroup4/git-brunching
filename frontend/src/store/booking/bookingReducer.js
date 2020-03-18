@@ -30,7 +30,9 @@ const bookingReducer = (state, action) => {
     case actionType.ADD_BOOKING_TIME:
       return {
         ...state,
-        date: action.date,
+        // Sometimes the format is weird so we grab the first 10 chars
+        // Format: yyyy-MM-dd
+        date: action.date.substring(0, 10),
         seats: action.seats,
         time: action.time,
       };
