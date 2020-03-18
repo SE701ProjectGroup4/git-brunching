@@ -37,9 +37,17 @@ router.use(bodyParser.urlencoded({ extended: true }));
  */
 router.get('/free', async (req, res) => {
   const { date, numberOfGuests, restaurantID } = req.query;
+
+  if (!date || !numberOfGuests || !restaurantID) {
+    res.status(400).json({
+      error:
+        'table/free GET endpoint needs: date, numberOfGuests and restaurantID body params'
+    });
+    return;
+  }
   // Extracting day of the week from date
   const reservationDate = new Date(date);
-  const dayNames = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const dayOfWeekIndex = reservationDate.getDay();
   const day = dayNames[dayOfWeekIndex];
 
@@ -54,43 +62,54 @@ router.get('/free', async (req, res) => {
     return;
   }
 
-  if (!restaurentHours[0]) {
+  if (!Array.isArray(restaurentHours) || !restaurentHours[0]) {
     res.status(404).json({ error: 'The restaurent is not open on this day' });
     return;
   }
 
   // Getting opening time and closing time
   const tempOpeningTime = restaurentHours[0].OpenTime.split(':');
-  const openingTime = tempOpeningTime[0];
+  const openingTime = Number(tempOpeningTime[0]);
   const tempClosingTime = restaurentHours[0].CloseTime.split(':');
-  const closingTime = tempClosingTime[0];
+  const closingTime = Number(tempClosingTime[0]);
+  const hourQueryPromises = [];
   const availableHours = [];
+  const queryErrors = [];
 
   for (let i = openingTime; i < closingTime; i += 1) {
     // Checking if a table is free for all the opening hours
-    const { error: tableQueryError, result: tableIDs } = await connection.asyncQuery(
-      'SELECT t.ID ' +
-        'FROM restaurant_db.TABLE t ' +
-        'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-                                                                            'FROM RESERVATION r ' +
-                                                                            'WHERE t.RestaurantID = r.RestaurantID AND ' +
-                                                                            't.ID = r.TableID AND ' +
-                                                                            'r.Date = ? AND ' +
-                                                                            'r.Time = ? );',
-      [restaurantID, numberOfGuests, numberOfGuests, date, openingTime]
+    const hour = `${i > 10 ? '0' : ''}${i}:00:00`;
+    hourQueryPromises.push(
+      connection
+        .asyncQuery(
+          'SELECT t.ID ' +
+          'FROM restaurant_db.TABLE t ' +
+          'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+                                                                                  'FROM restaurant_db.RESERVATION r ' +
+                                                                                  'WHERE t.RestaurantID = r.RestaurantID AND ' +
+                                                                                  't.ID = r.TableID AND ' +
+                                                                                  'r.Date = ? AND ' +
+                                                                                  'r.Time = ? );',
+          [restaurantID, numberOfGuests, numberOfGuests, date, hour]
+        )
+        .then(({ error, result }) => {
+          if (error) {
+            queryErrors.push(error);
+          } else if (result[0]) {
+            // if there is a table available for that hour
+            availableHours.push(i);
+          }
+        })
     );
-
-    if (tableQueryError) {
-      res.status(500).json({ error: 'Internal server error' });
-      return;
-    }
-
-
-    // Setting that tables are available for that hour
-    if (tableIDs[0]) {
-      availableHours.push(`${i}`);
-    }
   }
+
+  await Promise.all(hourQueryPromises);
+
+  if (queryErrors.length) {
+    res.status(500).json({ error: 'Internal server error' });
+    return;
+  }
+
   res.json({ availableHours });
 });
 
