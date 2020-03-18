@@ -10,6 +10,7 @@ import helmet from 'helmet';
 // Routes
 import restaurant from './routes/restaurant';
 import reservation from './routes/reservation';
+import table from './routes/table'
 import user from './routes/user';
 
 import * as specs from './swagger';
@@ -27,6 +28,7 @@ app.use(morgan('dev')); // for logging
 // Inject all routes
 app.use('/restaurant', restaurant);
 app.use('/reservation', reservation);
+app.use('/table', table)
 app.use('/user', user);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
