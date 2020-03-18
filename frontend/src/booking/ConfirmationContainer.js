@@ -3,10 +3,12 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Button from "@material-ui/core/Button";
+import { bindActionCreators } from "redux";
 import style from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import landingStyle from "../landing/LandingPage.module.css";
+import { createBooking, editBooking } from "../store/booking/bookingActions";
 
 const confirmationMessages = messages.confirmation;
 
@@ -21,12 +23,20 @@ const ConfirmationContainer = (props) => {
     seats,
     date,
     time,
+    addReservation,
+    edit,
+    mode,
   } = props;
 
-
   const completeBooking = () => {
+    if (mode === "CREATE") {
+      addReservation();
+    } else {
+      edit();
+    }
     changePath("/complete", history);
   };
+
 
   return (
     <div className={style.bookingDetailsContainer}>
@@ -85,6 +95,15 @@ const mapStateToProps = (state) => ({
   seats: state.bookingReducer.seats,
   date: state.bookingReducer.date,
   time: state.bookingReducer.time,
+  loading: state.bookingReducer.loading,
+  payload: state.bookingReducer.payload,
+  error: state.bookingReducer.error,
+  mode: state.restaurantReducer.mode,
 });
 
-export default connect(mapStateToProps, null)(ConfirmationContainer);
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  addReservation: createBooking,
+  edit: editBooking,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationContainer);

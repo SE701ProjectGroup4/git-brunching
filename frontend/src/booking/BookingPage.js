@@ -4,6 +4,7 @@ import { createMemoryHistory } from "history";
 import {
   Route, Router, Switch,
 } from "react-router";
+import { connect } from "react-redux";
 import style from "./BookingPage.module.css";
 import NotFound from "../general/NotFound";
 import ContentContainer from "./ContentContainer";
@@ -14,11 +15,12 @@ import ConfirmedBooking from "./ConfirmedBooking";
 const BookingPage = (props) => {
   const memoryHistory = createMemoryHistory();
   const history = useHistory();
-  const { currentRestaurant } = props;
+  const { selected } = props;
+
 
   return (
     <div className={style.container}>
-      { currentRestaurant == null ? <NotFound />
+      { selected == null ? <NotFound />
         : (
           <div className={style.contentContainer}>
             {/* A surrounding div for styling purposes */}
@@ -30,7 +32,7 @@ const BookingPage = (props) => {
                 >
                   <Logo />
                 </div>
-                <h1 className={style.restaurantName}>{currentRestaurant}</h1>
+                <h1 className={style.restaurantName}>{selected.Name}</h1>
               </div>
             </div>
             {/* Memory is used to navigate as we don't want to change URL each time */}
@@ -49,4 +51,8 @@ const BookingPage = (props) => {
   );
 };
 
-export default BookingPage;
+const mapStateToProps = (state) => ({
+  selected: state.restaurantReducer.selected,
+});
+
+export default connect(mapStateToProps)(BookingPage);

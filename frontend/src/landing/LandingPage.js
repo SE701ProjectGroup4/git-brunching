@@ -12,9 +12,8 @@ const LandingPage = (props) => {
   const { setRestaurant } = props;
   const history = useHistory();
 
-  const toBooking = (restaurant) => {
+  const toBooking = () => {
     changePath("/booking", history);
-    setRestaurant(restaurant);
   };
 
   return (

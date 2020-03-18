@@ -1,16 +1,22 @@
 import { useHistory } from "react-router";
-import React from "react";
+import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
-import { styled } from "@material-ui/core";
+import { CircularProgress, styled } from "@material-ui/core";
+import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import css from "./BookingEditPopupCSS";
+import getRestaurantByReference from "./getRestaurantByReference";
+import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
+import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
+import getUserById from "./getUserById";
+import getRestaurantByID from "./getRestaurantByID";
 
 /**
  * The popup itself which is used to edit bookings
@@ -24,11 +30,18 @@ const BookingEditPopupDialog = (props) => {
     notes: "Window table please",
   };
 
+
   const history = useHistory();
-  const [isInput, changeInput] = React.useState(true);
-  const [isError, changeError] = React.useState(false);
-  const [bookingID, changeBookingID] = React.useState("");
-  const { onClose, open, IDSwitchMethod } = props;
+  const [isLoading, setLoading] = useState(false);
+  const [isInput, changeInput] = useState(true);
+  const [isError, changeError] = useState(false);
+  const [bookingID, changeBookingID] = useState("");
+  // const [data, setData] = useState({});
+  // console.log(data.result);
+  const {
+    onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
+    date, seats, time, name, notes,
+  } = props;
   const PopupButton = styled(Button)(css.button);
 
   /**
@@ -54,6 +67,26 @@ const BookingEditPopupDialog = (props) => {
      */
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
+      setReservationCode(bookingID);
+      setLoading(true);
+      // TODO: move to the store as an epic
+      getRestaurantByReference(bookingID).then((r) => {
+        const data = r.result[0];
+        getUserById(data ? data.UserID : null).then((res) => {
+          const userData = res.result[0];
+          getRestaurantByID(data.RestaurantID).then((restaurant) => {
+            const restaurantData = restaurant[0];
+            // select({ID: data.userID, Name: "KCF"})
+            select({ ID: data.userID, Name: restaurantData.Name });
+            addTime(data.Date, data.NumberOfGuests, data.Time);
+            addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
+            setLoading(false);
+          });
+        }).catch(() => {
+          setLoading(false);
+          handleClosePopup();
+        });
+      });
       changeInput(false);
     } else {
       changeError(true);
@@ -64,6 +97,7 @@ const BookingEditPopupDialog = (props) => {
      * Switches page to the specified restaurant booking page
      */
   const handleEditBooking = () => {
+    changeMode("EDIT");
     IDSwitchMethod(dummyBooking.name);
     changePath("/booking", history);
   };
@@ -94,7 +128,14 @@ const BookingEditPopupDialog = (props) => {
             <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Input Booking ID</DialogTitle>
             <div>
               {(!isError) ? (
-                <TextField className={style.dialogContent} id="outlined-basic" label="Insert ID here" variant="outlined" onChange={changeBookingID} onKeyDown={handleKeyDown} />
+                <TextField
+                  className={style.dialogContent}
+                  id="outlined-basic"
+                  label="Insert ID here"
+                  variant="outlined"
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => changeBookingID(e.target.value)}
+                />
               ) : (
                 <TextField
                   error
@@ -102,7 +143,7 @@ const BookingEditPopupDialog = (props) => {
                   helperText="Cannot be Empty"
                   label="Insert ID here"
                   variant="outlined"
-                  onChange={changeBookingID}
+                  onChange={(e) => changeBookingID(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className={style.dialogContent}
                 />
@@ -121,34 +162,42 @@ const BookingEditPopupDialog = (props) => {
       )
       : (
         <Dialog onClose={handleClosePopup} aria-labelledby="simple-dialog-title" open={open}>
-          <div className={style.dialogContainer}>
-            <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
-            <p>
-              You have booked&nbsp;
-              {" "}
-              <b>{dummyBooking.tables}</b>
-              {" "}
-              table(s) for&nbsp;
-              <b>{dummyBooking.people}</b>
-              {" "}
-              people at&nbsp;
-              &quot;
-              <b>{dummyBooking.name}</b>
-              &quot;!!
-              <br />
-              You have given the extra notes:
-              <br />
-              <b>{dummyBooking.notes}</b>
-            </p>
-          </div>
-          <div className={style.dialogButtonContainer}>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
-              {textHolder.bookingsPopup.popupEdit}
-            </PopupButton>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
-              {textHolder.bookingsPopup.popupOK}
-            </PopupButton>
-          </div>
+          { isLoading ? <div className={style.loader}><CircularProgress /></div>
+            : (
+              <>
+                <div className={style.dialogContainer}>
+                  <DialogTitle className={style.dialogTitle} id="simple-dialog-title">Booking Summary</DialogTitle>
+                  <div>
+                    <p>{`Name: ${name}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Date: ${date}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Number of seats: ${seats}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Time: ${time}`}</p>
+                  </div>
+                  <div>
+                    <p>{`Note: ${notes}`}</p>
+                  </div>
+                </div>
+                <div className={style.dialogTripleButtonContainer}>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupDelete}
+                  </PopupButton>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupEdit}
+                  </PopupButton>
+                  <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
+                    {textHolder.bookingsPopup.popupOK}
+                  </PopupButton>
+                </div>
+
+              </>
+            )}
+
         </Dialog>
       )
   );
@@ -159,4 +208,24 @@ BookingEditPopupDialog.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
-export default BookingEditPopupDialog;
+const mapStateToProps = (state) => ({
+  date: state.bookingReducer.date,
+  seats: state.bookingReducer.seats,
+  time: state.bookingReducer.time,
+  name: state.bookingReducer.name,
+  phone: state.bookingReducer.phone,
+  email: state.bookingReducer.email,
+  notes: state.bookingReducer.notes,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addTime: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  addDetails: (name, phone, email, notes) => {
+    dispatch(addBookingDetails(name, phone, email, notes));
+  },
+  select: (restaurant) => dispatch(selectRestaurant(restaurant)),
+  changeMode: (mode) => dispatch(setMode(mode)),
+  setReservationCode: (code) => dispatch(setBookingCode(code)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingEditPopupDialog);

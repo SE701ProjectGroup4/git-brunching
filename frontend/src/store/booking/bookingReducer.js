@@ -1,7 +1,6 @@
 import { actionType } from "./bookingActions";
 
 const initialState = {
-  numberOfSeats: null,
   date: null,
   seats: null,
   time: null,
@@ -9,6 +8,11 @@ const initialState = {
   phone: null,
   email: null,
   notes: null,
+
+  booking: null,
+  error: null,
+  loading: false,
+  bookingCode: "",
 };
 
 /**
@@ -16,18 +20,13 @@ const initialState = {
  * The bookingReducer will apply the new state to whatever is in the bookings section
  * @param state
  * @param action
- * @returns {{numberOfSeats: null}}
  */
 const bookingReducer = (state, action) => {
   if (state == null) {
     return initialState;
   }
+
   switch (action.type) {
-    case actionType.SEAT_BOOKING:
-      return {
-        ...state,
-        numberOfSeats: action.numberOfSeats,
-      };
     case actionType.ADD_BOOKING_TIME:
       return {
         ...state,
@@ -42,6 +41,49 @@ const bookingReducer = (state, action) => {
         phone: action.phone,
         email: action.email,
         notes: action.notes,
+      };
+    case actionType.ADD_BOOKING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.ADD_BOOKING_SUCCESS:
+      return {
+        ...state,
+        booking: action.booking,
+        loading: false,
+      };
+    case actionType.ADD_BOOKING_FAIL:
+      return {
+        ...state,
+        error: action.statusText,
+        loading: false,
+      };
+    case actionType.EDIT_BOOKING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.EDIT_BOOKING_SUCCESS:
+      return {
+        ...state,
+        booking: action.booking,
+        loading: false,
+      };
+    case actionType.EDIT_BOOKING_FAIL:
+      return {
+        ...state,
+        error: action.statusText,
+        loading: false,
+      };
+    case actionType.GET_BOOKING_BY_REFERENCE:
+      return {
+        ...state,
+      };
+    case actionType.SET_BOOKING_CODE:
+      return {
+        ...state,
+        bookingCode: action.bookingCode,
       };
     default:
       return {

@@ -11,8 +11,9 @@ import { connect } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
-import { getRestaurants } from "../store/restaurant/restaurantAction";
+import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
 import NoRestaurants from "./NoRestaurants";
+import { resetBooking } from "../store/booking/bookingActions";
 
 /**
  * After the API has been loaded, we check if we have received any data.
@@ -26,12 +27,14 @@ const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
 
 const RestaurantTile = (props) => {
   const {
-    setRestaurant, getAll, loading, restaurants,
+    getAll, loading, restaurants, select, changeMode, reset,
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
     changePath("/booking", history);
-    setRestaurant(restaurant);
+    reset();
+    select(restaurant);
+    changeMode("CREATE");
   };
 
   useEffect(getAll, []);
@@ -56,7 +59,7 @@ const Tiles = ({ restaurants, toBooking }) => {
     >
       {restaurants.map((data, index) => (
         <GridListTile key={data.Name} className={style.gridTile}>
-          <Card onClick={() => toBooking(data.Name)} className={style.card}>
+          <Card onClick={() => toBooking(data)} className={style.card}>
             <CardActionArea>
               <CardMedia
                 style={{ height: cellHeight }}
@@ -95,6 +98,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
+  select: selectRestaurant,
+  changeMode: setMode,
+  reset: resetBooking,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantTile);
