@@ -115,3 +115,9 @@ temp/
 
 # Database credentials
 .env
+
+# V8 cacheing flags
+.v8flags*.json
+
+# File created by docker
+my.log

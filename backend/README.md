@@ -1,6 +1,6 @@
 # Backend
 
-## Requirements
+## Requirements to Develop
 
 To run and develop this project, you will need Node.js and npm installed.
 
@@ -38,7 +38,53 @@ The above versions are what have been used for development, however, other versi
 
 ---
 
-## Setup
+## Requirements to Run Tests
+
+To run the unit tests, you will need Docker installed.
+
+You can check if you allready have Docker installed by running `$docker -version` in a terminal.
+
+If your computer does not meet Docker Desktop requirements for [Mac](https://docs.docker.com/docker-for-mac/install/#system-requirements) or [Windows](https://docs.docker.com/docker-for-windows/install/#system-requirements), you will need to use [Docker Toolbox](#docker-toolbox).
+
+If you already have a local instance of mySQL running, you will need to stop it. Instructions to do this can be found [here.](https://tableplus.com/blog/2018/10/how-to-start-stop-restart-mysql-server.html)
+
+### Docker Installation
+
+- #### Ubuntu
+
+  Simply run the following command.
+
+  ```bash
+  $ sudo apt update
+  $ sudo apt install -y docker.io
+  ```
+
+- #### Docker Desktop for Windows
+
+  Download the installer from the [official Docker website](https://hub.docker.com/editions/community/docker-ce-desktop-windows/) and follow the installation instructions (You may need to restart your computer).
+
+  There are a few extra steps when using Docker Desktop on Windows:
+
+  1. During installation, uncheck the "Use Windows containers instead of Linux containers" option.
+  2. You will need to enable share drives. This can be found in the Docker Dashboard under  
+     Settings > Resources > File Sharing.  
+      Tick the drive the repo is cloned to.
+  3. Open the file called `test.sh` found in git-brunching/backend.  
+     Uncomment the line `homePath=$(pwd -W)` (by removing the `#` at the start)  
+     Comment out `homePath=$(pwd)` (the line above).
+
+- #### Docker Desktop for Mac
+
+  Download the installer from the [official Docker website](https://hub.docker.com/editions/community/docker-ce-desktop-mac/) and follow the installation instructions (You may need to restart your computer).
+
+- #### Docker Toolbox:
+
+  Download the installer from the [official Docker GitHub](https://github.com/docker/toolbox/releases) and follow the installation instructions.  
+  You will need to run the [Testing Run Commands](#testing) from Docker QuickStart Terminal (installed with docker toolbox).
+
+---
+
+## Set-up
 
 After forking the repo, clone and redirect to the backend folder.
 
@@ -74,16 +120,16 @@ $ npm i
 
 #### Testing
 
-`$ npm run test`
+`$ npm run mockTest [cold]`
 
-- Run all unit tests and display a report.
+- Sets up Docker container to run all unit tests and display a report.
+- `cold` is an optional flag to reinitialise the container.
 
-Note. Before running any tests:
+Note.
 
-1. Change the mock flag in config.js to true.
-2. In another terminal, start an instance of the API for the tests to connect to.
-   - This can be done using either `$ npm start` or `$ npm run dev`.
-3. Start the tests using `$ npm run test`
+- Before running any tests, change the mock flag in `config.js` to true.
+- If using PowerShell on Windows, run `$ ./test.sh` instead of `$ npm run mockTest`.
+- The first time running the tests will include downloading and setting up the Docker container, this may take a few minutes. (Subsequent tests will be much faster.)
 
 #### Linting
 
@@ -105,7 +151,9 @@ Prettier is an optional extension for most common IDE's. This will help with for
 ## Common Run Errors
 
 - `Error: listen EADDRINUSE: address already in use <address>` - This is likely due to a nodemon leaving a background instance of node running.  
-   A guide to killing background node instances can be found [here](https://stackoverflow.com/a/14790921/10377254)
+   A guide to killing background node instances can be found [here.](https://stackoverflow.com/a/14790921/10377254)
+
+- `/bin/bash^M: bad interpreter` - This is likely due to incorrect line endings. (eg using CRLF instead of LF).
 
 ---
 

@@ -1,29 +1,30 @@
 import dotenv from 'dotenv';
-import mysql from './sqlConnectionResolver';
+import mysql from 'mysql';
+import config from './config/config';
 
 dotenv.config();
 
+const databaseVariables = config.mock ? config.testDatabase : process.env;
+
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASS
+  host: databaseVariables.DB_HOST,
+  user: databaseVariables.DB_USER,
+  database: databaseVariables.DB_DATABASE,
+  password: databaseVariables.DB_PASS
 });
 
-if (!connection.asyncQuery) {
-  // eslint-disable-next-line arrow-body-style
-  connection.asyncQuery = (...args) => {
-    return new Promise(resolve => {
-      connection.query(...args, (error, result) => {
-        if (error) {
-          resolve({ error });
-        } else {
-          resolve({ result });
-        }
-      });
+// eslint-disable-next-line arrow-body-style
+connection.asyncQuery = (...args) => {
+  return new Promise(resolve => {
+    connection.query(...args, (error, result) => {
+      if (error) {
+        resolve({ error });
+      } else {
+        resolve({ result });
+      }
     });
-  };
-}
+  });
+};
 
 connection.connect(err => {
   if (err) {
