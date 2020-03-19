@@ -4,7 +4,7 @@ import config from '../../config/config';
 import connection from '../../database';
 
 chai.use(chaiHttp);
-// Testing /reservation/all GET endpoint. Using ids 1-10
+// Testing /reservation/?restaurantID GET endpoint. Using IDs 1-5
 
 before(async () => {
   // Setup the databse before any tests in this file run.

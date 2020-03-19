@@ -6,7 +6,7 @@ if (!config.mock) {
 }
 
 // List all tests to be run.
-require('./reservation/getAllForRestaurant');
+require('./reservation/getAllForRestaurant'); // Using IDs 1-5
 
 // MUST BE LAST TO CLOSE THE DATABASE CONNECTION
 require('./cleanup');
