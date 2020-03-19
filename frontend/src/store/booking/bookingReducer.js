@@ -1,9 +1,10 @@
+import { format } from "date-fns";
 import { actionType } from "./bookingActions";
 
 const initialState = {
-  date: null,
-  seats: null,
-  time: null,
+  date: format(new Date(Date.now()), "yyyy-MM-dd"),
+  seats: "",
+  time: "",
   name: null,
   phone: null,
   email: null,
@@ -14,6 +15,7 @@ const initialState = {
   loading: false,
   bookingCode: "",
   restaurantHours: [],
+  availableRestaurantHours: [],
 };
 
 /**
@@ -31,11 +33,19 @@ const bookingReducer = (state, action) => {
     case actionType.ADD_BOOKING_TIME:
       return {
         ...state,
+        time: action.time,
+      };
+    case actionType.ADD_BOOKING_DATE:
+      return {
+        ...state,
         // Sometimes the format is weird so we grab the first 10 chars
         // Format: yyyy-MM-dd
         date: action.date.substring(0, 10),
+      };
+    case actionType.ADD_BOOKING_SEATS:
+      return {
+        ...state,
         seats: action.seats,
-        time: action.time,
       };
     case actionType.ADD_BOOKING_DETAILS:
       return {
@@ -104,6 +114,23 @@ const bookingReducer = (state, action) => {
         ...state,
         loading: false,
         error: action.error,
+      };
+    case actionType.GET_AVAILABLE_RESTAURANT_HOURS:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS:
+      return {
+        ...state,
+        availableRestaurantHours: action.availableRestaurantHours,
+        loading: false,
+      };
+    case actionType.GET_AVAILABLE_RESTAURANT_HOURS_FAIL:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
       };
     default:
       return {

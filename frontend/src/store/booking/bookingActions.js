@@ -1,5 +1,7 @@
 export const actionType = {
   ADD_BOOKING_TIME: "ADD_BOOKING_TIME",
+  ADD_BOOKING_DATE: "ADD_BOOKING_DATE",
+  ADD_BOOKING_SEATS: "ADD_BOOKING_SEATS",
   ADD_BOOKING_DETAILS: "ADD_BOOKING_DETAILS",
   ADD_BOOKING: "ADD_BOOKING",
   ADD_BOOKING_SUCCESS: "ADD_BOOKING_SUCCESS",
@@ -13,13 +15,25 @@ export const actionType = {
   GET_RESTAURANT_HOURS: "GET_RESTAURANT_HOURS",
   GET_RESTAURANT_HOURS_SUCCESS: "GET_RESTAURANT_HOURS_SUCCESS",
   GET_RESTAURANT_HOURS_FAIL: "GET_RESTAURANT_HOURS_FAIL",
+  GET_AVAILABLE_RESTAURANT_HOURS: "GET_AVAILABLE_RESTAURANT_HOURS",
+  GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS: "GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS",
+  GET_AVAILABLE_RESTAURANT_HOURS_FAIL: "GET_AVAILABLE_RESTAURANT_HOURS_FAIL",
+
 };
 
-const addBookingTime = (date, seats, time) => ({
+const addBookingTime = (time) => ({
   type: actionType.ADD_BOOKING_TIME,
-  date,
-  seats,
   time,
+});
+
+const addBookingDate = (date) => ({
+  type: actionType.ADD_BOOKING_DATE,
+  date,
+});
+
+const addBookingSeats = (seats) => ({
+  type: actionType.ADD_BOOKING_SEATS,
+  seats,
 });
 
 const addBookingDetails = (name, phone, email, notes) => ({
@@ -51,6 +65,10 @@ const getRestaurantHours = () => ({
   type: actionType.GET_RESTAURANT_HOURS,
 });
 
+const getAvailableHours = () => ({
+  type: actionType.GET_AVAILABLE_RESTAURANT_HOURS,
+});
+
 const getBookingByReference = (booking) => ({
   type: actionType.GET_BOOKING_BY_REFERENCE,
   booking,
@@ -58,6 +76,8 @@ const getBookingByReference = (booking) => ({
 
 export {
   addBookingTime,
+  addBookingDate,
+  addBookingSeats,
   addBookingDetails,
   createBooking,
   getBookingByReference,
@@ -65,4 +85,5 @@ export {
   setBookingCode,
   resetBooking,
   getRestaurantHours,
+  getAvailableHours,
 };

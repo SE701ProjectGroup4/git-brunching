@@ -1,7 +1,9 @@
 import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
-import { RESERVATION, RESTAURANT_HOURS, USER } from "../../general/config";
+import {
+  FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER,
+} from "../../general/config";
 
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
@@ -104,12 +106,32 @@ const getRestaurantHours = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_RESTAURANT_HOURS),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
-    console.log(bookingData);
+    // todo: booking data
     const hours = await fetch(RESTAURANT_HOURS(2)).then((res) => res.json());
     return { ...action, type: actionType.GET_RESTAURANT_HOURS_SUCCESS, restaurantHours: hours };
   }),
   catchError((err) => Promise.resolve({
     type: actionType.GET_RESTAURANT_HOURS_FAIL,
+    message: err.message,
+  })),
+);
+
+
+const getAvailableHours = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.GET_AVAILABLE_RESTAURANT_HOURS),
+  mergeMap(async (action) => {
+    const bookingData = store.value.bookingReducer;
+    const restaurantData = store.value.restaurantReducer;
+    const endPoint = `${FREE_TABLE}?restaurantID=${restaurantData.selected.ID}&numberOfGuests=${bookingData.seats}&date=${bookingData.date}`;
+    const available = await fetch(endPoint).then((res) => res.json());
+    return {
+      ...action,
+      type: actionType.GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS,
+      availableRestaurantHours: available,
+    };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.GET_AVAILABLE_RESTAURANT_HOURS_FAIL,
     message: err.message,
   })),
 );
@@ -132,4 +154,5 @@ export default addReservation;
 export {
   editReservation,
   getRestaurantHours,
+  getAvailableHours,
 };

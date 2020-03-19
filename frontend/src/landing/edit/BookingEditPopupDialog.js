@@ -12,7 +12,13 @@ import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import getRestaurantByReference from "./services/getRestaurantByReference";
-import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
+import {
+  addBookingDate,
+  addBookingDetails,
+  addBookingSeats,
+  addBookingTime,
+  setBookingCode
+} from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
 import getUserById from "./services/getUserById";
 import getRestaurantByID from "./services/getRestaurantByID";
@@ -28,7 +34,7 @@ const BookingEditPopupDialog = (props) => {
   const [isError, changeError] = useState(false);
   const [bookingID, changeBookingID] = useState("");
   const {
-    onClose, open, addTime, addDetails, select, changeMode, setReservationCode,
+    onClose, open, addTime, addSeats, addDate, addDetails, select, changeMode, setReservationCode,
     date, seats, time, name, notes,
   } = props;
 
@@ -64,8 +70,10 @@ const BookingEditPopupDialog = (props) => {
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
             changeInput(false);
             const restaurantData = restaurant[0];
-            select({ ID: data.userID, Name: restaurantData.Name });
-            addTime(data.Date, data.NumberOfGuests, data.Time);
+            select({ ID: restaurantData.ID, Name: restaurantData.Name });
+            addTime(data.Time);
+            addSeats(data.NumberOfGuests);
+            addDate(data.Date);
             addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
             setLoading(false);
 
@@ -206,7 +214,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addTime: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  addTime: (time) => { dispatch(addBookingTime(time)); },
+  addSeats: (seats) => { dispatch(addBookingSeats(seats)); },
+  addDate: (date) => { dispatch(addBookingDate(date)); },
   addDetails: (name, phone, email, notes) => {
     dispatch(addBookingDetails(name, phone, email, notes));
   },

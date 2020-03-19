@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -9,84 +9,65 @@ import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import classNames from "classnames";
 import style from "./BookingPage.module.css";
 import changePath, { getDayForDate } from "../general/helperFunctions";
 import messages from "../general/textHolder";
-import { addBookingTime, getRestaurantHours } from "../store/booking/bookingActions";
+import {
+  addBookingDate,
+  addBookingSeats,
+  addBookingTime,
+  getAvailableHours,
+  getRestaurantHours,
+} from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
 
 const generateAllTimes = (start, end) => {
   const times = [];
-
   for (let i = start; i < end; i += 1) {
     times.push({
       time: i > 9 ? `${i}:00:00` : `0${i}:00:00`,
     });
   }
-
   return times;
 };
-
-const availableTimes = [
-  {
-    time: "10:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "12:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "13:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "18:00:00",
-    color: "#66bb6a",
-  },
-];
 
 const TimeContainer = (props) => {
   const history = useHistory();
   const {
-    oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours,
+    oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
+    availableTimes, onSeatChange, onDateChange, isLoading,
   } = props;
-  const [seats, changeSeats] = useState(oldSeats == null ? "" : oldSeats);
 
+  const [seats, changeSeats] = useState(oldSeats);
+  const [selectedDate, setSelectedDate] = useState(oldDate);
+  const [selectedTime, setSelectedTime] = useState(oldTime);
   useEffect(getHours, []);
-
-  const [selectedDate, setSelectedDate] = useState(
-    oldDate == null ? format(new Date(Date.now()), "yyyy-MM-dd") : oldDate,
-  );
+  // useEffect(getAvailable, []);
 
   const day = getDayForDate(new Date(selectedDate));
-  console.log(day);
   const times = restaurantHours.find((x) => x.DayOfWeek === day);
+  // There will be no times when the restaurant is closed
   const noTimes = times == null;
+  const hideTimes = seats.length === 0 || selectedDate == null;
+
   let openTime = "";
   let closeTime = "";
-  if (!noTimes) {
-    openTime = Number.parseInt(times.OpenTime.substring(0, 2),10);
-    closeTime = Number.parseInt(times.CloseTime.substring(0, 2),10);
-  }
-  // const openTime = rest
-  // generateAllTimes()
 
-  const [selectedTime, setSelectedTime] = useState(
-    oldTime == null ? "" : oldTime,
-  );
-  const hideTimes = seats.length === 0 || selectedDate == null;
+  if (!noTimes) {
+    openTime = Number.parseInt(times.OpenTime.substring(0, 2), 10);
+    closeTime = Number.parseInt(times.CloseTime.substring(0, 2), 10);
+  }
 
   const handleTimeConfirmation = () => {
     changePath("/details", history);
-    onConfirmClick(selectedDate, seats, selectedTime, null);
+    onConfirmClick(selectedTime);
   };
 
   const handleTime = (value) => {
     setSelectedTime(value);
   };
-
 
   return (
     <div className={style.stylingParent}>
@@ -98,6 +79,10 @@ const TimeContainer = (props) => {
             label="Number of Guests"
             variant="outlined"
             value={seats}
+            onBlur={() => {
+              onSeatChange(seats);
+              getAvailable();
+            }}
             onChange={(e) => changeSeats(e.target.value)}
           />
         </div>
@@ -111,7 +96,12 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
-              onChange={(e) => setSelectedDate(format(e, "yyyy-MM-dd"))}
+              onChange={(e) => {
+                const formattedDate = format(e, "yyyy-MM-dd");
+                setSelectedDate(formattedDate);
+                onDateChange(formattedDate);
+                getAvailable();
+              }}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -120,21 +110,28 @@ const TimeContainer = (props) => {
         </div>
         {hideTimes ? null
           : (
-            <div className={style.buttonContainer}>
-              { noTimes ? <div>Closed</div>
-                : generateAllTimes(openTime, closeTime).map((time) => (
-                <Button
-                  // className={style.timeButton}
-                  key={`time_button_${time.time}`}
-                  variant="contained"
-                  disabled={!(availableTimes.find((x) => x.time === time.time))}
-                  value={time}
-                  color={time.time === selectedTime ? "secondary" : "primary"}
-                  onClick={() => handleTime(time.time)}
-                >
-                  {time.time}
-                </Button>
-              ))}
+            <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
+              {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
+                <>
+                  {noTimes || availableTimes.availableHours == null ? <div>Closed</div>
+                    : generateAllTimes(openTime, closeTime).map((time) => {
+                      const available = availableTimes.availableHours;
+                      const hour = Number.parseInt(time.time.substring(0, 2), 10);
+                      return (
+                        <Button
+                          key={`time_button_${time.time}`}
+                          variant="contained"
+                          disabled={available.indexOf(hour) === -1}
+                          value={time}
+                          color={time.time === selectedTime ? "secondary" : "primary"}
+                          onClick={() => handleTime(time.time)}
+                        >
+                          {time.time}
+                        </Button>
+                      );
+                    })}
+                </>
+              )}
             </div>
           )}
         <div className={style.submitButtonContainer}>
@@ -159,11 +156,16 @@ const mapStateToProps = (state) => ({
   oldDate: state.bookingReducer.date,
   oldTime: state.bookingReducer.time,
   restaurantHours: state.bookingReducer.restaurantHours,
+  availableTimes: state.bookingReducer.availableRestaurantHours,
+  isLoading: state.bookingReducer.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  onConfirmClick: (time) => { dispatch(addBookingTime(time)); },
+  onSeatChange: (seats) => { dispatch(addBookingSeats(seats)); },
+  onDateChange: (date) => { dispatch(addBookingDate(date)); },
   getHours: bindActionCreators(getRestaurantHours, dispatch),
+  getAvailable: bindActionCreators(getAvailableHours, dispatch),
 });
 
 
