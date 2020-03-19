@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
  *         type: string
  *     responses:
  *        200:
- *         description: Returns the user that is associated with that ID 
+ *         description: Returns the user that is associated with that ID
  */
 router.get('/:userID', async (req, res) => {
   const { userID } = req.params;
