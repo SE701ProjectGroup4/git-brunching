@@ -1,5 +1,3 @@
-# Git Brunching
-
 ![](https://raw.githubusercontent.com/wiki/SE701Group3/git-brunching/images/Logo.png)
 
 Welcome to the 🌿 Git Brunching 🌿 repository!
