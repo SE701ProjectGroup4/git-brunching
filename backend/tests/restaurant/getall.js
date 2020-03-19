@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
-import config from '../../config/config';
+import config from '../../config';
 
 chai.use(chaiHttp);
 
@@ -32,5 +32,5 @@ describe('GET restaurant/getall', () => {
         assert.deepEqual(body, {query: 'SELECT * FROM RESTAURANT'}); 
         done();
       });
-    });
+  });
 });

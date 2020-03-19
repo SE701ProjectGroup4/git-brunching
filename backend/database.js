@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import mysql from 'mysql';
-import config from './config/config';
+import config from './config';
 
 dotenv.config();
 
