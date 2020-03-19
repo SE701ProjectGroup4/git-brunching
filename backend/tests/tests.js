@@ -1,4 +1,4 @@
-import config from '../config/config';
+import config from '../config';
 
 if (!config.mock) {
   throw '\n\n   Tests should only be run on the mock database. Please set the mock flag in the config to true.\n \

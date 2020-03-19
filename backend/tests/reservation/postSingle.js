@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
-import config from '../../config/config';
+import config from '../../config';
 
 chai.use(chaiHttp);
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import connection from '../database';
-import config from '../config/config';
+import config from '../config';
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
