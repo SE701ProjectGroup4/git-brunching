@@ -12,6 +12,13 @@ import { createBooking, editBooking } from "../store/booking/bookingActions";
 
 const confirmationMessages = messages.confirmation;
 
+/**
+ * This component represents the section where the user sees the
+ * details they have entered and has to confirm it.
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const ConfirmationContainer = (props) => {
   const history = useHistory();
 

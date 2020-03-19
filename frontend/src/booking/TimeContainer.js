@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classNames from "classnames";
 import style from "./BookingPage.module.css";
-import changePath, { getDayForDate } from "../general/helperFunctions";
+import changePath, { getDayForDate, generateAllTimes } from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import {
   addBookingDate,
@@ -23,16 +23,13 @@ import {
 
 const timeMessages = messages.time;
 
-const generateAllTimes = (start, end) => {
-  const times = [];
-  for (let i = start; i < end; i += 1) {
-    times.push({
-      time: i > 9 ? `${i}:00:00` : `0${i}:00:00`,
-    });
-  }
-  return times;
-};
-
+/**
+ * This component represents the part of the booking where the user enters
+ * their seats, date and time.
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const TimeContainer = (props) => {
   const history = useHistory();
   const {
@@ -43,8 +40,8 @@ const TimeContainer = (props) => {
   const [seats, changeSeats] = useState(oldSeats);
   const [selectedDate, setSelectedDate] = useState(oldDate);
   const [selectedTime, setSelectedTime] = useState(oldTime);
+
   useEffect(getHours, []);
-  // useEffect(getAvailable, []);
 
   const day = getDayForDate(new Date(selectedDate));
   const times = restaurantHours.find((x) => x.DayOfWeek === day);

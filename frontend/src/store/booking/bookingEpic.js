@@ -5,12 +5,20 @@ import {
   FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER,
 } from "../../general/config";
 
+/**
+ * Asynchronous call for a POST request.
+ * This creates a booking and inserting it into the API
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
 const addReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.ADD_BOOKING),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
 
+    // The booking requires a user. So we need to create one.
     const user = await fetch(USER, {
       method: "POST",
       mode: "cors",
@@ -46,7 +54,6 @@ const addReservation = (action$, store) => action$.pipe(
       }),
     }).then((res) => res.json());
 
-
     return { ...action, type: actionType.ADD_BOOKING_SUCCESS, booking };
   }),
   catchError((err) => Promise.resolve({
@@ -54,6 +61,14 @@ const addReservation = (action$, store) => action$.pipe(
     message: err.message,
   })),
 );
+
+
+/**
+ * Asynchronous call for a PUT request, which allows a reservation to be edited
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
 const editReservation = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.EDIT_BOOKING),
   mergeMap(async (action) => {
@@ -70,6 +85,7 @@ const editReservation = (action$, store) => action$.pipe(
       },
       body: JSON.stringify({
         firstName: bookingData.name,
+        // The API accepts firstName and lastName but the store only contains name...
         lastName: " ",
         phone: bookingData.phone,
         email: bookingData.email,
@@ -102,6 +118,12 @@ const editReservation = (action$, store) => action$.pipe(
   })),
 );
 
+/**
+ * Asynchronous request for reeiving a restaurants opening hours
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
 const getRestaurantHours = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_RESTAURANT_HOURS),
   mergeMap(async (action) => {
@@ -116,7 +138,13 @@ const getRestaurantHours = (action$, store) => action$.pipe(
   })),
 );
 
-
+/**
+ * Asynchronous call for receiving the times which are free
+ * depending on the restaurant, date and number of seats
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
 const getAvailableHours = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_AVAILABLE_RESTAURANT_HOURS),
   mergeMap(async (action) => {
@@ -135,19 +163,6 @@ const getAvailableHours = (action$, store) => action$.pipe(
     message: err.message,
   })),
 );
-
-// todo:
-// const getReservationByID = (action$, store) => action$.pipe(
-//   filter((action) => action.type === actionType.GET_BOOKING_BY_REFERENCE),
-//   mergeMap(async (action) => {
-//     const restaurants = await fetch(`${RESERVATION}`).then((res) => res.json());
-//     return { ...action, type: actionType.ADD_RESTAURANTS_SUCCESS, restaurants };
-//   }),
-//   catchError((err) => Promise.resolve({
-//     type: actionType.ADD_RESTAURANTS_FAIL,
-//     message: err.message,
-//   })),
-// );
 
 export default addReservation;
 

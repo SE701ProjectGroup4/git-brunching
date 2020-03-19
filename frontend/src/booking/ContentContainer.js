@@ -6,6 +6,13 @@ import style from "./ContentContainer.module.css";
 import ConfirmationContainer from "./ConfirmationContainer";
 
 
+/**
+ * Create a component depending on the type
+ * This is done due to the memory history not storing a path
+ * @param type
+ * @param history
+ * @returns {null|*}
+ */
 const renderContainer = (type, history) => {
   switch (type) {
     case "time":

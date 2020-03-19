@@ -11,6 +11,11 @@ import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
 
+
+/**
+ * This component represents the form where the user enters their details
+ * @type {{footerText: string, buttonBackText: string, buttonNextText: string, infoMessage: string}}
+ */
 const detailMessages = messages.details;
 const DetailsContainer = (props) => {
   const history = useHistory();
@@ -32,6 +37,7 @@ const DetailsContainer = (props) => {
     props.onConfirmClick(name, phone, email, notes);
   };
 
+  // Make button clickable if the required fields are set
   const isSubmittable = (name.length > 0 && phone.length > 0 && email.length > 0);
 
   return (

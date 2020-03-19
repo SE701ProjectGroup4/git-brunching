@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
-import getRestaurantByReference from "./services/getRestaurantByReference";
+import getRestaurantByReference from "./services/getReservationByReference";
 import {
   addBookingDate,
   addBookingDetails,
