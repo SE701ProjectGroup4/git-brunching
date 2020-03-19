@@ -22,7 +22,6 @@ import getRestaurantByID from "./services/getRestaurantByID";
  * The popup itself which is used to edit bookings
  */
 const BookingEditPopupDialog = (props) => {
-
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   const [isInput, changeInput] = useState(true);
@@ -63,7 +62,6 @@ const BookingEditPopupDialog = (props) => {
         getUserById(data ? data.UserID : null).then((res) => {
           const userData = res.result[0];
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
-            console.log(data.Date);
             changeInput(false);
             const restaurantData = restaurant[0];
             select({ ID: data.userID, Name: restaurantData.Name });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { TextField, Button } from "@material-ui/core";
 import {
@@ -8,10 +8,11 @@ import {
 import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import style from "./BookingPage.module.css";
-import changePath from "../general/helperFunctions";
+import changePath, { getDayForDate } from "../general/helperFunctions";
 import messages from "../general/textHolder";
-import { addBookingTime } from "../store/booking/bookingActions";
+import { addBookingTime, getRestaurantHours } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
 
@@ -48,22 +49,33 @@ const availableTimes = [
 
 const TimeContainer = (props) => {
   const history = useHistory();
-  // Update this in the future to get time as well
-  // updated for time
   const {
-    oldSeats, oldDate, oldTime, onConfirmClick,
+    oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours,
   } = props;
-
-
   const [seats, changeSeats] = useState(oldSeats == null ? "" : oldSeats);
+
+  useEffect(getHours, []);
+
   const [selectedDate, setSelectedDate] = useState(
     oldDate == null ? format(new Date(Date.now()), "yyyy-MM-dd") : oldDate,
   );
-  // adding below for time
+
+  const day = getDayForDate(new Date(selectedDate));
+  console.log(day);
+  const times = restaurantHours.find((x) => x.DayOfWeek === day);
+  const noTimes = times == null;
+  let openTime = "";
+  let closeTime = "";
+  if (!noTimes) {
+    openTime = Number.parseInt(times.OpenTime.substring(0, 2),10);
+    closeTime = Number.parseInt(times.CloseTime.substring(0, 2),10);
+  }
+  // const openTime = rest
+  // generateAllTimes()
+
   const [selectedTime, setSelectedTime] = useState(
     oldTime == null ? "" : oldTime,
   );
-  // const showTimes = seats.length > 0 && selectedDate != null;
   const hideTimes = seats.length === 0 || selectedDate == null;
 
   const handleTimeConfirmation = () => {
@@ -75,9 +87,7 @@ const TimeContainer = (props) => {
     setSelectedTime(value);
   };
 
-  /**
-   * Upon clicking, we want to update the store with inputted values
-   */
+
   return (
     <div className={style.stylingParent}>
       <div className={style.bookingDetailsContainer}>
@@ -111,7 +121,8 @@ const TimeContainer = (props) => {
         {hideTimes ? null
           : (
             <div className={style.buttonContainer}>
-              {generateAllTimes(9, 22).map((time) => (
+              { noTimes ? <div>Closed</div>
+                : generateAllTimes(openTime, closeTime).map((time) => (
                 <Button
                   // className={style.timeButton}
                   key={`time_button_${time.time}`}
@@ -147,10 +158,13 @@ const mapStateToProps = (state) => ({
   oldSeats: state.bookingReducer.seats,
   oldDate: state.bookingReducer.date,
   oldTime: state.bookingReducer.time,
+  restaurantHours: state.bookingReducer.restaurantHours,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onConfirmClick: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  getHours: bindActionCreators(getRestaurantHours, dispatch),
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);
