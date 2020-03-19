@@ -1,0 +1,30 @@
+.detailContainer {
+    display: grid;
+    grid-template-rows: auto;
+    grid-row-gap: 20px;
+    grid-area: container;
+}
+
+.detailsContentContainer {
+    display: grid;
+    grid-template-columns: 150px auto 150px;
+    grid-template-areas: ". container .";
+}
+
+.info {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+.buttonContainer {
+    margin: 0;
+}
+
+.footerText {
+    color: #757575;
+    margin: 0;
+    font-style: italic;
+    font-size: 12px;
+}

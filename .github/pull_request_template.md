@@ -8,11 +8,11 @@ A few sentences describing the overall goals of the pull request's commits.
 
 ## Checklist
 - [ ] All feature request A/C have been met OR the bug has been fixed
-- [ ] I ran all nessisary tests and they pass
+- [ ] I ran all necessary tests and they pass
 - [ ] I rebased upstream/master onto my working branch before opening this PR
 - [ ] I have named my PR something sensible
 - [ ] I have included the issue number above
-- [ ] I have assigned atleast two people to review my changes
+- [ ] I have assigned at least two people to review my changes
 
 
 ## Other Notes

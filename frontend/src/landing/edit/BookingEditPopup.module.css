@@ -1,0 +1,42 @@
+.dialogButtonContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 50px;
+}
+
+.dialogTripleButtonContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 50px;
+}
+
+.dialogContainer {
+    padding: 50px;
+    display: grid;
+    grid-template-rows: auto ;
+    grid-row-gap: 5px;
+}
+
+.dialogTitle {
+    text-align: center;
+}
+
+.popupButton {
+    border-radius: 0 !important;
+    border-top: none;
+}
+
+.dialogContent {
+    width: 100%;
+}
+
+.dialogTitle {
+    border-bottom: 1px solid #61c766;
+}
+
+.loader {
+    width: 400px;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}

@@ -1,0 +1,7 @@
+{
+    "integrationFolder": "cypress/integration",
+    "testFiles": "**/*.spec.js",
+    "video": false,
+    "viewportHeight": 800,
+    "viewportWidth": 1600 
+}

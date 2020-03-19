@@ -1,0 +1,160 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-areas: ". content .";
+  grid-template-columns: 1fr minmax(600px, 1000px) 1fr;
+
+}
+
+.contentContainer {
+  height: 100%;
+  width: 100%;
+  grid-area: content;
+}
+
+.logo {
+  width: 150px;
+  cursor: pointer;
+}
+
+.headerContainer {
+  width: 100%;
+}
+
+.header {
+  display: grid;
+  padding-top: 20px;
+  border-bottom: solid 1px rgba(200,200,200,0.5);
+  grid-template-rows: 50px auto;
+  justify-items: center;
+}
+
+.restaurantName {
+  font-weight: bold;
+  margin: 0;
+  font-size: 65px;
+  text-align: center;
+}
+
+.submitButton {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  margin: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.submitButton:hover {
+  background-color: #347736; /* Green */
+
+}
+
+.stylingParent {
+  display: grid;
+  grid-template-columns: 100px auto 100px;;
+  grid-template-areas: ". booking .";
+}
+
+.bookingDetailsContainer {
+  display: grid;
+  grid-template-rows: auto auto 200px auto;
+  grid-row-gap: 20px;
+  margin-top: 30px;
+  grid-area:booking;
+}
+
+.bookingDetail {
+  width: 100%;
+}
+
+.submitButtonContainer {
+  text-align: center;
+  width: 100%;
+}
+
+.textField {
+  width: 100%;
+}
+
+.form-value {
+  padding: 10px 10px 10px 10px;
+}
+
+.formlabel {
+  border: none;
+  margin: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.detailsCard {
+  width: 40%;
+  padding: 3em;
+}
+
+.changePageButton {
+  margin: 20px 20px 20px 20px;
+  background-color: #e7e7e7; /* gray*/
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  padding: 1em;
+  padding-bottom: 2em;
+}
+
+.changePageButton {
+  transition-duration: 0.4s;
+}
+
+.changePageButton:hover {
+  background-color: gray;
+  color: white;
+}
+
+.detailsCard {
+  text-align: center;
+  position: absolute;
+  left: 25%;
+}
+
+.buttonContainer {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  /* grid-template-columns: 50px 50px 50px 50px; */
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 5px;
+  overflow-y: auto;
+}
+
+.timeButton {
+   background-color: #66bb6a;
+}
+
+.timeButton:hover {
+  background-color: #39693c;
+}
+
+.timeButton:active {
+  background-color: red;
+}
+
+.timeButton:focus {
+  background-color: red;
+}
+
+.timeButton:target {
+  background-color: red;
+}
