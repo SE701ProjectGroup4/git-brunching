@@ -34,6 +34,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *     responses:
  *        200:
  *         description: Returns the list of times that the restaurent has a table free
+ *        400:
+ *         description: Bad request
+ *        500:
+ *         description: Internal server error
  */
 router.get('/free', async (req, res) => {
   const { date, numberOfGuests, restaurantID } = req.query;
@@ -41,7 +45,7 @@ router.get('/free', async (req, res) => {
   if (!date || !numberOfGuests || !restaurantID) {
     res.status(400).json({
       error:
-        'table/free GET endpoint needs: date, numberOfGuests and restaurantID body params'
+        'table/free GET endpoint needs: date, numberOfGuests and restaurantID query params'
     });
     return;
   }
@@ -68,9 +72,10 @@ router.get('/free', async (req, res) => {
   }
 
   // Getting opening time and closing time
-  const tempOpeningTime = restaurentHours[0].OpenTime.split(':');
+  const STRING_SPLIT = ':';
+  const tempOpeningTime = restaurentHours[0].OpenTime.split(STRING_SPLIT);
   const openingTime = Number(tempOpeningTime[0]);
-  const tempClosingTime = restaurentHours[0].CloseTime.split(':');
+  const tempClosingTime = restaurentHours[0].CloseTime.split(STRING_SPLIT);
   const closingTime = Number(tempClosingTime[0]);
   const hourQueryPromises = [];
   const availableHours = [];
