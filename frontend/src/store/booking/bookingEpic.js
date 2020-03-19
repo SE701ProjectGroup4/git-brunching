@@ -37,7 +37,7 @@ const addReservation = (action$, store) => action$.pipe(
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         tableID: 300,
-        notes:  bookingData.notes,
+        notes: bookingData.notes,
         userID: user.userID,
       }),
     }).then((res) => res.json());
@@ -55,6 +55,7 @@ const editReservation = (action$, store) => action$.pipe(
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
+
     await fetch(USER, {
       method: "PUT",
       mode: "cors",
@@ -82,7 +83,7 @@ const editReservation = (action$, store) => action$.pipe(
       },
       body: JSON.stringify({
         date: bookingData.date,
-        time: "13:00:00",
+        time: bookingData.time,
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         notes: bookingData.notes,

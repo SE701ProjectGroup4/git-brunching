@@ -28,6 +28,11 @@ const ConfirmationContainer = (props) => {
     mode,
   } = props;
 
+  /**
+   * Want to have different requests depending on the mode
+   * CREATE: POST request
+   * EDIT: PUT request
+   * */
   const completeBooking = () => {
     if (mode === "CREATE") {
       addReservation();

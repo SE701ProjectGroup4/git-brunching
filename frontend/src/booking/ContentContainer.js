@@ -5,6 +5,7 @@ import DetailsContainer from "./DetailsContainer";
 import style from "./ContentContainer.module.css";
 import ConfirmationContainer from "./ConfirmationContainer";
 
+
 const renderContainer = (type, history) => {
   switch (type) {
     case "time":

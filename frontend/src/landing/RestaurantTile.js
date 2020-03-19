@@ -78,7 +78,7 @@ const Tiles = ({ restaurants, toBooking }) => {
   );
 };
 
-// Keep for testing purposes
+// Keep for testing purposes when you can't connect to API
 // const fakeData = [
 //   {
 //     Id: 0,
