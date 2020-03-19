@@ -40,7 +40,10 @@ The above versions are what have been used for development, however, other versi
 
 ## Requirements to Run Tests
 
-To run the unit tests, you will need Docker installed.  
+To run the unit tests, you will need Docker installed.
+
+You can check if you allready have Docker installed by running `$docker -version` in a terminal.
+
 If your computer does not meet Docker Desktop requirements for [Mac](https://docs.docker.com/docker-for-mac/install/#system-requirements) or [Windows](https://docs.docker.com/docker-for-windows/install/#system-requirements), you will need to use [Docker Toolbox](#docker-toolbox).
 
 If you already have a local instance of mySQL running, you will need to stop it. Instructions to do this can be found [here.](https://tableplus.com/blog/2018/10/how-to-start-stop-restart-mysql-server.html)
