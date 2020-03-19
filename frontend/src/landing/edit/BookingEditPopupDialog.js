@@ -17,7 +17,7 @@ import {
   addBookingDetails,
   addBookingSeats,
   addBookingTime,
-  setBookingCode
+  setBookingCode,
 } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
 import getUserById from "./services/getUserById";
@@ -76,7 +76,6 @@ const BookingEditPopupDialog = (props) => {
             addDate(data.Date);
             addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
             setLoading(false);
-
           });
         }).catch(() => {
           setLoading(false);

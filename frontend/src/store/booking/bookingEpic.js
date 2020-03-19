@@ -37,7 +37,7 @@ const addReservation = (action$, store) => action$.pipe(
       },
       body: JSON.stringify({
         date: bookingData.date,
-        time: "12:00:00",
+        time: bookingData.time,
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         tableID: 300,
@@ -105,9 +105,9 @@ const editReservation = (action$, store) => action$.pipe(
 const getRestaurantHours = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_RESTAURANT_HOURS),
   mergeMap(async (action) => {
-    const bookingData = store.value.bookingReducer;
-    // todo: booking data
-    const hours = await fetch(RESTAURANT_HOURS(2)).then((res) => res.json());
+    const restaurantData = store.value.restaurantReducer;
+    const hours = await fetch(RESTAURANT_HOURS(restaurantData.selected.ID))
+      .then((res) => res.json());
     return { ...action, type: actionType.GET_RESTAURANT_HOURS_SUCCESS, restaurantHours: hours };
   }),
   catchError((err) => Promise.resolve({
