@@ -7,10 +7,10 @@ chai.use(chaiHttp);
 // Testing /reservation/?restaurantID GET endpoint. Using IDs 1-5
 
 before(async () => {
-  // Setup the databse before any tests in this file run.
+  // Setup the database before any tests in this file run.
   const errors = [];
   await connection
-    .asyncQuery('INSERT INTO restaurant_db.RESTAURANT VALUES (1, "Example resteraunt");')
+    .asyncQuery('INSERT INTO restaurant_db.RESTAURANT VALUES (1, "Example restaurant0");')
     .then(({ error }) => error && errors.push(error));
 
   await connection

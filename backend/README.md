@@ -127,7 +127,7 @@ $ npm i
 
 Note.
 
-- Before running any tests, change the mock flag the config to true.
+- Before running any tests, change the mock flag in the config to true.
 - If using PowerShell on Windows, run `$ ./test.sh` instead of `$ npm run mockTest`.
 - The first time running the tests will include downloading and setting up the Docker container, this may take a few minutes. (Subsequent tests will be much faster.)
 
