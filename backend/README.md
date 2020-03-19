@@ -189,3 +189,39 @@ Please follow the existing file structure.
   ```javascript
   app.use('/<url/path/to/call/endpoint>', <endpointName>);
   ```
+
+#### Create a new test
+
+- Create a new file in the 'test' folder, inside the associated endpoint sub-folder. The file name should reflect which endpoint is being tested.
+
+- Create one file per endpoint. Eg GET /reservation/ in one folder and GET /reservation/{reservationID} in another.
+
+- Due to all ID's and Restaurant names needing to be unique while sharing a database between tests, each test must assign itself a unique ID range, stated at the top of the file.  
+  All database entries must follow this ID range.
+
+- Due to foreign key constraints, some additional tables need to be set-up. All of this set-up should be run once before the tests, by using the following method..
+
+  ```javascript
+  before(async () => {
+
+    ...Database Setup
+
+  });
+  ```
+
+- Do not close the database connection in any tests.
+
+#### Including the test
+
+- Import your new test into tests/tests.js using:
+
+  ```javascript
+  require('./path/to/test');
+  ```
+
+- The order the tests are required, is the order they will run.
+- Do **not** import any tests below:
+
+  ```javascript
+  require('./cleanup');
+  ```
