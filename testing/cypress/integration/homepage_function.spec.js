@@ -7,9 +7,9 @@ context('Actions',() =>{
 describe('Launching Homepage', function() {
  it('Home page load successfully', function() {
     cy.viewport(1916, 925)
-    cy.visit('http://localhost:3100/')	
-	cy.find('Edit Booking')
-	cy.find('RESTAURANT')
+    cy.visit('http://localhost:3000/')	
+	cy.contains('Edit Booking')
+	cy.contains('RESTAURANT')
 	});
 	
  it('RESTAURANT button can be click',function(){
