@@ -6,43 +6,37 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
-import { CircularProgress, styled } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
-import css from "./BookingEditPopupCSS";
-import getRestaurantByReference from "./getRestaurantByReference";
-import { addBookingDetails, addBookingTime, setBookingCode } from "../../store/booking/bookingActions";
+import getRestaurantByReference from "./services/getReservationByReference";
+import {
+  addBookingDate,
+  addBookingDetails,
+  addBookingSeats,
+  addBookingTime,
+  setBookingCode,
+} from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
-import getUserById from "./getUserById";
-import getRestaurantByID from "./getRestaurantByID";
+import getUserById from "./services/getUserById";
+import getRestaurantByID from "./services/getRestaurantByID";
+
 
 /**
  * The popup itself which is used to edit bookings
  */
 const BookingEditPopupDialog = (props) => {
-  // Setup dummy data
-  const dummyBooking = {
-    name: "KCF",
-    tables: 1,
-    people: 4,
-    notes: "Window table please",
-  };
-
-
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   const [isInput, changeInput] = useState(true);
   const [isError, changeError] = useState(false);
   const [bookingID, changeBookingID] = useState("");
-  // const [data, setData] = useState({});
-  // console.log(data.result);
   const {
-    onClose, open, IDSwitchMethod, addTime, addDetails, select, changeMode, setReservationCode,
+    onClose, open, addTime, addSeats, addDate, addDetails, select, changeMode, setReservationCode,
     date, seats, time, name, notes,
   } = props;
-  const PopupButton = styled(Button)(css.button);
 
   /**
      * Resets popup to default state
@@ -67,27 +61,28 @@ const BookingEditPopupDialog = (props) => {
      */
   const handleChangeToBookingDetails = () => {
     if (bookingID.length !== 0) {
-      setReservationCode(bookingID);
       setLoading(true);
-      // TODO: move to the store as an epic
       getRestaurantByReference(bookingID).then((r) => {
+        setReservationCode(bookingID);
         const data = r.result[0];
         getUserById(data ? data.UserID : null).then((res) => {
           const userData = res.result[0];
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
+            changeInput(false);
             const restaurantData = restaurant[0];
-            // select({ID: data.userID, Name: "KCF"})
-            select({ ID: data.userID, Name: restaurantData.Name });
-            addTime(data.Date, data.NumberOfGuests, data.Time);
+            select({ ID: restaurantData.ID, Name: restaurantData.Name });
+            addTime(data.Time);
+            addSeats(data.NumberOfGuests);
+            addDate(data.Date);
             addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
             setLoading(false);
           });
         }).catch(() => {
           setLoading(false);
-          handleClosePopup();
+          changeError(true);
+          // handleClosePopup();
         });
       });
-      changeInput(false);
     } else {
       changeError(true);
     }
@@ -98,7 +93,7 @@ const BookingEditPopupDialog = (props) => {
      */
   const handleEditBooking = () => {
     changeMode("EDIT");
-    IDSwitchMethod(dummyBooking.name);
+    // IDSwitchMethod(dummyBooking.name);
     changePath("/booking", history);
   };
 
@@ -140,7 +135,7 @@ const BookingEditPopupDialog = (props) => {
                 <TextField
                   error
                   id="outlined-basic"
-                  helperText="Cannot be Empty"
+                  helperText="Error has occurred"
                   label="Insert ID here"
                   variant="outlined"
                   onChange={(e) => changeBookingID(e.target.value)}
@@ -151,12 +146,12 @@ const BookingEditPopupDialog = (props) => {
             </div>
           </div>
           <div className={style.dialogButtonContainer}>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
+            <Button variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
               {textHolder.bookingsPopup.popupCancel}
-            </PopupButton>
-            <PopupButton variant="outlined" fullWidth={false} onClick={handleChangeToBookingDetails} className={style.popupButton}>
+            </Button>
+            <Button variant="outlined" fullWidth={false} onClick={handleChangeToBookingDetails} className={style.popupButton}>
               {textHolder.bookingsPopup.popupConfirm}
-            </PopupButton>
+            </Button>
           </div>
         </Dialog>
       )
@@ -184,20 +179,19 @@ const BookingEditPopupDialog = (props) => {
                   </div>
                 </div>
                 <div className={style.dialogTripleButtonContainer}>
-                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                  <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupDelete}
-                  </PopupButton>
-                  <PopupButton variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                  </Button>
+                  <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupEdit}
-                  </PopupButton>
-                  <PopupButton variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
+                  </Button>
+                  <Button variant="outlined" fullWidth={false} onClick={handleClosePopup} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupOK}
-                  </PopupButton>
+                  </Button>
                 </div>
 
               </>
             )}
-
         </Dialog>
       )
   );
@@ -219,7 +213,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addTime: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  addTime: (time) => { dispatch(addBookingTime(time)); },
+  addSeats: (seats) => { dispatch(addBookingSeats(seats)); },
+  addDate: (date) => { dispatch(addBookingDate(date)); },
   addDetails: (name, phone, email, notes) => {
     dispatch(addBookingDetails(name, phone, email, notes));
   },

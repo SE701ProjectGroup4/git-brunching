@@ -8,6 +8,13 @@ import messages from "../general/textHolder";
 
 const confirmedMessages = messages.confirmed;
 
+/**
+ * This component is the last page in the booking flow.
+ * It shows that reservation ID and shows that your reservation has been made
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const ConfirmedBooking = (props) => {
   const { history, booking, loading } = props;
   const toLoad = loading ? <div className={style.loader}><CircularProgress /></div>
