@@ -1,0 +1,44 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Backend_CI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+  pull_request:
+    branches:
+      - master
+      - feature/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: jacoballen4534/mysqltest:git-brunching-latest
+      env:
+        GH_ACTIONS: true
+
+    steps:
+      - name: Checkout Actions v2
+        uses: actions/checkout@v2
+
+      - name: Move the mysql schema into repo folder
+        run: mv /startScripts/dockerScript.sh ./
+
+      - name: Start mysql
+        run: /etc/init.d/mysql start
+
+      - name: Set up mysql schema
+        run: mysql -u root -ppassword < /startScripts/mysqlSetup.sh
+
+      - name: Install Node modules
+        working-directory: ./backend
+        run: npm install 2> actions.log
+
+      - name: Start API in background
+        working-directory: ./backend
+        run: node node_modules/@babel/node/bin/babel-node server > actions.log & node_modules/mocha/bin/mocha tests/tests --require babel-polyfill --require @babel/register
