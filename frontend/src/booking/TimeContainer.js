@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -8,114 +8,64 @@ import {
 import { format } from "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import classNames from "classnames";
 import style from "./BookingPage.module.css";
-import changePath from "../general/helperFunctions";
+import changePath, { getDayForDate, generateAllTimes } from "../general/helperFunctions";
 import messages from "../general/textHolder";
-import { addBookingTime } from "../store/booking/bookingActions";
+import {
+  addBookingDate,
+  addBookingSeats,
+  addBookingTime,
+  getAvailableHours,
+  getRestaurantHours,
+} from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
-// const times = [
-//   {
-//     time: "09:00:00",
-//     color: selectedTime === "9-10am" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "10:00:00",
-//     color: selectedTime === "10-11am" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "11:00:00",
-//     color: selectedTime === "11am-12pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "12:00:00",
-//     color: selectedTime === "12-1pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "13:00:00",
-//     color: selectedTime === "1-2pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "14:00:00",
-//     color: selectedTime === "2-3pm" ? "secondary" : "primary",
-//   },
-//   {
-//     time: "15:00:00",
-//     color: selectedTime === "3-4pm" ? "secondary" : "primary",
-//     // disable: ((format(selectedDate, "yyyy-MM-dd")) === "2020-03-22"),
-//   },
-//   {
-//     time: "16:00:00",
-//     color: selectedTime === "4-5pm" ? "secondary" : "primary",
-//   },
-// ];
 
-const generateAllTimes = (start, end) => {
-  const times = [];
-
-  for (let i = start; i < end; i += 1) {
-    times.push({
-      time: i > 9 ? `${i}:00:00` : `0${i}:00:00`,
-    });
-  }
-
-  return times;
-};
-
-const availableTimes = [
-  {
-    time: "10:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "12:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "13:00:00",
-    color: "#66bb6a",
-  },
-  {
-    time: "18:00:00",
-    color: "#66bb6a",
-  },
-];
-
+/**
+ * This component represents the part of the booking where the user enters
+ * their seats, date and time.
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const TimeContainer = (props) => {
   const history = useHistory();
-  // Update this in the future to get time as well
-  // updated for time
   const {
-    oldSeats, oldDate, oldTime, onConfirmClick,
+    oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
+    availableTimes, onSeatChange, onDateChange, isLoading,
   } = props;
 
-  const [seats, changeSeats] = useState(oldSeats == null ? "" : oldSeats);
-  const [selectedDate, setSelectedDate] = useState(
-    oldDate == null ? format(new Date(Date.now()), "yyyy-MM-dd") : oldDate,
-  );
-  // adding below for time
-  const [selectedTime, setSelectedTime] = useState(
-    oldTime == null ? "" : oldTime,
-  );
+  const [seats, changeSeats] = useState(oldSeats);
+  const [selectedDate, setSelectedDate] = useState(oldDate);
+  const [selectedTime, setSelectedTime] = useState(oldTime);
 
-  console.log(selectedDate);
+  useEffect(getHours, []);
 
-  // const showTimes = seats.length > 0 && selectedDate != null;
+  const day = getDayForDate(new Date(selectedDate));
+  const times = restaurantHours.find((x) => x.DayOfWeek === day);
+  // There will be no times when the restaurant is closed
+  const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
+
+  let openTime = "";
+  let closeTime = "";
+
+  if (!noTimes) {
+    openTime = Number.parseInt(times.OpenTime.substring(0, 2), 10);
+    closeTime = Number.parseInt(times.CloseTime.substring(0, 2), 10);
+  }
 
   const handleTimeConfirmation = () => {
     changePath("/details", history);
-    onConfirmClick(selectedDate, seats, selectedTime, null);
+    onConfirmClick(selectedTime);
   };
 
   const handleTime = (value) => {
     setSelectedTime(value);
   };
 
-
-  /**
-   * Upon clicking, we want to update the store with inputted values
-   */
   return (
     <div className={style.stylingParent}>
       <div className={style.bookingDetailsContainer}>
@@ -126,6 +76,10 @@ const TimeContainer = (props) => {
             label="Number of Guests"
             variant="outlined"
             value={seats}
+            onBlur={() => {
+              onSeatChange(seats);
+              getAvailable();
+            }}
             onChange={(e) => changeSeats(e.target.value)}
           />
         </div>
@@ -139,7 +93,12 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
-              onChange={(e) => setSelectedDate(format(e, "yyyy-MM-dd"))}
+              onChange={(e) => {
+                const formattedDate = format(e, "yyyy-MM-dd");
+                setSelectedDate(formattedDate);
+                onDateChange(formattedDate);
+                getAvailable();
+              }}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -148,20 +107,28 @@ const TimeContainer = (props) => {
         </div>
         {hideTimes ? null
           : (
-            <div className={style.buttonContainer}>
-              {generateAllTimes(9, 22).map((time) => (
-                <Button
-                  // className={style.timeButton}
-                  key={`time_button_${time.time}`}
-                  variant="contained"
-                  disabled={!(availableTimes.find((x) => x.time === time.time))}
-                  value={time}
-                  color={time.time === selectedTime ? "secondary" : "primary"}
-                  onClick={() => handleTime(time.time)}
-                >
-                  {time.time}
-                </Button>
-              ))}
+            <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
+              {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
+                <>
+                  {noTimes || availableTimes.availableHours == null ? <div>Closed</div>
+                    : generateAllTimes(openTime, closeTime).map((time) => {
+                      const available = availableTimes.availableHours;
+                      const hour = Number.parseInt(time.time.substring(0, 2), 10);
+                      return (
+                        <Button
+                          key={`time_button_${time.time}`}
+                          variant="contained"
+                          disabled={available.indexOf(hour) === -1}
+                          value={time}
+                          color={time.time === selectedTime ? "secondary" : "primary"}
+                          onClick={() => handleTime(time.time)}
+                        >
+                          {time.time}
+                        </Button>
+                      );
+                    })}
+                </>
+              )}
             </div>
           )}
         <div className={style.submitButtonContainer}>
@@ -185,10 +152,18 @@ const mapStateToProps = (state) => ({
   oldSeats: state.bookingReducer.seats,
   oldDate: state.bookingReducer.date,
   oldTime: state.bookingReducer.time,
+  restaurantHours: state.bookingReducer.restaurantHours,
+  availableTimes: state.bookingReducer.availableRestaurantHours,
+  isLoading: state.bookingReducer.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirmClick: (date, seats, time) => { dispatch(addBookingTime(date, seats, time)); },
+  onConfirmClick: (time) => { dispatch(addBookingTime(time)); },
+  onSeatChange: (seats) => { dispatch(addBookingSeats(seats)); },
+  onDateChange: (date) => { dispatch(addBookingDate(date)); },
+  getHours: bindActionCreators(getRestaurantHours, dispatch),
+  getAvailable: bindActionCreators(getAvailableHours, dispatch),
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer);

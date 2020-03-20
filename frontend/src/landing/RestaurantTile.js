@@ -12,8 +12,10 @@ import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
+
 
 /**
  * After the API has been loaded, we check if we have received any data.
@@ -76,7 +78,7 @@ const Tiles = ({ restaurants, toBooking }) => {
   );
 };
 
-// Keep for testing purposes
+// Keep for testing purposes when you can't connect to API
 // const fakeData = [
 //   {
 //     Id: 0,

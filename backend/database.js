@@ -4,7 +4,7 @@ import config from './config';
 
 dotenv.config();
 
-const databaseVariables = config.mock ? config.testDatabase : process.env;
+const databaseVariables = config.mock || process.env.GH_ACTIONS ? config.testDatabase : process.env;
 
 const connection = mysql.createConnection({
   host: databaseVariables.DB_HOST,
