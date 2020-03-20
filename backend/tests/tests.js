@@ -8,6 +8,9 @@ if (!process.env.GH_ACTIONS && !config.mock) {
   If you know what you are doing and wish to run this on a real database, remove this check.\n\n';
 }
 
+// MUST BE FIRST
+require('./setup');
+
 // List all tests to be run.
 require('./reservation/getAllForRestaurant'); // Using IDs 1-5
 
