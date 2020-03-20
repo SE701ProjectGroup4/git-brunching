@@ -25,8 +25,8 @@ Download the installer from the [official Node.js website](https://nodejs.org/en
 * Cypress:
 
 Install Cypress via `npm`
-`$ cd /your/project/path`
-`$ npm install cypress --save-dev`
+`$ cd testing`
+`$ npm install`
 
 ### Run Cypress test runner
 
