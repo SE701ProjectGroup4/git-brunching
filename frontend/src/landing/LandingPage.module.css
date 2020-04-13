@@ -122,6 +122,10 @@
     color: white;
 }
 
+.menuButton:hover {
+    color: #61c766;
+}
+
 .primaryButton {
     background-color: white;
     color: #61c766;
