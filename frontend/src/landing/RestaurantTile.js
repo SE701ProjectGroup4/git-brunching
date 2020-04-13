@@ -73,6 +73,7 @@ const Tiles = ({ restaurants, toBooking }) => {
               />
               <GridListTileBar 
                 title={data.Name}
+                // TODO: Link this button with the menu popup 
                 actionIcon={<IconButton className={style.menuButton}> 
                               <MenuBook className={style.menuIcon}/> 
                             </IconButton>}
