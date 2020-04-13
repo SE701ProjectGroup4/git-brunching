@@ -73,7 +73,7 @@ const Tiles = ({ restaurants, toBooking }) => {
               />
               <GridListTileBar 
                 title={data.Name}
-                actionIcon={<IconButton> <MenuBook/> </IconButton>}
+                actionIcon={<IconButton className={style.menuButton}> <MenuBook/> </IconButton>}
               />
             </CardActionArea>
           </Card>
