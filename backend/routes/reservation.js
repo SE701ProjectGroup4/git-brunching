@@ -58,7 +58,7 @@ const validateTime = (databaseRow, databaseError, action) => {
  *       200:
  *         description: Returns reservation object
  */
-router.get('/:reservationId', async (req, res) => {
+router.get('/findreservation/:reservationId', async (req, res) => {
   const reservationID = req.params.reservationId;
 
   if (!reservationID) {
@@ -417,6 +417,7 @@ router.get('/available', async (req, res) => {
     res.status(400).json({ error });
     return;
   }
+
   res.json({ result });
 });
 
