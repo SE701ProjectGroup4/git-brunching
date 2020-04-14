@@ -95,7 +95,6 @@
     background-color: orange;
 }
 
-
 .gridList {
     width: 90%;
     height: 100%;
@@ -103,7 +102,6 @@
     position: relative;
     justify-content: center;
 }
-
 
 .gridRoot {
     display: flex;
@@ -116,6 +114,19 @@
 
 .tileBar {
     background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%) !important;
+}
+
+.menuButton {
+    color: white;
+}
+
+.menuButton:hover {
+    color: #61c766;
+}
+
+.menuIcon {
+    width: 24px;
+    height: 24px;
 }
 
 .primaryButton {

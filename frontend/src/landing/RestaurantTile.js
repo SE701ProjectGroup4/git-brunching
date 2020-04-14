@@ -12,6 +12,8 @@ import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+import { MenuBook } from '@material-ui/icons'
+import IconButton from "@material-ui/core/IconButton";
 
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
@@ -69,7 +71,13 @@ const Tiles = ({ restaurants, toBooking }) => {
                 image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
                 title={data.Name}
               />
-              <GridListTileBar title={data.Name} />
+              <GridListTileBar 
+                title={data.Name}
+                // TODO: Link this button with the menu popup 
+                actionIcon={<IconButton className={style.menuButton}> 
+                              <MenuBook className={style.menuIcon}/> 
+                            </IconButton>}
+              />
             </CardActionArea>
           </Card>
         </GridListTile>
