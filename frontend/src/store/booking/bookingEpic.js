@@ -60,7 +60,7 @@ const addReservation = (action$, store) => action$.pipe(
         time: bookingData.time,
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
-        tableID: tableID[0].ID,
+        tableID: tableID.result[0].ID,
         notes: bookingData.notes,
         userID: user.userID,
       }),
