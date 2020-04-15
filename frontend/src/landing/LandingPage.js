@@ -15,6 +15,8 @@ const LandingPage = (props) => {
   const toBooking = () => {
     changePath("/booking", history);
   };
+  // TODO: need to change this to be a state that is managed by Redux for RESTAURANT user login
+  const isLoggedIn = true;
 
   return (
     <div className={style.landingPageContainer}>
@@ -30,12 +32,17 @@ const LandingPage = (props) => {
             <BookingEditPopupButton IDSwitchMethod={toBooking} />
             <div>
               <Button
+                disabled={!isLoggedIn}
                 variant="outlined"
-                className={style.secondaryButton}
+                className={
+                  isLoggedIn
+                    ? style.secondaryButton
+                    : style.secondaryButtonDisabled
+                }
                 onClick={() => changePath("/restaurant", history)}
               >
                 {/* Todo replace with something else */}
-                RESTAURANT
+                RESERVATIONS
               </Button>
             </div>
           </div>
