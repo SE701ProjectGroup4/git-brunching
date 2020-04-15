@@ -32,9 +32,12 @@ const timeMessages = messages.time;
  */
 const TimeContainer = (props) => {
   const history = useHistory();
+
+  console.log(history);
+
   const {
     oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
-    availableTimes, onSeatChange, onDateChange, isLoading,
+    availableTimes, onSeatChange, onDateChange, isLoading, mainHistory,
   } = props;
 
   const [seats, changeSeats] = useState(oldSeats);
@@ -132,6 +135,14 @@ const TimeContainer = (props) => {
             </div>
           )}
         <div className={style.submitButtonContainer}>
+          <Button
+            className={style.submitButton}
+            variant="contained"
+            color="primary"
+            onClick={() => changePath("/", mainHistory)}
+          >
+            Cancel
+          </Button>
           <Button
             className={style.submitButton}
             variant="contained"
