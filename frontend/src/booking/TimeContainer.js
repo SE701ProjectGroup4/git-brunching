@@ -33,8 +33,6 @@ const timeMessages = messages.time;
 const TimeContainer = (props) => {
   const history = useHistory();
 
-  console.log(history);
-
   const {
     oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
     availableTimes, onSeatChange, onDateChange, isLoading, mainHistory,
