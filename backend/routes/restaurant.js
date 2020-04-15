@@ -191,4 +191,41 @@ router.delete('/:restaurantID', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ *
+ * /restaurant/{restaurantID}/capacity:
+ *   get:
+ *     description: Get the maximum table capacity of a restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns the maximum capacity of the table in the restaurant
+ */
+
+router.get('/:restaurantID/capacity', (req, res) => {
+  const { restaurantID } = req.params;
+
+  if (!restaurantID) {
+    res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
+    return;
+  }
+  connection.query(
+  'SELECT MAX(MaxGuests) FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
+  (error,results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    });
+ });
+
 export default router;
