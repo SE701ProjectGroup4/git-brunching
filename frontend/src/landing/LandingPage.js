@@ -15,8 +15,8 @@ const LandingPage = (props) => {
   const toBooking = () => {
     changePath("/booking", history);
   };
-  // TODO: Need to retrieve from state as Currently just a placeholder as user authentication is not created
-  const restaurantLoggedIn = true;
+  // TODO: need to change this to be a state that is managed by Redux for RESTAURANT user login
+  const isLoggedIn = false;
 
   return (
     <div className={style.landingPageContainer}>
@@ -31,8 +31,9 @@ const LandingPage = (props) => {
           <div className={style.buttonHolder}>
             <BookingEditPopupButton IDSwitchMethod={toBooking} />
             <div>
-              {restaurantLoggedIn ? (
+              {isLoggedIn ? (
                 <Button
+                  disabled={!isLoggedIn}
                   variant="outlined"
                   className={style.secondaryButton}
                   onClick={() => changePath("/restaurant", history)}
