@@ -42,7 +42,7 @@ const LandingPage = (props) => {
                 onClick={() => changePath("/restaurant", history)}
               >
                 {/* Todo replace with something else */}
-                RESTAURANT
+                RESERVATIONS
               </Button>
             </div>
           </div>
