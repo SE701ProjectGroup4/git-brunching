@@ -218,7 +218,7 @@ router.get('/:restaurantID/capacity', (req, res) => {
     return;
   }
   connection.query(
-  'SELECT MAX(MaxGuests) FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
+  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as capacity FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
   (error,results) => {
       if (error) {
         res.status(400).json({ error });
