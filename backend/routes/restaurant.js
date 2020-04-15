@@ -125,6 +125,11 @@ router.get('/', (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
+ *       - name: ownerId
+ *         description: ID of the restaurant owner
+ *         in: formData
+ *         required: true
+ *         type: integer
  *     responses:
  *       200:
  *         description: Successfully added restaurant to database
@@ -137,7 +142,12 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query('INSERT INTO RESTAURANT (`Name`) VALUES (?);', [body.name], error => {
+  if (!body.ownerId) {
+    res.status(400).json({ error: 'POST restaurant/ invocation error: post body needs { ownerId }' });
+    return;
+  }
+
+  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`) VALUES (?, ?);', [body.name, body.ownerId], error => {
     if (error) {
       res.status(400).json({ error });
       return;
