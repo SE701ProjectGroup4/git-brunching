@@ -15,6 +15,8 @@ const LandingPage = (props) => {
   const toBooking = () => {
     changePath("/booking", history);
   };
+  // TODO: Need to retrieve from state as Currently just a placeholder as user authentication is not created
+  const restaurantLoggedIn = true;
 
   return (
     <div className={style.landingPageContainer}>
@@ -29,14 +31,16 @@ const LandingPage = (props) => {
           <div className={style.buttonHolder}>
             <BookingEditPopupButton IDSwitchMethod={toBooking} />
             <div>
-              <Button
-                variant="outlined"
-                className={style.secondaryButton}
-                onClick={() => changePath("/restaurant", history)}
-              >
-                {/* Todo replace with something else */}
-                RESTAURANT
-              </Button>
+              {restaurantLoggedIn ? (
+                <Button
+                  variant="outlined"
+                  className={style.secondaryButton}
+                  onClick={() => changePath("/restaurant", history)}
+                >
+                  {/* Todo replace with something else */}
+                  RESTAURANT
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>
