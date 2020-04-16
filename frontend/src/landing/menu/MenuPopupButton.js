@@ -6,13 +6,14 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
   const MenuPopupButton = (props) => {
+    const { restaurantName } = props;
     const [open, setOpen] = React.useState(false);
   
     /**
        * Opens the popup
        */
     const handleClickOpen = () => {
-      console.log("****** handling click open ******");
+      console.log(restaurantName + "****** handling click open ******");
       setOpen(true);
     };
   
@@ -32,7 +33,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
         <Dialog open={open} onClose={handleClose} >
-            <DialogTitle>Example</DialogTitle>
+            <DialogTitle>{restaurantName}</DialogTitle>
         </Dialog>
       </div>
     );
