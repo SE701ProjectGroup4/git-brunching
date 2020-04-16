@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER,
+  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, USER,
 } from "../../general/config";
 
 /**
@@ -118,6 +118,24 @@ const editReservation = (action$, store) => action$.pipe(
   })),
 );
 
+const getRestaurantBookings = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.GET_RESTAURANT_BOOKINGS),
+  mergeMap(async (action) => {
+    const bookingData = store.value.bookingReducer;
+    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRetaurantID))
+      .then((res) => res.json());
+    return {
+      ...action,
+      type: actionType.GET_RESTAURANT_BOOKINGS_SUCCCESS,
+      restaurantBookings: bookings.result,
+    };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.GET_RESTAURANT_BOOKINGS_FAIL,
+    message: err.message,
+  })),
+);
+
 /**
  * Asynchronous request for reeiving a restaurants opening hours
  * @param action$
@@ -168,6 +186,7 @@ export default addReservation;
 
 export {
   editReservation,
+  getRestaurantBookings,
   getRestaurantHours,
   getAvailableHours,
 };
