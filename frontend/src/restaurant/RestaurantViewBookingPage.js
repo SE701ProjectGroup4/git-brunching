@@ -62,49 +62,49 @@ const RestaurantViewBookingPage = (props) => {
     phone,
     email,
   ) => (
-      <div className={style.bookingContainer}>
-        <div>
-          <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
-        </div>
-        <div>
-          <span className={style.date}>{`${date}`}</span>
-          <span className={style.time}>{time}</span>
-        </div>
-        <div className={style.userDetails}>
-          <p>
-            Name:
+    <div className={style.bookingContainer}>
+      <div>
+        <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
+      </div>
+      <div>
+        <span className={style.date}>{`${date}`}</span>
+        <span className={style.time}>{time}</span>
+      </div>
+      <div className={style.userDetails}>
+        <p>
+          Name:
           {" "}
-            {name}
-            {" "}
-            <br />
+          {name}
+          {" "}
+          <br />
           Phone:
           {" "}
-            {phone}
-            {" "}
-            <br />
+          {phone}
+          {" "}
+          <br />
           Email:
           {" "}
-            {email}
-            {" "}
-            <br />
+          {email}
+          {" "}
+          <br />
           Guests:
           {" "}
-            {numberOfGuests}
-            {" "}
-            <br />
-            <span className={style.notes}>{`Notes: ${notes}`}</span>
-          </p>
-        </div>
-        <div className={style.buttonWrapper}>
-          <Button className={style.secondaryButton} variant="contained">
-            Modify
-        </Button>
-          <Button className={style.secondaryButton} variant="contained">
-            Delete
-        </Button>
-        </div>
+          {numberOfGuests}
+          {" "}
+          <br />
+          <span className={style.notes}>{`Notes: ${notes}`}</span>
+        </p>
       </div>
-    );
+      <div className={style.buttonWrapper}>
+        <Button className={style.secondaryButton} variant="contained">
+          Modify
+        </Button>
+        <Button className={style.secondaryButton} variant="contained">
+          Delete
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <div className={style.container}>
@@ -125,21 +125,27 @@ const RestaurantViewBookingPage = (props) => {
             : (
               <div className={style.listWrapper}>
                 <ul className={style.bookingList}>
-                  {restaurantBookings.map((booking) => (
-                    <li className={style.booking} key={booking.ID}>
-                      {createBookingItem(
-                        booking.ID,
-                        booking.Date,
-                        booking.Time,
-                        booking.Notes,
-                        booking.NumberOfGuests,
-                        booking.TableID,
-                        booking.Name,
-                        booking.Phone,
-                        booking.Email,
-                      )}
-                    </li>
-                  ))}
+                  {restaurantBookings.length === 0
+                    ? (
+                      <li>
+                        <span> No bookings found </span>
+                      </li>
+                    )
+                    : restaurantBookings.map((booking) => (
+                      <li className={style.booking} key={booking.ID}>
+                        {createBookingItem(
+                          booking.ID,
+                          booking.Date,
+                          booking.Time,
+                          booking.Notes,
+                          booking.NumberOfGuests,
+                          booking.TableID,
+                          booking.Name,
+                          booking.Phone,
+                          booking.Email,
+                        )}
+                      </li>
+                    ))}
                 </ul>
               </div>
             )}
