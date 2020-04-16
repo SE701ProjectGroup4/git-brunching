@@ -11,10 +11,14 @@ router.use(bodyParser.urlencoded({ extended: true }));
  * @swagger
  *
 <<<<<<< HEAD
+<<<<<<< HEAD
  * /reviews/{reviewID}:
 =======
  * /restaurant:
 >>>>>>> 181f028... added reviews file and get request
+=======
+ * /reviews:
+>>>>>>> fb8e382... added review post method
  *   get:
  *     description: Fetch a review object
  *     produces:
@@ -46,10 +50,17 @@ router.get('/:reviewID', async (req, res) => {
   });
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * @swagger
  *
  * /reviews/restaurant/{restaurantID}:
+=======
+/**
+ * @swagger
+ *
+ * /reviews:
+>>>>>>> fb8e382... added review post method
  *   get:
  *     description: Fetch a list of review objects
  *     produces:
@@ -66,12 +77,21 @@ router.get('/:reviewID', async (req, res) => {
  */
 router.get('/restaurant/:restaurantID', async (req, res) => {
   const { restaurantID } = req.params;
+<<<<<<< HEAD
 
   if (!restaurantID) {
     res.status(400).json({ error: 'GET reviews/restaurant/{id} invocation error: {id} must be an int' });
     return;
   }
 
+=======
+
+  if (!restaurantID) {
+    res.status(400).json({ error: 'GET reviews/restaurant/{id} invocation error: {id} must be an int' });
+    return;
+  }
+
+>>>>>>> fb8e382... added review post method
   connection.query('SELECT * FROM REVIEW WHERE RESTAURANTID = ? ', [restaurantID], (error, results) => {
     if (error) {
       res.status(400).json({ error });
@@ -86,6 +106,7 @@ router.get('/restaurant/:restaurantID', async (req, res) => {
  * /reviews:
  *   post:
  *     description: Adds a reviews object to the database
+<<<<<<< HEAD
  *     produces:
  *       - application/json
  *     parameters:
@@ -156,22 +177,85 @@ router.post('/', (req, res) => {
  * /restaurant:
  *   delete:
  *     description: Deletes a restaurant object to the database
+=======
+>>>>>>> fb8e382... added review post method
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: name
+ *         description: Name of reviewer
+ *         in: formData
+ *         required: true
+ *         type: string
  *       - name: restaurantID
+<<<<<<< HEAD
  *         description: Primary Key of Restaurant database table
 >>>>>>> 181f028... added reviews file and get request
+=======
+ *         description: ID of the restaurant the review is for
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully added restaurant to database
+ */
+router.post('/', (req, res) => {
+  const { body } = req;
+
+  if (!body.review) {
+    res.status(400).json({ error: 'POST reviews/ invocation error: post body needs { review }' });
+    return;
+  }
+
+  if (!body.name) {
+    res.status(400).json({ error: 'POST reviews/ invocation error: post body needs { name }' });
+    return;
+  }
+  if (!body.restaurantID) {
+    res.status(400).json({ error: 'POST reviews/ invocation error: post body needs { restaurantID }' });
+    return;
+  }
+
+  connection.query(
+    'INSERT INTO REVIEW (`Review`, `Name`, `RestaurantID`) VALUES (?, ?, ?);',
+    [body.review, body.name, body.restaurantID],
+    (error) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json('added');
+    }
+  );
+});
+
+/**
+ * @swagger
+ *
+ * /reviews:
+ *   delete:
+ *     description: Deletes a reviews object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: reviewID
+ *         description: Primary Key of reviews database table
+>>>>>>> fb8e382... added review post method
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         description: Successfully deleted reviews to database
 =======
  *         description: Successfully deleted restaurant to database
 >>>>>>> 181f028... added reviews file and get request
+=======
+ *         description: Successfully deleted reviews to database
+>>>>>>> fb8e382... added review post method
  */
 router.delete('/:reviewID', (req, res) => {
   const { reviewID } = req.params;
