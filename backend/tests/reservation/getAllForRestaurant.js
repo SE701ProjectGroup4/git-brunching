@@ -28,10 +28,10 @@ before(async () => {
 describe('GET reservations/', () => {
   // Test that the API is able to handle calls when there are no reservations for the desired restaurant.
   it('1. should return an empty array when there are no reservations.', async function () {
-    // const queryResult = await chai
-    //   .request(`${config.listen.address}:${config.listen.port}/reservation`)
-    //   .get('')
-    //   .query({ restaurantID: 1 });
+    const queryResult = await chai
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
+      .get('')
+      .query({ restaurantID: 1 });
 
     // assert.isObject(queryResult, 'Expected the request to return an object');
     // assert.isFalse(queryResult.error, 'Expected error to be undefined. Ensure an instance of the api is running');
@@ -46,14 +46,14 @@ describe('GET reservations/', () => {
 
   // Test that the API is able to return the correct result when there is only one reservation for the desired restaurant.
   it('2. should return an array of reservations when the restaurant only has one reservation', async function () {
-    // await connection
-    //   .asyncQuery(
-    //     `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
-    // VALUES (1, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
-    //   )
-    //   .then(({ error }) => {
-    //     assert.isUndefined(error, 'Expected no errors when adding items to database');
-    //   });
+    await connection
+      .asyncQuery(
+        `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+    VALUES (1, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
+      )
+      .then(({ error }) => {
+        assert.isUndefined(error, 'Expected no errors when adding items to database');
+      });
 
     // const queryResult = await chai
     //   .request(`${config.listen.address}:${config.listen.port}/reservation`)
@@ -90,14 +90,14 @@ describe('GET reservations/', () => {
 
   // Test that the API is able to return the correct result when there are multiple reservations for the desired restaurant.
   it('3. should return an array of reservations when the restaurant has multiple reservations', async function () {
-    // await connection
-    //   .asyncQuery(
-    //     `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
-    // VALUES (2, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
-    //   )
-    //   .then(({ error }) => {
-    //     assert.isUndefined(error, 'Expected no errors when adding items to database');
-    //   });
+    await connection
+      .asyncQuery(
+        `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+    VALUES (2, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
+      )
+      .then(({ error }) => {
+        assert.isUndefined(error, 'Expected no errors when adding items to database');
+      });
 
     // await connection
     //   .asyncQuery(
@@ -163,10 +163,10 @@ describe('GET reservations/', () => {
 
   // Test that the API is able to handle requests that do not provide a desired restaurantID and return the appropriate error.
   it('4. should return expected error when restaurantID is not provided.', async function () {
-    // const queryResult = await chai
-    //   .request(`${config.listen.address}:${config.listen.port}/reservation`)
-    //   .get('')
-    //   .query({});
+    const queryResult = await chai
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
+      .get('')
+      .query({});
 
     // assert.isObject(queryResult, 'Expected the request to return an object');
 
@@ -180,10 +180,10 @@ describe('GET reservations/', () => {
 
   // Test that the API is able to handle requests that include additional, un-needed parameters and still return the expected result.
   it('5. should ignore extra parameters.', async function () {
-    // const queryResult = await chai
-    //   .request(`${config.listen.address}:${config.listen.port}/reservation`)
-    //   .get('')
-    //   .query({ restaurantID: 1, notRestaurantID: 2 });
+    const queryResult = await chai
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
+      .get('')
+      .query({ restaurantID: 1, notRestaurantID: 2 });
 
     // assert.isObject(queryResult, 'Expected the request to return an object');
     // assert.isFalse(queryResult.error, 'Expected error to be undefined. Ensure an instance of the api is running');
@@ -235,10 +235,10 @@ describe('GET reservations/', () => {
 
   // Test that the API is able to handle requests that have a malformed restaurantID and return the appropriate error.
   it('6. should return expected error when restaurantID is malformed.', async function () {
-//     const queryResult = await chai
-//       .request(`${config.listen.address}:${config.listen.port}/reservation`)
-//       .get('')
-//       .query({ restaurantID: [1, 2, 3] });
+    const queryResult = await chai
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
+      .get('')
+      .query({ restaurantID: [1, 2, 3] });
 
 //     assert.isObject(queryResult, 'Expected the request to return an object');
 //     assert.isObject(queryResult.body, 'Expected the request body to be an object');
@@ -248,12 +248,12 @@ describe('GET reservations/', () => {
 //     assert.strictEqual(error.code, 'ER_PARSE_ERROR', 'Expected the correct error code');
 //   });
 
-//   // Test that the API is able to handle requests that have a restaurantID that is not in the database. Should return an empty array.
-//   it('7. should return an empty array when restaurantID does not exist in database.', async function () {
-//     const queryResult = await chai
-//       .request(`${config.listen.address}:${config.listen.port}/reservation`)
-//       .get('')
-//       .query({ restaurantID: 4 });
+  // Test that the API is able to handle requests that have a restaurantID that is not in the database. Should return an empty array.
+  it('7. should return an empty array when restaurantID does not exist in database.', async function () {
+    const queryResult = await chai
+      .request(`${config.listen.address}:${config.listen.port}/reservation`)
+      .get('')
+      .query({ restaurantID: 4 });
 
 //     assert.isObject(queryResult, 'Expected the request to return an object');
 //     assert.isObject(queryResult.body, 'Expected the request body to be an object');
