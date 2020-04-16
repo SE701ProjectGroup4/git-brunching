@@ -15,8 +15,6 @@ import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
 import MenuPopupButton from "./menu/MenuPopupButton";
-import { MenuBook } from '@material-ui/icons';
-import IconButton from "@material-ui/core/IconButton";
 
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
