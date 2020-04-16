@@ -14,6 +14,9 @@ import IconButton from "@material-ui/core/IconButton";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+import MenuPopupButton from "./menu/MenuPopupButton";
+import { MenuBook } from '@material-ui/icons';
+import IconButton from "@material-ui/core/IconButton";
 
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
@@ -63,7 +66,7 @@ const Tiles = ({ restaurants, toBooking }) => {
     >
       {restaurants.map((data, index) => (
         <GridListTile key={data.Name} className={style.gridTile}>
-          <Card onClick={() => toBooking(data)} className={style.card}>
+          <Card className={style.card}>
             <CardActionArea>
               <CardMedia
                 style={{ height: cellHeight }}
@@ -73,12 +76,7 @@ const Tiles = ({ restaurants, toBooking }) => {
               />
               <GridListTileBar
                 title={data.Name}
-                // TODO: Link this button with the menu popup
-                actionIcon={(
-                  <IconButton className={style.menuButton}>
-                    <MenuBook className={style.menuIcon} />
-                  </IconButton>
-)}
+                actionIcon={<MenuPopupButton/>}
               />
             </CardActionArea>
           </Card>
