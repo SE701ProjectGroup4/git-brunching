@@ -136,6 +136,8 @@
 .menuPopup {
   width: 550px;
   height: 850px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .primaryButton {

@@ -4,6 +4,7 @@ import style from "../LandingPage.module.css";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Typography from '@material-ui/core/Typography';
 
   const MenuPopupButton = (props) => {
     const { restaurantName } = props;
@@ -31,7 +32,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
         <Dialog open={open} onClose={handleClose} >
-            <DialogTitle className={style.menuPopup}>{restaurantName}</DialogTitle>
+            <DialogTitle className={style.menuPopup}>
+              <Typography className={style.menuPopup}>
+                {restaurantName}
+              </Typography>
+            </DialogTitle>
         </Dialog>
       </>
     );
