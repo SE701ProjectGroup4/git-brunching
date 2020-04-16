@@ -10,7 +10,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
+<<<<<<< HEAD
  * /reviews/{reviewID}:
+=======
+ * /restaurant:
+>>>>>>> 181f028... added reviews file and get request
  *   get:
  *     description: Fetch a review object
  *     produces:
@@ -41,6 +45,7 @@ router.get('/:reviewID', async (req, res) => {
     res.json(results);
   });
 });
+<<<<<<< HEAD
 /**
  * @swagger
  *
@@ -132,10 +137,13 @@ router.post('/', (req, res) => {
     }
   );
 });
+=======
+>>>>>>> 181f028... added reviews file and get request
 
 /**
  * @swagger
  *
+<<<<<<< HEAD
  * /reviews:
  *   delete:
  *     description: Deletes a reviews object to the database
@@ -144,18 +152,36 @@ router.post('/', (req, res) => {
  *     parameters:
  *       - name: reviewID
  *         description: Primary Key of reviews database table
+=======
+ * /restaurant:
+ *   delete:
+ *     description: Deletes a restaurant object to the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+>>>>>>> 181f028... added reviews file and get request
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
+<<<<<<< HEAD
  *         description: Successfully deleted reviews to database
+=======
+ *         description: Successfully deleted restaurant to database
+>>>>>>> 181f028... added reviews file and get request
  */
 router.delete('/:reviewID', (req, res) => {
   const { reviewID } = req.params;
 
   if (!reviewID) {
+<<<<<<< HEAD
     res.status(400).json({ error: 'DELETE /reviews/{id} invocation error: {id} must be an int' });
+=======
+    res.status(400).json({ error: 'DELETE /review/{id} invocation error: {id} must be an int' });
+>>>>>>> 181f028... added reviews file and get request
     return;
   }
 
