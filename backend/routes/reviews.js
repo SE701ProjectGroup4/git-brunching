@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  * /reviews/{reviewID}:
 =======
  * /restaurant:
@@ -19,6 +20,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 =======
  * /reviews:
 >>>>>>> fb8e382... added review post method
+=======
+ * /reviews:
+>>>>>>> 304a074... added review post method
  *   get:
  *     description: Fetch a review object
  *     produces:
@@ -51,16 +55,22 @@ router.get('/:reviewID', async (req, res) => {
 });
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * @swagger
  *
  * /reviews/restaurant/{restaurantID}:
 =======
+=======
+>>>>>>> 304a074... added review post method
 /**
  * @swagger
  *
  * /reviews:
+<<<<<<< HEAD
 >>>>>>> fb8e382... added review post method
+=======
+>>>>>>> 304a074... added review post method
  *   get:
  *     description: Fetch a list of review objects
  *     produces:
@@ -78,6 +88,7 @@ router.get('/:reviewID', async (req, res) => {
 router.get('/restaurant/:restaurantID', async (req, res) => {
   const { restaurantID } = req.params;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   if (!restaurantID) {
     res.status(400).json({ error: 'GET reviews/restaurant/{id} invocation error: {id} must be an int' });
@@ -85,11 +96,14 @@ router.get('/restaurant/:restaurantID', async (req, res) => {
   }
 
 =======
+=======
+>>>>>>> 304a074... added review post method
 
   if (!restaurantID) {
     res.status(400).json({ error: 'GET reviews/restaurant/{id} invocation error: {id} must be an int' });
     return;
   }
+<<<<<<< HEAD
 
 >>>>>>> fb8e382... added review post method
   connection.query('SELECT * FROM REVIEW WHERE RESTAURANTID = ? ', [restaurantID], (error, results) => {
@@ -160,10 +174,21 @@ router.post('/', (req, res) => {
 });
 =======
 >>>>>>> 181f028... added reviews file and get request
+=======
+>>>>>>> 304a074... added review post method
 
+  connection.query('SELECT * FROM REVIEW WHERE RESTAURANTID = ? ', [restaurantID], (error, results) => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+    res.json(results);
+  });
+});
 /**
  * @swagger
  *
+<<<<<<< HEAD
 <<<<<<< HEAD
  * /reviews:
  *   delete:
@@ -179,6 +204,11 @@ router.post('/', (req, res) => {
  *     description: Deletes a restaurant object to the database
 =======
 >>>>>>> fb8e382... added review post method
+=======
+ * /reviews:
+ *   post:
+ *     description: Adds a reviews object to the database
+>>>>>>> 304a074... added review post method
  *     produces:
  *       - application/json
  *     parameters:
@@ -189,9 +219,12 @@ router.post('/', (req, res) => {
  *         type: string
  *       - name: restaurantID
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         description: Primary Key of Restaurant database table
 >>>>>>> 181f028... added reviews file and get request
 =======
+=======
+>>>>>>> 304a074... added review post method
  *         description: ID of the restaurant the review is for
  *         in: formData
  *         required: true
@@ -241,12 +274,16 @@ router.post('/', (req, res) => {
  *     parameters:
  *       - name: reviewID
  *         description: Primary Key of reviews database table
+<<<<<<< HEAD
 >>>>>>> fb8e382... added review post method
+=======
+>>>>>>> 304a074... added review post method
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
  *         description: Successfully deleted reviews to database
@@ -256,6 +293,9 @@ router.post('/', (req, res) => {
 =======
  *         description: Successfully deleted reviews to database
 >>>>>>> fb8e382... added review post method
+=======
+ *         description: Successfully deleted reviews to database
+>>>>>>> 304a074... added review post method
  */
 router.delete('/:reviewID', (req, res) => {
   const { reviewID } = req.params;
