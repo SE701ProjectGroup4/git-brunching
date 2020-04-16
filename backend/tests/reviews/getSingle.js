@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2ed4ac4... commented out test reviews
 // import chai, { assert } from 'chai';
 // import chaiHttp from 'chai-http';
 // import config from '../../config';
@@ -48,6 +51,7 @@
 //       });
 //   });
 // });
+<<<<<<< HEAD
 =======
 import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
@@ -99,3 +103,5 @@ describe('GET reviews/single', () => {
   });
 });
 >>>>>>> 09e60cd... added swagger documentation
+=======
+>>>>>>> 2ed4ac4... commented out test reviews
