@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-228035';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-243912';
 
 --
 -- Table structure for table `HOURS`
@@ -102,7 +102,7 @@ CREATE TABLE `RESTAURANT` (
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   KEY `OwnerId` (`OwnerId`),
   CONSTRAINT `RESTAURANT_ibfk_1` FOREIGN KEY (`OwnerId`) REFERENCES `USER` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,8 +111,36 @@ CREATE TABLE `RESTAURANT` (
 
 LOCK TABLES `RESTAURANT` WRITE;
 /*!40000 ALTER TABLE `RESTAURANT` DISABLE KEYS */;
-INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1);
+INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1),(327,'Panmure Fried Chicken',1);
 /*!40000 ALTER TABLE `RESTAURANT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `REVIEW`
+--
+
+DROP TABLE IF EXISTS `REVIEW`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `REVIEW` (
+  `Id` int(32) NOT NULL,
+  `Name` varchar(45) NOT NULL,
+  `RestaurantId` int(11) NOT NULL,
+  `Review` text NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `RestaurantId` (`RestaurantId`),
+  CONSTRAINT `REVIEW_ibfk_1` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `REVIEW`
+--
+
+LOCK TABLES `REVIEW` WRITE;
+/*!40000 ALTER TABLE `REVIEW` DISABLE KEYS */;
+INSERT INTO `REVIEW` VALUES (1,'Anon',1,'Best fried chicken');
+/*!40000 ALTER TABLE `REVIEW` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -180,4 +208,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-15 17:12:06
+-- Dump completed on 2020-04-16 15:15:57
