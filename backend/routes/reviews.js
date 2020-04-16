@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
- * /reviews:
+ * /reviews/{reviewID}:
  *   get:
  *     description: Fetch a review object
  *     produces:
@@ -44,7 +44,7 @@ router.get('/:reviewID', async (req, res) => {
 /**
  * @swagger
  *
- * /reviews:
+ * /reviews/restaurant/{restaurantID}:
  *   get:
  *     description: Fetch a list of review objects
  *     produces:
@@ -94,9 +94,14 @@ router.get('/restaurant/:restaurantID', async (req, res) => {
  *         in: formData
  *         required: true
  *         type: integer
+ *       - name: review
+ *         description: review description
+ *         in: formData
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
- *         description: Successfully added restaurant to database
+ *         description: Successfully added review to database
  */
 router.post('/', (req, res) => {
   const { body } = req;
@@ -150,7 +155,7 @@ router.delete('/:reviewID', (req, res) => {
   const { reviewID } = req.params;
 
   if (!reviewID) {
-    res.status(400).json({ error: 'DELETE /review/{id} invocation error: {id} must be an int' });
+    res.status(400).json({ error: 'DELETE /reviews/{id} invocation error: {id} must be an int' });
     return;
   }
 
