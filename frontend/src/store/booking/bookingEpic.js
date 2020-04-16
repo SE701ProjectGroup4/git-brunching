@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER, TABLE_ID
+  FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER, TABLE_ID,
 } from "../../general/config";
 
 /**
@@ -35,7 +35,7 @@ const addReservation = (action$, store) => action$.pipe(
       }),
     }).then((res) => res.json());
 
-    var tableIDEndpoint = TABLE_ID + '?date=' + bookingData.date + '&time=' + bookingData.time.substring(0,2) + '&numberOfGuests=' + bookingData.seats + '&restaurantID=' + restaurantData.selected.ID;
+    let tableIDEndpoint = TABLE_ID.toString() + "?date=" + bookingData.date + "&time=" + bookingData.time.substring(0, 2) + "&numberOfGuests=" + bookingData.seats + "&restaurantID=" + restaurantData.selected.ID;
 
     const tableID = await fetch(tableIDEndpoint, {
       method: "GET",
@@ -44,7 +44,7 @@ const addReservation = (action$, store) => action$.pipe(
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
-      }
+      },
     }).then((res) => res.json());
 
     const booking = await fetch(RESERVATION, {
