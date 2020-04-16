@@ -13,7 +13,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
        * Opens the popup
        */
     const handleClickOpen = () => {
-      console.log(restaurantName + "****** handling click open ******");
       setOpen(true);
     };
   
@@ -21,21 +20,20 @@ import DialogTitle from "@material-ui/core/DialogTitle";
        * Hides the popup
        */
     const handleClose = () => {
-      console.log("****** handling close ******");
       setOpen(false);
     };
   
     return (
-      <div>
+      <>
         <IconButton 
             className={style.menuButton}
             onClick={handleClickOpen}> 
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
         <Dialog open={open} onClose={handleClose} >
-            <DialogTitle>{restaurantName}</DialogTitle>
+            <DialogTitle className={style.menuPopup}>{restaurantName}</DialogTitle>
         </Dialog>
-      </div>
+      </>
     );
   };
   
