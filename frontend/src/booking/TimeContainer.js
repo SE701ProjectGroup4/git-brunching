@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { TextField, Button, CircularProgress } from "@material-ui/core";
+import {TextField, Button, CircularProgress } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -49,6 +49,7 @@ const TimeContainer = (props) => {
   // There will be no times when the restaurant is closed
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
+  const dateError = selectedDate == null;
 
   let openTime = "";
   let closeTime = "";
@@ -102,11 +103,18 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
+              error={dateError}
               onChange={(e) => {
-                const formattedDate = format(e, "yyyy-MM-dd");
-                setSelectedDate(formattedDate);
-                onDateChange(formattedDate);
-                getAvailable();
+                try{
+                  const formattedDate = format(e, "yyyy-MM-dd");
+                  setSelectedDate(formattedDate);
+                  onDateChange(formattedDate);
+                  getAvailable();
+                }
+                catch (RangeError) {
+                  setSelectedDate(null);
+                  getAvailable();
+                }
               }}
               KeyboardButtonProps={{
                 "aria-label": "change date",
