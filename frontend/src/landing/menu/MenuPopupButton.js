@@ -12,13 +12,15 @@ import Typography from '@material-ui/core/Typography';
   
     // Show popup
     const handleClickOpen = (e) => {
-      // Prevent click from propagating to restaurant card
+      // Prevent click from propagating to restaurant card and going straight to booking
       e.stopPropagation();
       setOpen(true);
     }
   
     // Hide popup
-    const handleClose = () => {
+    const handleClose = (e) => {
+      // Prevent click from propagating to restaurant card when exiting popup
+      e.stopPropagation();
       setOpen(false);
     };
   
