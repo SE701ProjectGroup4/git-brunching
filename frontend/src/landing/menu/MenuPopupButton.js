@@ -10,28 +10,26 @@ import Typography from '@material-ui/core/Typography';
     const { restaurantName } = props;
     const [open, setOpen] = React.useState(false);
   
-    /**
-       * Opens the popup
-       */
-    const handleClickOpen = () => {
+    // Show popup
+    const handleClickOpen = (e) => {
+      // Prevent click from propagating to restaurant card
+      e.stopPropagation();
       setOpen(true);
-    };
+    }
   
-    /**
-       * Hides the popup
-       */
+    // Hide popup
     const handleClose = () => {
       setOpen(false);
     };
   
     return (
       <>
-        <IconButton 
+        <IconButton
             className={style.menuButton}
-            onClick={handleClickOpen}> 
+            onClick={handleClickOpen}>
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
-        <Dialog open={open} onClose={handleClose} >
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle className={style.menuPopup}>
               <Typography className={style.menuPopup}>
                 {restaurantName}
