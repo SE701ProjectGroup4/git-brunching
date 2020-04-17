@@ -70,11 +70,11 @@ const Tiles = ({ restaurants, toBooking }) => {
                 image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
                 title={data.Name}
               />
-              <GridListTileBar
+            </CardActionArea>
+            <GridListTileBar
                 title={data.Name}
                 actionIcon={<MenuPopupButton restaurantName={data.Name}/>}
-              />
-            </CardActionArea>
+            />
           </Card>
         </GridListTile>
       ))}
