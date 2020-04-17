@@ -19,6 +19,8 @@ const messages = {
     buttonNextText: "Next",
     buttonReturnText: "Return",
     placeholder: "AT TIME",
+    maxGuestMsg: "Maximum guest for this booking is ",
+    minGuestMsg: "Minimum guest for this booking is ",
   },
   confirmation: {
     buttonBackText: "Back",
