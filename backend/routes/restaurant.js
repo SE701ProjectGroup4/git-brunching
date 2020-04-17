@@ -209,7 +209,6 @@ router.delete('/:restaurantID', (req, res) => {
  *       200:
  *         description: Returns the maximum capacity of the table in the restaurant
  */
-
 router.get('/:restaurantID/capacity', (req, res) => {
   const { restaurantID } = req.params;
 
@@ -217,9 +216,10 @@ router.get('/:restaurantID/capacity', (req, res) => {
     res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
     return;
   }
+  
   connection.query(
-  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as capacity FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
-  (error,results) => {
+  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
+  (error, results) => {
       if (error) {
         res.status(400).json({ error });
         return;
