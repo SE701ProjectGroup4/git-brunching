@@ -9,8 +9,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
-import { MenuBook } from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
@@ -64,7 +62,7 @@ const Tiles = ({ restaurants, toBooking }) => {
     >
       {restaurants.map((data, index) => (
         <GridListTile key={data.Name} className={style.gridTile}>
-          <Card className={style.card}>
+          <Card onClick={() => toBooking(data)} className={style.card}>
             <CardActionArea>
               <CardMedia
                 style={{ height: cellHeight }}
