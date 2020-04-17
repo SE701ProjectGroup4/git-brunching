@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   get:
  *     description: Fetch a restaurant object
  *     produces:
@@ -159,7 +159,7 @@ router.post('/', (req, res) => {
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   delete:
  *     description: Deletes a restaurant object to the database
  *     produces:
