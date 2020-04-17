@@ -13,10 +13,10 @@ import ConfirmationContainer from "./ConfirmationContainer";
  * @param history
  * @returns {null|*}
  */
-const renderContainer = (type, history) => {
+const renderContainer = (type, history, mainHistory) => {
   switch (type) {
     case "time":
-      return <TimeContainer />;
+      return <TimeContainer mainHistory={mainHistory} />;
     case "detail":
       return <DetailsContainer />;
     case "confirmation":
@@ -41,13 +41,13 @@ const renderProgress = (type) => (
 );
 
 const ContentContainer = (props) => {
-  const { type, history } = props;
+  const { type, history, mainHistory } = props;
 
 
   return (
     <div>
       {renderProgress(type)}
-      {renderContainer(type, history)}
+      {renderContainer(type, history, mainHistory)}
     </div>
   );
 };

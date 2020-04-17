@@ -14,6 +14,8 @@ const initialState = {
   error: null,
   loading: false,
   bookingCode: "",
+  currentRetaurantID: 0,
+  restaurantBookings: [],
   restaurantHours: [],
   availableRestaurantHours: [],
 };
@@ -97,6 +99,24 @@ const bookingReducer = (state, action) => {
       return {
         ...state,
         bookingCode: action.bookingCode,
+      };
+    case actionType.GET_RESTAURANT_BOOKINGS:
+      return {
+        ...state,
+        loading: true,
+        currentRetaurantID: action.restaurantID,
+      };
+    case actionType.GET_RESTAURANT_BOOKINGS_SUCCCESS:
+      return {
+        ...state,
+        loading: false,
+        restaurantBookings: action.restaurantBookings,
+      };
+    case actionType.GET_RESTAURANT_BOOKINGS_FAIL:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
       };
     case actionType.GET_RESTAURANT_HOURS:
       return {

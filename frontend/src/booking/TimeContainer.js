@@ -32,9 +32,10 @@ const timeMessages = messages.time;
  */
 const TimeContainer = (props) => {
   const history = useHistory();
+
   const {
     oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
-    availableTimes, onSeatChange, onDateChange, isLoading,
+    availableTimes, onSeatChange, onDateChange, isLoading, mainHistory,
   } = props;
 
   const [seats, changeSeats] = useState(oldSeats);
@@ -48,6 +49,7 @@ const TimeContainer = (props) => {
   // There will be no times when the restaurant is closed
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
+  const dateError = selectedDate == null;
 
   let openTime = "";
   let closeTime = "";
@@ -66,12 +68,18 @@ const TimeContainer = (props) => {
     setSelectedTime(value);
   };
 
+  const handleGuestChange = (e) => {
+    const currentSeats = (e.target.validity.valid) ? e.target.value : seats;
+    changeSeats(currentSeats);
+  };
+
   return (
     <div className={style.stylingParent}>
       <div className={style.bookingDetailsContainer}>
         <div className={style.bookingDetail}>
           <TextField
-            type="number"
+            type="text"
+            inputProps={{ pattern: "[0-9]*" }}
             className={style.textField}
             label="Number of Guests"
             variant="outlined"
@@ -80,7 +88,9 @@ const TimeContainer = (props) => {
               onSeatChange(seats);
               getAvailable();
             }}
-            onChange={(e) => changeSeats(e.target.value)}
+            onChange={(e) => {
+              handleGuestChange(e);
+            }}
           />
         </div>
         <div className={style.bookingDetail}>
@@ -93,11 +103,17 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
+              error={dateError}
               onChange={(e) => {
-                const formattedDate = format(e, "yyyy-MM-dd");
-                setSelectedDate(formattedDate);
-                onDateChange(formattedDate);
-                getAvailable();
+                try {
+                  const formattedDate = format(e, "yyyy-MM-dd");
+                  setSelectedDate(formattedDate);
+                  onDateChange(formattedDate);
+                  getAvailable();
+                } catch (RangeError) {
+                  setSelectedDate(null);
+                  getAvailable();
+                }
               }}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -132,6 +148,14 @@ const TimeContainer = (props) => {
             </div>
           )}
         <div className={style.submitButtonContainer}>
+          <Button
+            className={style.submitButton}
+            variant="contained"
+            color="primary"
+            onClick={() => changePath("/", mainHistory)}
+          >
+            Cancel
+          </Button>
           <Button
             className={style.submitButton}
             variant="contained"
