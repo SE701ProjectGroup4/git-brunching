@@ -79,7 +79,7 @@ const TimeContainer = (props) => {
         <div className={style.bookingDetail}>
           <TextField
             type="text"
-            inputProps={{pattern: '[0-9]*' }}
+            inputProps={{ pattern: "[0-9]*" }}
             className={style.textField}
             label="Number of Guests"
             variant="outlined"
@@ -105,13 +105,12 @@ const TimeContainer = (props) => {
               value={selectedDate}
               error={dateError}
               onChange={(e) => {
-                try{
+                try {
                   const formattedDate = format(e, "yyyy-MM-dd");
                   setSelectedDate(formattedDate);
                   onDateChange(formattedDate);
                   getAvailable();
-                }
-                catch (RangeError) {
+                } catch (RangeError) {
                   setSelectedDate(null);
                   getAvailable();
                 }
