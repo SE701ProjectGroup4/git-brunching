@@ -196,7 +196,7 @@ router.delete('/:restaurantID', (req, res) => {
  *
  * /restaurant/{restaurantID}/capacity:
  *   get:
- *     description: Get the maximum table capacity of a restaurant
+ *     description: Get the minimum and maximum guest allowed of a restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -207,7 +207,7 @@ router.delete('/:restaurantID', (req, res) => {
  *         type: integer
  *     responses:
  *       200:
- *         description: Returns the maximum capacity of the table in the restaurant
+ *         description: Returns the Minimum MinGuests and Maximum MaxGuests of the tables for a given restaurant
  */
 router.get('/:restaurantID/capacity', (req, res) => {
   const { restaurantID } = req.params;
