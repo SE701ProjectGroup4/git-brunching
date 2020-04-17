@@ -12,6 +12,7 @@ import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import getRestaurantByReference from "./services/getReservationByReference";
+import deleteReservationByReference from "./services/deleteReservationByReference";
 import {
   addBookingDate,
   addBookingDetails,
@@ -106,6 +107,10 @@ const BookingEditPopupDialog = (props) => {
     }
   };
 
+  const handleDeleteBooking = () => {
+    deleteReservationByReference(bookingID).then(handleClosePopup());
+  };
+
   return (
     (isInput)
       ? (
@@ -179,7 +184,7 @@ const BookingEditPopupDialog = (props) => {
                   </div>
                 </div>
                 <div className={style.dialogTripleButtonContainer}>
-                  <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                  <Button variant="outlined" fullWidth={false} onClick={() => handleDeleteBooking()} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupDelete}
                   </Button>
                   <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
