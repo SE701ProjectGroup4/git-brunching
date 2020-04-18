@@ -21,7 +21,6 @@ import {
   setBookingCode,
 } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
-import getUserById from "./services/getUserById";
 import getRestaurantByID from "./services/getRestaurantByID";
 
 
@@ -66,18 +65,15 @@ const BookingEditPopupDialog = (props) => {
       getRestaurantByReference(bookingID).then((r) => {
         setReservationCode(bookingID);
         const data = r.result[0];
-        getUserById(data ? data.UserID : null).then((res) => {
-          const userData = res.result[0];
-          getRestaurantByID(data.RestaurantID).then((restaurant) => {
-            changeInput(false);
-            const restaurantData = restaurant[0];
-            select({ ID: restaurantData.ID, Name: restaurantData.Name });
-            addTime(data.Time);
-            addSeats(data.NumberOfGuests);
-            addDate(data.Date);
-            addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
-            setLoading(false);
-          });
+        getRestaurantByID(data.RestaurantID).then((restaurant) => {
+          changeInput(false);
+          const restaurantData = restaurant[0];
+          select({ ID: restaurantData.ID, Name: restaurantData.Name });
+          addTime(data.Time);
+          addSeats(data.NumberOfGuests);
+          addDate(data.Date);
+          addDetails(data.Name, data.Phone, data.Email, data.Notes);
+          setLoading(false);
         }).catch(() => {
           setLoading(false);
           changeError(true);
