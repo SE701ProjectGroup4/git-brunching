@@ -13,6 +13,7 @@ import reservation from './routes/reservation';
 import table from './routes/table';
 import user from './routes/user';
 import reviews from './routes/reviews';
+import menu from './routes/menu';
 
 import * as specs from './swagger';
 
@@ -31,6 +32,7 @@ app.use('/reservation', reservation);
 app.use('/table', table);
 app.use('/user', user);
 app.use('/reviews', reviews);
+app.use('/menu', menu);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
 
