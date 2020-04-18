@@ -133,6 +133,13 @@
   height: 24px;
 }
 
+.menuPopup {
+  width: 400px;
+  height: 600px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .primaryButton {
   background-color: white;
   color: #61c766;
