@@ -127,11 +127,11 @@ router.get('/', async (req, res) => {
  *   put:
  *     description: Updates reservation information
  *     parameters:
- *       - name: restaurantID
- *         description: Primary Key of Restaurant database table
- *         in: query
+ *       - name: reservationID
+ *         description: Primary Key of Reservation database table
+ *         in: path
  *         required: true
- *         type: integer
+ *         type: string
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
  *         in: formData
@@ -147,22 +147,17 @@ router.get('/', async (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
- *       - name: note
+ *       - name: notes
  *         description: Notes reguarding the booking
  *         in: formData
- *         required: true
+ *         required: false
  *         type: string
- *       - name: firstName
- *         description: First name of the person booking
+ *       - name: name
+ *         description: Name of the person booking
  *         in: formData
  *         required: true
  *         type: string
- *       - name: lastName
- *         description: Last name of the person booking
- *         in: formData
- *         required: true
- *         type: string
- *       - name: phoneNumber
+ *       - name: phone
  *         description: Phone number of the person booking
  *         in: formData
  *         required: true
@@ -177,7 +172,7 @@ router.get('/', async (req, res) => {
  *         description: OK
  */
 router.put('/:reservationID', async (req, res) => {
-  const { date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
+  const { date, time, numberOfGuests, notes, name, phone, email } = req.body;
   const { reservationID } = req.params;
 
   if (!reservationID) {
@@ -186,7 +181,7 @@ router.put('/:reservationID', async (req, res) => {
   }
 
   const { error: reservationQueryError, result: reservationQueryResult } = await connection.asyncQuery(
-    'SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;',
+    'SELECT Date, Time, Notes, NumberOfGuests, Name, Phone, Email FROM RESERVATION WHERE ID = ?;',
     [reservationID]
   );
 
@@ -198,13 +193,13 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
-    'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]
-  );
+  // const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
+  //   'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]
+  // );
 
-  if (userQueryError) {
-    res.status(400).json({ error: userQueryError });
-  }
+  // if (userQueryError) {
+  //   res.status(400).json({ error: userQueryError });
+  // }
 
   // For each parameter, check if it has been provided in endpoint, otherwise use previous value.
   const newNotes = notes || reservationQueryResult[0].Notes;
@@ -212,30 +207,34 @@ router.put('/:reservationID', async (req, res) => {
   const newTime = time || reservationQueryResult[0].Time;
   const newNoOfGuests = numberOfGuests || reservationQueryResult[0].NumberOfGuests;
 
-  const newFirstName = firstName || userQueryResult[0].FirstName;
-  const newLastName = lastName || userQueryResult[0].LastName;
-  const newPhone = phoneNumber || userQueryResult[0].Phone;
-  const newEmail = email || userQueryResult[0].Email;
+  const newName = name || reservationQueryResult[0].Name;
+  const newPhone = phone || reservationQueryResult[0].Phone;
+  const newEmail = email || reservationQueryResult[0].Email;
+
+  // const newFirstName = firstName || userQueryResult[0].FirstName;
+  // const newLastName = lastName || userQueryResult[0].LastName;
+  // const newPhone = phone || userQueryResult[0].Phone;
+  // const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
   const { error: reservationUpdateError } = await connection.asyncQuery(
-    'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? WHERE ID = ?;',
-    [newNotes, newDate, newTime, newNoOfGuests, reservationID]
+    'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ?, Name = ?, Phone = ?, Email = ? WHERE ID = ?;',
+    [newNotes, newDate, newTime, newNoOfGuests, newName, newPhone, newEmail, reservationID]
   );
 
   if (reservationUpdateError) {
     res.status(400).json({ error: reservationUpdateError });
   }
 
-  // update user details
-  const { error: userUpdateError } = await connection.asyncQuery(
-    'UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;',
-    [newFirstName, newLastName, newPhone, newEmail, reservationQueryResult[0].userID]
-  );
+  // // update user details
+  // const { error: userUpdateError } = await connection.asyncQuery(
+  //   'UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;',
+  //   [newFirstName, newLastName, newPhone, newEmail, reservationQueryResult[0].userID]
+  // );
 
-  if (userUpdateError) {
-    res.status(400).json({ error: userUpdateError });
-  }
+  // if (userUpdateError) {
+  //   res.status(400).json({ error: userUpdateError });
+  // }
 
   res.json({ result: 'Updated reservation', reservationID });
 });
