@@ -43,14 +43,14 @@ const validateTime = (databaseRow, databaseError, action) => {
 /**
  * @swagger
  *
- * /reservation/{reservationId}:
+ * /reservation/{reservationID}:
  *   get:
  *     description: Fetch a reservation object
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: path
- *         name: reservationId
+ *       - name: reservationID
+ *         in: path
  *         description: Primary Key of reservation database table
  *         required: true
  *         type: string
@@ -58,13 +58,13 @@ const validateTime = (databaseRow, databaseError, action) => {
  *       200:
  *         description: Returns reservation object
  */
-router.get('/reservation/:reservationId', async (req, res) => {
-  const reservationID = req.params.reservationId;
+router.get('/:reservationID', async (req, res) => {
+  const { reservationID } = req.params;
 
-  if (!reservationID) {
-    res.status(400).json({ error: 'GET reservation/{id} invocation error: {id} needs to be an int' });
-    return;
-  }
+  // if (!reservationID) {
+  //   res.status(400).json({ error: 'GET reservation/{id} invocation error: {id} needs to be an int' });
+  //   return;
+  // }
 
   const { error, result } = await connection.asyncQuery(
     'SELECT * ' +
@@ -89,8 +89,8 @@ router.get('/reservation/:reservationId', async (req, res) => {
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: query
- *         name: restaurantID
+ *       - name: restaurantID
+ *         in: query
  *         description: Primary Key of Restaurant database table
  *         required: true
  *         type: integer
