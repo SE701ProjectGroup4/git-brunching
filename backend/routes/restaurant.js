@@ -87,20 +87,51 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *     description: Fetch all restaurant objects from the database
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name: limit
+ *         description: The maximum number of results to show. By default there is no limit.
+ *         in: query
+ *         required: false
+ *         type: integer
+ *       - name: batch
+ *         description: An index for batch(es) of results. Only usable when limit is assigned a value. Index starts from 0.
+ *         in: query
+ *         required: false
+ *         type: integer
  *     responses:
  *       200:
  *         description: Returns all restaurant objects
  */
 router.get('/', (req, res) => {
-  const input = req.query;
+  const { batch, limit } = req.query;
 
-  if (JSON.stringify(input) !== '{}') {
-    res.status(400).json({ error: '/restaurant/ GET endpoint needs no query param' });
+  let sql = 'SELECT * FROM RESTAURANT';
+  const sqlParams = [];
+
+  if (batch && !limit) {
+    res.status(400).json({ error: 'You must supply a limit query in order to supply a batch query.' });
     return;
   }
 
+  if (limit) { // By default returns all results if none supplied.
+    if (limit < 0) {
+      res.status(400).json({ error: 'Limit value must be at least 0 or omitted.' });
+      return;
+    }
+    sql += ' LIMIT ?';
+    sqlParams.push(limit * 1);
+    if (batch) { // By default returns first batch.
+      if (batch < 0) {
+        res.status(400).json({ error: 'Batch value must be at least 0 or omitted.' });
+        return;
+      }
+      sql += ' OFFSET ?';
+      sqlParams.push(batch * limit);
+    }
+  }
+
   connection.query(
-    'SELECT * FROM RESTAURANT',
+    sql, sqlParams,
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
