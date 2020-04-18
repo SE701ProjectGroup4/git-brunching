@@ -104,6 +104,7 @@ const TimeContainer = (props) => {
               label="Select a Date"
               value={selectedDate}
               error={dateError}
+              disablePast = "true"
               onChange={(e) => {
                 try {
                   const formattedDate = format(e, "yyyy-MM-dd");
