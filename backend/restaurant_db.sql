@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-243912';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-278576';
 
 --
 -- Table structure for table `HOURS`
@@ -67,14 +67,14 @@ CREATE TABLE `RESERVATION` (
   `NumberOfGuests` int(11) NOT NULL,
   `TableID` int(11) NOT NULL,
   `RestaurantID` int(11) DEFAULT NULL,
-  `UserID` int(11) NOT NULL,
+  `Name` varchar(45) NOT NULL,
+  `Phone` varchar(45) NOT NULL,
+  `Email` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `RestaurantID_idx` (`TableID`),
-  KEY `Reservation_User_idx` (`UserID`),
   KEY `Reservation_Restaurant_idx` (`RestaurantID`),
   CONSTRAINT `Reservation_Restaurant` FOREIGN KEY (`RestaurantID`) REFERENCES `RESTAURANT` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Reservation_Table` FOREIGN KEY (`TableID`) REFERENCES `TABLE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Reservation_User` FOREIGN KEY (`UserID`) REFERENCES `USER` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Reservation_Table` FOREIGN KEY (`TableID`) REFERENCES `TABLE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,6 +84,7 @@ CREATE TABLE `RESERVATION` (
 
 LOCK TABLES `RESERVATION` WRITE;
 /*!40000 ALTER TABLE `RESERVATION` DISABLE KEYS */;
+INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Customer','0220009991','www@email.com'),('bxmea4rwk9502j7v','2020-04-18','17:00:00','asdf',2,1,1,'Customer','0220009991','www@email.com'),('bxmea4rwk950lrl6','2020-04-18','18:00:00','asd',3,1,1,'Customer','0220009991','www@email.com');
 /*!40000 ALTER TABLE `RESERVATION` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,8 +101,8 @@ CREATE TABLE `RESTAURANT` (
   `OwnerId` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
-  KEY `OwnerId` (`OwnerId`),
-  CONSTRAINT `RESTAURANT_ibfk_1` FOREIGN KEY (`OwnerId`) REFERENCES `USER` (`ID`)
+  KEY `Restaurant_User` (`OwnerId`),
+  CONSTRAINT `Restaurant_User` FOREIGN KEY (`OwnerId`) REFERENCES `USER` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +112,7 @@ CREATE TABLE `RESTAURANT` (
 
 LOCK TABLES `RESTAURANT` WRITE;
 /*!40000 ALTER TABLE `RESTAURANT` DISABLE KEYS */;
-INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1),(327,'Panmure Fried Chicken',1);
+INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1),(15,'Example restaurant0',1),(327,'Panmure Fried Chicken',1);
 /*!40000 ALTER TABLE `RESTAURANT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,8 +129,8 @@ CREATE TABLE `REVIEW` (
   `RestaurantId` int(11) NOT NULL,
   `Review` text NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `RestaurantId` (`RestaurantId`),
-  CONSTRAINT `REVIEW_ibfk_1` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
+  KEY `Review_Restaurant` (`RestaurantId`),
+  CONSTRAINT `Review_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -185,7 +186,7 @@ CREATE TABLE `USER` (
   `Phone` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +195,7 @@ CREATE TABLE `USER` (
 
 LOCK TABLES `USER` WRITE;
 /*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES (1,'Bob','Builder','0800838383','bob@burgers.com');
+INSERT INTO `USER` VALUES (1,'Bob','Builder','0800838383','bob@burgers.com'),(379,'asd',' ','asd','a'),(380,'Rasd',' ','asd','asd');
 /*!40000 ALTER TABLE `USER` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
@@ -208,4 +209,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-16 15:15:57
+-- Dump completed on 2020-04-18 15:26:03
