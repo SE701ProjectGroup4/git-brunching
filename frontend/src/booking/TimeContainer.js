@@ -143,7 +143,7 @@ const TimeContainer = (props) => {
             <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
               {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
                 <>
-                {overCapacity ? <div>{capacityMsg}</div> : 
+                {overCapacity ? <div className = {style.capacityMsg}>{capacityMsg}</div> : 
                  noTimes || availableTimes.availableHours == null ? <div>Closed</div>
                     : generateAllTimes(openTime, closeTime).map((time) => {
                       const available = availableTimes.availableHours;
