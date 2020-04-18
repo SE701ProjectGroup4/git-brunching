@@ -58,7 +58,7 @@ const validateTime = (databaseRow, databaseError, action) => {
  *       200:
  *         description: Returns reservation object
  */
-router.get('/findreservation/:reservationId', async (req, res) => {
+router.get('/reservation/:reservationId', async (req, res) => {
   const reservationID = req.params.reservationId;
 
   if (!reservationID) {
@@ -85,7 +85,7 @@ router.get('/findreservation/:reservationId', async (req, res) => {
  *
  * /reservation:
  *   get:
- *     description: Fetch a all reservation for a restaurant
+ *     description: Fetch all reservations for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -108,7 +108,7 @@ router.get('/', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
+    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email FROM RESERVATION ' +
     'WHERE RestaurantID = ?;',
     [restaurantID]
   );
@@ -125,7 +125,7 @@ router.get('/', async (req, res) => {
  *
  * /reservation/{reservationID}:
  *   put:
- *     summary: Used to update reservation information
+ *     description: Updates reservation information
  *     parameters:
  *       - name: restaurantID
  *         description: Primary Key of Restaurant database table
@@ -245,7 +245,7 @@ router.put('/:reservationID', async (req, res) => {
  *
  * /reservation:
  *   post:
- *     description: Fetch a all reservation for a restaurant
+ *     description: Creates a reservation for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -274,8 +274,23 @@ router.put('/:reservationID', async (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
- *       - name: userID
- *         description: ID for the user
+ *       - name: notes
+ *         description: Notes for the reservation
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: name
+ *         description: Name of the customer
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: phone
+ *         description: Phone number of the customer
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: Email of the customer
  *         in: formData
  *         required: true
  *         type: string
@@ -286,21 +301,22 @@ router.put('/:reservationID', async (req, res) => {
 router.post('/', async (req, res) => {
   // Generate a random, unique id.
   const reservationID = uniqid();
-  const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
+  const { date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email } = req.body;
 
-  if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
+  if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !name || !phone || !email) {
     res.status(400).json({
       error:
-        'POST reservation invocation error: post body needs { date, time, numberOfGuests, tableID, restaurantID, userID }'
+        // eslint-disable-next-line max-len
+        'POST reservation invocation error: post body needs { date, time, numberOfGuests, tableID, restaurantID, name, phone, email }'
     });
     return;
   }
 
   const { error } = await connection.asyncQuery(
     'INSERT ' +
-    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-    [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, userID]
+    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email) ' +
+    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email]
   );
 
   if (error) {
