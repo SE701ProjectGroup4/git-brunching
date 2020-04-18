@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_HOURS, USER,
+  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, USER, TABLE_ID,
 } from "../../general/config";
 
 /**
@@ -35,6 +35,18 @@ const addReservation = (action$, store) => action$.pipe(
       }),
     }).then((res) => res.json());
 
+    const tableIDEndpoint = `${TABLE_ID.toString()}?date=${bookingData.date}&time=${bookingData.time.substring(0, 2)}&numberOfGuests=${bookingData.seats}&restaurantID=${restaurantData.selected.ID}`;
+
+    const tableID = await fetch(tableIDEndpoint, {
+      method: "GET",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+
     const booking = await fetch(RESERVATION, {
       method: "POST",
       mode: "cors",
@@ -48,7 +60,7 @@ const addReservation = (action$, store) => action$.pipe(
         time: bookingData.time,
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
-        tableID: 300,
+        tableID: tableID.result[0].ID,
         notes: bookingData.notes,
         userID: user.userID,
       }),
@@ -118,6 +130,24 @@ const editReservation = (action$, store) => action$.pipe(
   })),
 );
 
+const getRestaurantBookings = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.GET_RESTAURANT_BOOKINGS),
+  mergeMap(async (action) => {
+    const bookingData = store.value.bookingReducer;
+    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRetaurantID))
+      .then((res) => res.json());
+    return {
+      ...action,
+      type: actionType.GET_RESTAURANT_BOOKINGS_SUCCCESS,
+      restaurantBookings: bookings.result,
+    };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.GET_RESTAURANT_BOOKINGS_FAIL,
+    message: err.message,
+  })),
+);
+
 /**
  * Asynchronous request for reeiving a restaurants opening hours
  * @param action$
@@ -168,6 +198,7 @@ export default addReservation;
 
 export {
   editReservation,
+  getRestaurantBookings,
   getRestaurantHours,
   getAvailableHours,
 };

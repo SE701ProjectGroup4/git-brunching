@@ -22,13 +22,12 @@ before(async () => {
       `INSERT INTO restaurant_db.USER VALUES (1, "First name", "Last name", "09 123,456", "example@email.com");`
     )
     .then(({ error }) => error && errors.push(error));
-
   assert.strictEqual(errors.length, 0, 'Expected no errors in initial setup');
 });
 
 describe('GET reservations/', () => {
   // Test that the API is able to handle calls when there are no reservations for the desired restaurant.
-  it('1. should return an empty array when there are no reservations.', async function() {
+  it('1. should return an empty array when there are no reservations.', async function () {
     const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')
@@ -45,7 +44,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to return the correct result when there is only one reservation for the desired restaurant.
-  it('2. should return an array of reservations when the restaurant only has one reservation', async function() {
+  it('2. should return an array of reservations when the restaurant only has one reservation', async function () {
     await connection
       .asyncQuery(
         `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
@@ -88,7 +87,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to return the correct result when there are multiple reservations for the desired restaurant.
-  it('3. should return an array of reservations when the restaurant has multiple reservations', async function() {
+  it('3. should return an array of reservations when the restaurant has multiple reservations', async function () {
     await connection
       .asyncQuery(
         `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
@@ -160,7 +159,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to handle requests that do not provide a desired restaurantID and return the appropriate error.
-  it('4. should return expected error when restaurantID is not provided.', async function() {
+  it('4. should return expected error when restaurantID is not provided.', async function () {
     const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')
@@ -176,7 +175,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to handle requests that include additional, un-needed parameters and still return the expected result.
-  it('5. should ignore extra parameters.', async function() {
+  it('5. should ignore extra parameters.', async function () {
     const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')
@@ -230,7 +229,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to handle requests that have a malformed restaurantID and return the appropriate error.
-  it('6. should return expected error when restaurantID is malformed.', async function() {
+  it('6. should return expected error when restaurantID is malformed.', async function () {
     const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')
@@ -245,7 +244,7 @@ describe('GET reservations/', () => {
   });
 
   // Test that the API is able to handle requests that have a restaurantID that is not in the database. Should return an empty array.
-  it('7. should return an empty array when restaurantID does not exist in database.', async function() {
+  it('7. should return an empty array when restaurantID does not exist in database.', async function () {
     const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')

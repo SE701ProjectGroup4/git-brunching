@@ -12,11 +12,11 @@ import restaurant from './routes/restaurant';
 import reservation from './routes/reservation';
 import table from './routes/table';
 import user from './routes/user';
+import reviews from './routes/reviews';
 
 import * as specs from './swagger';
 
 const swaggerUi = require('swagger-ui-express');
-
 
 // Initialise express and apply middleware
 const app = express();
@@ -30,6 +30,7 @@ app.use('/restaurant', restaurant);
 app.use('/reservation', reservation);
 app.use('/table', table);
 app.use('/user', user);
+app.use('/reviews', reviews);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
 

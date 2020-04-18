@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   get:
  *     description: Fetch a restaurant object
  *     produces:
@@ -125,6 +125,11 @@ router.get('/', (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
+ *       - name: ownerId
+ *         description: ID of the restaurant owner
+ *         in: formData
+ *         required: true
+ *         type: integer
  *     responses:
  *       200:
  *         description: Successfully added restaurant to database
@@ -137,7 +142,12 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query('INSERT INTO RESTAURANT (`Name`) VALUES (?);', [body.name], error => {
+  if (!body.ownerId) {
+    res.status(400).json({ error: 'POST restaurant/ invocation error: post body needs { ownerId }' });
+    return;
+  }
+
+  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`) VALUES (?, ?);', [body.name, body.ownerId], error => {
     if (error) {
       res.status(400).json({ error });
       return;
@@ -149,7 +159,7 @@ router.post('/', (req, res) => {
 /**
  * @swagger
  *
- * /restaurant:
+ * /restaurant/{restaurantID}:
  *   delete:
  *     description: Deletes a restaurant object to the database
  *     produces:
@@ -180,5 +190,42 @@ router.delete('/:restaurantID', (req, res) => {
     res.json('deleted');
   });
 });
+
+/**
+ * @swagger
+ *
+ * /restaurant/{restaurantID}/capacity:
+ *   get:
+ *     description: Get the minimum and maximum guest allowed of a restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns the Minimum MinGuests and Maximum MaxGuests of the tables for a given restaurant
+ */
+router.get('/:restaurantID/capacity', (req, res) => {
+  const { restaurantID } = req.params;
+
+  if (!restaurantID) {
+    res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
+    return;
+  }
+  
+  connection.query(
+  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
+  (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    });
+ });
 
 export default router;
