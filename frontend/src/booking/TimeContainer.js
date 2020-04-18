@@ -43,7 +43,7 @@ const TimeContainer = (props) => {
   const [selectedDate, setSelectedDate] = useState(oldDate);
   const [selectedTime, setSelectedTime] = useState(oldTime);
   const [overCapacity, setOverCapacity] = useState(false);
-  const [capacityMsg, setCapacityMsg] = useState();
+  const [capacityMsg, setCapacityMsg] = useState("");
 
   useEffect(getHours, []);
   useEffect(getCapacity, []);
@@ -54,7 +54,7 @@ const TimeContainer = (props) => {
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
   const dateError = selectedDate == null;
-  const maxGuest = tableCapacity.capacity;
+  const maxGuest = tableCapacity.maximum;
   const minGuest = tableCapacity.minimum;
 
   let openTime = "";
@@ -179,7 +179,7 @@ const TimeContainer = (props) => {
             variant="contained"
             color="primary"
             onClick={handleTimeConfirmation}
-            disabled={seats.length === 0 || selectedTime.length === 0}
+            disabled={seats.length === 0 || selectedTime.length === 0 || overCapacity == true}
           >
             {timeMessages.buttonNextText}
           </Button>
