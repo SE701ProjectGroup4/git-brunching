@@ -54,6 +54,8 @@ const TimeContainer = (props) => {
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
   const dateError = selectedDate == null;
+  const maxGuest = tableCapacity.maximum;
+  const minGuest = tableCapacity.minimum;
 
   const maxGuest = tableCapacity.maximum;
   const minGuest = tableCapacity.minimum;
@@ -144,7 +146,8 @@ const TimeContainer = (props) => {
             <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
               {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
                 <>
-                  {overCapacity ? <div className = {style.capacityMsg}> {capacityMsg} </div> : noTimes || availableTimes.availableHours == null ? <div>Closed</div>
+                {overCapacity ? <div className = {style.capacityMsg}>{capacityMsg}</div> : 
+                 noTimes || availableTimes.availableHours == null ? <div>Closed</div>
                     : generateAllTimes(openTime, closeTime).map((time) => {
                       const available = availableTimes.availableHours;
                       const hour = Number.parseInt(time.time.substring(0, 2), 10);
