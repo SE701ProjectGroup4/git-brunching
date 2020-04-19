@@ -19,6 +19,7 @@ import {
   addBookingTime,
   getAvailableHours,
   getRestaurantHours,
+  getTableCapacity,
 } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
@@ -35,14 +36,17 @@ const TimeContainer = (props) => {
 
   const {
     oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
-    availableTimes, onSeatChange, onDateChange, isLoading, mainHistory,
+    availableTimes, onSeatChange, onDateChange, isLoading, mainHistory, tableCapacity, getCapacity,
   } = props;
 
   const [seats, changeSeats] = useState(oldSeats);
   const [selectedDate, setSelectedDate] = useState(oldDate);
   const [selectedTime, setSelectedTime] = useState(oldTime);
+  const [overCapacity, setOverCapacity] = useState(false);
+  const [capacityMsg, setCapacityMsg] = useState("");
 
   useEffect(getHours, []);
+  useEffect(getCapacity, []);
 
   const day = getDayForDate(new Date(selectedDate));
   const month = new Date(selectedDate).getMonth();
@@ -58,6 +62,8 @@ const TimeContainer = (props) => {
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
   const dateError = selectedDate == null;
+  const maxGuest = tableCapacity.maximum;
+  const minGuest = tableCapacity.minimum;
 
   let openTime = "";
   let closeTime = "";
@@ -81,6 +87,17 @@ const TimeContainer = (props) => {
     changeSeats(currentSeats);
   };
 
+  const handleCapacity = (seat) => {
+    if (seat > maxGuest || seat < minGuest) {
+      if (seat < minGuest) setCapacityMsg(messages.time.minGuestMsg + minGuest);
+      else setCapacityMsg(messages.time.maxGuestMsg + maxGuest);
+      setOverCapacity(true);
+    } else {
+      getAvailable();
+      setOverCapacity(false);
+    }
+  };
+
   return (
     <div className={style.stylingParent}>
       <div className={style.bookingDetailsContainer}>
@@ -94,7 +111,7 @@ const TimeContainer = (props) => {
             value={seats}
             onBlur={() => {
               onSeatChange(seats);
-              getAvailable();
+              handleCapacity(seats);
             }}
             onChange={(e) => {
               handleGuestChange(e);
@@ -135,7 +152,8 @@ const TimeContainer = (props) => {
             <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
               {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
                 <>
-                  {noTimes || availableTimes.availableHours == null ? <div>Closed</div>
+                {overCapacity ? <div className = {style.capacityMsg}>{capacityMsg}</div> : 
+                 noTimes || availableTimes.availableHours == null ? <div>Closed</div>
                     : generateAllTimes(openTime, closeTime).map((time) => {
                       const available = availableTimes.availableHours;
                       const hour = Number.parseInt(time.time.substring(0, 2), 10);
@@ -170,7 +188,7 @@ const TimeContainer = (props) => {
             variant="contained"
             color="primary"
             onClick={handleTimeConfirmation}
-            disabled={seats.length === 0 || selectedTime.length === 0}
+            disabled={seats.length === 0 || selectedTime.length === 0 || overCapacity === true}
           >
             {timeMessages.buttonNextText}
           </Button>
@@ -187,6 +205,7 @@ const mapStateToProps = (state) => ({
   oldTime: state.bookingReducer.time,
   restaurantHours: state.bookingReducer.restaurantHours,
   availableTimes: state.bookingReducer.availableRestaurantHours,
+  tableCapacity: state.bookingReducer.tableCapacity,
   isLoading: state.bookingReducer.loading,
 });
 
@@ -196,6 +215,7 @@ const mapDispatchToProps = (dispatch) => ({
   onDateChange: (date) => { dispatch(addBookingDate(date)); },
   getHours: bindActionCreators(getRestaurantHours, dispatch),
   getAvailable: bindActionCreators(getAvailableHours, dispatch),
+  getCapacity: bindActionCreators(getTableCapacity, dispatch),
 });
 
 

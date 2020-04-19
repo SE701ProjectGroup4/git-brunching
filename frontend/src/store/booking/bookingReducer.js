@@ -18,6 +18,7 @@ const initialState = {
   restaurantBookings: [],
   restaurantHours: [],
   availableRestaurantHours: [],
+  tableCapacity: [],
 };
 
 /**
@@ -147,6 +148,23 @@ const bookingReducer = (state, action) => {
         loading: false,
       };
     case actionType.GET_AVAILABLE_RESTAURANT_HOURS_FAIL:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      };
+    case actionType.GET_TABLE_CAPACITY:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionType.GET_TABLE_CAPACITY_SUCCESS:
+      return {
+        ...state,
+        tableCapacity: action.tableCapacity[0],
+        loading: false,
+      };
+    case actionType.GET_TABLE_CAPACITY_FAIL:
       return {
         ...state,
         error: action.error,
