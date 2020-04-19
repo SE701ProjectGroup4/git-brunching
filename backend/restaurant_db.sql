@@ -23,6 +23,8 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-280935';
+
 --
 -- Table structure for table `HOURS`
 --
