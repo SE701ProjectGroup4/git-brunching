@@ -59,10 +59,10 @@ router.get('/:menuId', async (req, res) => {
  *       200:
  *         description: Returns menu object
  */
-router.get('/restaurant/{restaurantId}', async (req, res) => {
+router.get('/restaurant/:restaurantId', async (req, res) => {
   const { restaurantId } = req.params;
 
-  if (!menuId) {
+  if (!restaurantId) {
     res.status(400).json({ error: 'GET menu/restaurant/{id} invocation error: {id} must be an int' });
     return;
   }
@@ -127,9 +127,8 @@ router.post('/', (req, res) => {
     res.status(400).json({ error: 'POST menu/ invocation error: post body needs { restaurantID }' });
     return;
   }
-
   connection.query(
-    'INSERT INTO MENU (`URL`, `Height`, `Width`, `RestaurantID`) VALUES (?, ?, ?, ?);',
+    'INSERT INTO MENU (`Link`, `Height`, `Width`, `RestaurantID`) VALUES (?, ?, ?, ?);',
     [body.url, body.height, body.width, body.restaurantID],
     (error) => {
       if (error) {
@@ -144,7 +143,7 @@ router.post('/', (req, res) => {
 /**
  * @swagger
  *
- * /menu:
+ * /menu/{menuID}:
  *   delete:
  *     description: Deletes a menu object to the database
  *     produces:
