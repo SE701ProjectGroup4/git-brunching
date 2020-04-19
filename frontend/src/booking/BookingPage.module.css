@@ -138,6 +138,10 @@
   overflow-y: auto;
 }
 
+.capacityMsg {
+  color: #ff4d4d;
+}
+
 .loading {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;

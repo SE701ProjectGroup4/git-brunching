@@ -43,15 +43,15 @@ const validateTime = (databaseRow, databaseError, action) => {
 /**
  * @swagger
  *
- * /reservation/{reservationId}:
+ * /reservation:
  *   get:
  *     tags: [Reservation]
  *     description: Fetch a reservation object
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: path
- *         name: reservationId
+ *       - name: reservationID
+ *         in: query
  *         description: Primary Key of reservation database table
  *         required: true
  *         type: string
@@ -59,13 +59,13 @@ const validateTime = (databaseRow, databaseError, action) => {
  *       200:
  *         description: Returns reservation object
  */
-router.get('/findreservation/:reservationId', async (req, res) => {
-  const reservationID = req.params.reservationId;
+router.get('/', async (req, res) => {
+  const { reservationID } = req.query;
 
-  if (!reservationID) {
-    res.status(400).json({ error: 'GET reservation/{id} invocation error: {id} needs to be an int' });
-    return;
-  }
+  // if (!reservationID) {
+  //   res.status(400).json({ error: 'GET reservation/{id} invocation error: {id} needs to be an int' });
+  //   return;
+  // }
 
   const { error, result } = await connection.asyncQuery('SELECT * ' + 'FROM RESERVATION ' + 'WHERE ID = ? ', [
     reservationID
@@ -75,21 +75,25 @@ router.get('/findreservation/:reservationId', async (req, res) => {
     res.status(400).json({ error });
     return;
   }
+  //Convert date from UTC to local time
+  result.forEach(element => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  });
   res.json({ result });
 });
 
 /**
  * @swagger
  *
- * /reservation:
+ * /reservation/restaurant:
  *   get:
  *     tags: [Reservation]
  *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: query
- *         name: restaurantID
+ *       - name: restaurantID
+ *         in: query
  *         description: Primary Key of Restaurant database table
  *         required: true
  *         type: integer
@@ -97,7 +101,7 @@ router.get('/findreservation/:reservationId', async (req, res) => {
  *       200:
  *         description: Returns a list of reservation for made for the restaurant
  */
-router.get('/', async (req, res) => {
+router.get('/restaurant', async (req, res) => {
   const { restaurantID } = req.query;
 
   if (!restaurantID) {
@@ -107,8 +111,8 @@ router.get('/', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-      'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
-      'WHERE RestaurantID = ?;',
+    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email FROM RESERVATION ' +
+    'WHERE RestaurantID = ?;',
     [restaurantID]
   );
 
@@ -116,6 +120,10 @@ router.get('/', async (req, res) => {
     res.status(400).json({ error });
     return;
   }
+  //Convert dates from UTC to local time
+  result.forEach(element => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  });
   res.json({ result });
 });
 
@@ -127,11 +135,11 @@ router.get('/', async (req, res) => {
  *     tags: [Reservation]
  *     summary: Used to update reservation information
  *     parameters:
- *       - name: restaurantID
- *         description: Primary Key of Restaurant database table
- *         in: query
+ *       - name: reservationID
+ *         description: Primary Key of Reservation database table
+ *         in: path
  *         required: true
- *         type: integer
+ *         type: string
  *       - name: numberOfGuests
  *         description: The number of guests that the table is being booked for
  *         in: formData
@@ -147,22 +155,17 @@ router.get('/', async (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
- *       - name: note
+ *       - name: notes
  *         description: Notes reguarding the booking
  *         in: formData
- *         required: true
+ *         required: false
  *         type: string
- *       - name: firstName
- *         description: First name of the person booking
+ *       - name: name
+ *         description: Name of the person booking
  *         in: formData
  *         required: true
  *         type: string
- *       - name: lastName
- *         description: Last name of the person booking
- *         in: formData
- *         required: true
- *         type: string
- *       - name: phoneNumber
+ *       - name: phone
  *         description: Phone number of the person booking
  *         in: formData
  *         required: true
@@ -177,7 +180,7 @@ router.get('/', async (req, res) => {
  *         description: OK
  */
 router.put('/:reservationID', async (req, res) => {
-  const { date, time, numberOfGuests, notes, firstName, lastName, phoneNumber, email } = req.body;
+  const { date, time, numberOfGuests, notes, name, phone, email } = req.body;
   const { reservationID } = req.params;
 
   if (!reservationID) {
@@ -185,12 +188,10 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const {
-    error: reservationQueryError,
-    result: reservationQueryResult
-  } = await connection.asyncQuery('SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;', [
-    reservationID
-  ]);
+  const { error: reservationQueryError, result: reservationQueryResult } = await connection.asyncQuery(
+    'SELECT Date, Time, Notes, NumberOfGuests, Name, Phone, Email FROM RESERVATION WHERE ID = ?;',
+    [reservationID]
+  );
 
   // check that this is an applicable booking to update (i.e more than 1 hour away)
   const validationResult = validateTime(reservationQueryResult, reservationQueryError, 'update');
@@ -200,14 +201,13 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const {
-    error: userQueryError,
-    result: userQueryResult
-  } = await connection.asyncQuery('SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]);
+  // const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
+  //   'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]
+  // );
 
-  if (userQueryError) {
-    res.status(400).json({ error: userQueryError });
-  }
+  // if (userQueryError) {
+  //   res.status(400).json({ error: userQueryError });
+  // }
 
   // For each parameter, check if it has been provided in endpoint, otherwise use previous value.
   const newNotes = notes || reservationQueryResult[0].Notes;
@@ -215,37 +215,34 @@ router.put('/:reservationID', async (req, res) => {
   const newTime = time || reservationQueryResult[0].Time;
   const newNoOfGuests = numberOfGuests || reservationQueryResult[0].NumberOfGuests;
 
-  const newFirstName = firstName || userQueryResult[0].FirstName;
-  const newLastName = lastName || userQueryResult[0].LastName;
-  const newPhone = phoneNumber || userQueryResult[0].Phone;
-  const newEmail = email || userQueryResult[0].Email;
+  const newName = name || reservationQueryResult[0].Name;
+  const newPhone = phone || reservationQueryResult[0].Phone;
+  const newEmail = email || reservationQueryResult[0].Email;
+
+  // const newFirstName = firstName || userQueryResult[0].FirstName;
+  // const newLastName = lastName || userQueryResult[0].LastName;
+  // const newPhone = phone || userQueryResult[0].Phone;
+  // const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
-  const {
-    error: reservationUpdateError
-  } = await connection.asyncQuery(
-    'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? WHERE ID = ?;',
-    [newNotes, newDate, newTime, newNoOfGuests, reservationID]
+  const { error: reservationUpdateError } = await connection.asyncQuery(
+    'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ?, Name = ?, Phone = ?, Email = ? WHERE ID = ?;',
+    [newNotes, newDate, newTime, newNoOfGuests, newName, newPhone, newEmail, reservationID]
   );
 
   if (reservationUpdateError) {
     res.status(400).json({ error: reservationUpdateError });
   }
 
-  // update user details
-  const {
-    error: userUpdateError
-  } = await connection.asyncQuery('UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;', [
-    newFirstName,
-    newLastName,
-    newPhone,
-    newEmail,
-    reservationQueryResult[0].userID
-  ]);
+  // // update user details
+  // const { error: userUpdateError } = await connection.asyncQuery(
+  //   'UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;',
+  //   [newFirstName, newLastName, newPhone, newEmail, reservationQueryResult[0].userID]
+  // );
 
-  if (userUpdateError) {
-    res.status(400).json({ error: userUpdateError });
-  }
+  // if (userUpdateError) {
+  //   res.status(400).json({ error: userUpdateError });
+  // }
 
   res.json({ result: 'Updated reservation', reservationID });
 });
@@ -285,8 +282,23 @@ router.put('/:reservationID', async (req, res) => {
  *         in: formData
  *         required: true
  *         type: string
- *       - name: userID
- *         description: ID for the user
+ *       - name: notes
+ *         description: Notes for the reservation
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: name
+ *         description: Name of the customer
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: phone
+ *         description: Phone number of the customer
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: Email of the customer
  *         in: formData
  *         required: true
  *         type: string
@@ -297,21 +309,22 @@ router.put('/:reservationID', async (req, res) => {
 router.post('/', async (req, res) => {
   // Generate a random, unique id.
   const reservationID = uniqid();
-  const { date, time, notes, numberOfGuests, tableID, restaurantID, userID } = req.body;
+  const { date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email } = req.body;
 
-  if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !userID) {
+  if (!date || !time || !numberOfGuests || !tableID || !restaurantID || !name || !phone || !email) {
     res.status(400).json({
       error:
-        'POST reservation invocation error: post body needs { date, time, numberOfGuests, tableID, restaurantID, userID }'
+        // eslint-disable-next-line max-len
+        'POST reservation invocation error: post body needs { date, time, numberOfGuests, tableID, restaurantID, name, phone, email }'
     });
     return;
   }
 
   const { error } = await connection.asyncQuery(
     'INSERT ' +
-      'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-    [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, userID]
+    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email) ' +
+    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+    [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email]
   );
 
   if (error) {
@@ -415,13 +428,13 @@ router.get('/available', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT t.ID ' +
-      'FROM restaurant_db.TABLE t ' +
-      'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-      'FROM RESERVATION r ' +
-      'WHERE t.RestaurantID = r.RestaurantID AND ' +
-      't.ID = r.TableID AND ' +
-      'r.Date = ? AND ' +
-      'r.Time = ? );',
+    'FROM `TABLE` t ' +
+    'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+                                                                        'FROM RESERVATION r ' +
+                                                                        'WHERE t.RestaurantID = r.RestaurantID AND ' +
+                                                                        't.ID = r.TableID AND ' +
+                                                                        'r.Date = ? AND ' +
+                                                                        'r.Time = ? );',
     [restaurantID, numberOfGuests, numberOfGuests, date, time]
   );
 

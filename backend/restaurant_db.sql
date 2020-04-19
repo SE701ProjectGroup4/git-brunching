@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-243912';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-280935';
 
 --
 -- Table structure for table `HOURS`
@@ -53,6 +53,35 @@ INSERT INTO `HOURS` VALUES (1,'mon','12:00:00','20:00:00'),(1,'tue','12:00:00','
 UNLOCK TABLES;
 
 --
+-- Table structure for table `MENU`
+--
+
+DROP TABLE IF EXISTS `MENU`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MENU` (
+  `Id` int(32) NOT NULL,
+  `RestaurantId` int(11) NOT NULL,
+  `Link` varchar(200) NOT NULL,
+  `Height` int(11) NOT NULL,
+  `Width` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Menu_Restaurant` (`RestaurantId`),
+  CONSTRAINT `Menu_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MENU`
+--
+
+LOCK TABLES `MENU` WRITE;
+/*!40000 ALTER TABLE `MENU` DISABLE KEYS */;
+INSERT INTO `MENU` VALUES (1,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(2,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(3,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(4,2,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(5,3,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633);
+/*!40000 ALTER TABLE `MENU` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `RESERVATION`
 --
 
@@ -67,14 +96,14 @@ CREATE TABLE `RESERVATION` (
   `NumberOfGuests` int(11) NOT NULL,
   `TableID` int(11) NOT NULL,
   `RestaurantID` int(11) DEFAULT NULL,
-  `UserID` int(11) NOT NULL,
+  `Name` varchar(45) NOT NULL,
+  `Phone` varchar(45) NOT NULL,
+  `Email` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `RestaurantID_idx` (`TableID`),
-  KEY `Reservation_User_idx` (`UserID`),
   KEY `Reservation_Restaurant_idx` (`RestaurantID`),
   CONSTRAINT `Reservation_Restaurant` FOREIGN KEY (`RestaurantID`) REFERENCES `RESTAURANT` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Reservation_Table` FOREIGN KEY (`TableID`) REFERENCES `TABLE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Reservation_User` FOREIGN KEY (`UserID`) REFERENCES `USER` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Reservation_Table` FOREIGN KEY (`TableID`) REFERENCES `TABLE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,6 +113,7 @@ CREATE TABLE `RESERVATION` (
 
 LOCK TABLES `RESERVATION` WRITE;
 /*!40000 ALTER TABLE `RESERVATION` DISABLE KEYS */;
+INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Emma','021889900','emma@gmail.com'),('80gyicblgk954awny','2020-04-19','18:00:00','shrimp allergy',3,1,1,'John','027123987','john@gmail.com');
 /*!40000 ALTER TABLE `RESERVATION` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,8 +130,8 @@ CREATE TABLE `RESTAURANT` (
   `OwnerId` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
-  KEY `OwnerId` (`OwnerId`),
-  CONSTRAINT `RESTAURANT_ibfk_1` FOREIGN KEY (`OwnerId`) REFERENCES `USER` (`ID`)
+  KEY `Restaurant_User` (`OwnerId`),
+  CONSTRAINT `Restaurant_User` FOREIGN KEY (`OwnerId`) REFERENCES `USER` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +141,7 @@ CREATE TABLE `RESTAURANT` (
 
 LOCK TABLES `RESTAURANT` WRITE;
 /*!40000 ALTER TABLE `RESTAURANT` DISABLE KEYS */;
-INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1),(327,'Panmure Fried Chicken',1);
+INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1);
 /*!40000 ALTER TABLE `RESTAURANT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,8 +158,8 @@ CREATE TABLE `REVIEW` (
   `RestaurantId` int(11) NOT NULL,
   `Review` text NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `RestaurantId` (`RestaurantId`),
-  CONSTRAINT `REVIEW_ibfk_1` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
+  KEY `Review_Restaurant` (`RestaurantId`),
+  CONSTRAINT `Review_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -185,7 +215,7 @@ CREATE TABLE `USER` (
   `Phone` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,4 +238,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-16 15:15:57
+-- Dump completed on 2020-04-18 18:41:21

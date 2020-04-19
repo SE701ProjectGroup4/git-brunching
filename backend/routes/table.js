@@ -91,13 +91,13 @@ router.get('/free', async (req, res) => {
       connection
         .asyncQuery(
           'SELECT t.ID ' +
-            'FROM restaurant_db.TABLE t ' +
-            'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-            'FROM restaurant_db.RESERVATION r ' +
-            'WHERE t.RestaurantID = r.RestaurantID AND ' +
-            't.ID = r.TableID AND ' +
-            'r.Date = ? AND ' +
-            'r.Time = ? );',
+          'FROM `TABLE` t ' +
+          'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+                                                                                  'FROM RESERVATION r ' +
+                                                                                  'WHERE t.RestaurantID = r.RestaurantID AND ' +
+                                                                                  't.ID = r.TableID AND ' +
+                                                                                  'r.Date = ? AND ' +
+                                                                                  'r.Time = ? );',
           [restaurantID, numberOfGuests, numberOfGuests, date, hour]
         )
         .then(({ error, result }) => {

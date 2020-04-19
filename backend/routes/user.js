@@ -94,7 +94,10 @@ router.get('/:userID', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery('SELECT * FROM restaurant_db.USER WHERE ID = ? ', [userID]);
+  const { error, result } = await connection.asyncQuery(
+    'SELECT * FROM USER WHERE ID = ? ',
+    [userID]
+  );
 
   if (error) {
     res.status(400).json({ error });

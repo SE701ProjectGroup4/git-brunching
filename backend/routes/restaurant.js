@@ -194,4 +194,41 @@ router.delete('/:restaurantID', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ *
+ * /restaurant/{restaurantID}/capacity:
+ *   get:
+ *     description: Get the minimum and maximum guest allowed of a restaurant
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantID
+ *         description: Primary Key of Restaurant database table
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Returns the Minimum MinGuests and Maximum MaxGuests of the tables for a given restaurant
+ */
+router.get('/:restaurantID/capacity', (req, res) => {
+  const { restaurantID } = req.params;
+
+  if (!restaurantID) {
+    res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
+    return;
+  }
+  
+  connection.query(
+  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM `TABLE` as t WHERE t.RestaurantID = ?;', [restaurantID], 
+  (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    });
+ });
+
 export default router;

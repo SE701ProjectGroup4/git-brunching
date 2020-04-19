@@ -10,7 +10,7 @@
 //   // Setup the database before any tests in this file run.
 //   const errors = [];
 //   await connection
-//     .asyncQuery('INSERT INTO restaurant_db.RESTAURANT VALUES (6, "Example restaurant1");')
+//     .asyncQuery('INSERT INTO RESTAURANT VALUES (6, "Example restaurant1");')
 //     .then(({ error }) => error && errors.push(error));
 //   await connection;
 
@@ -38,7 +38,7 @@
 //   // Test that the API is able to return the correct result when there is only one review for the desired restaurant.
 //   it('2. should return an array of reviews when the restaurant only has one review', async function () {
 //     await connection
-//       .asyncQuery(`INSERT INTO restaurant_db.REVIEW VALUES (1, "Bryan", 1, "This place sucks");`)
+//       .asyncQuery(`INSERT INTO REVIEW VALUES (1, "Bryan", 1, "This place sucks");`)
 //       .then(({ error }) => {
 //         assert.isUndefined(error, 'Expected no errors when adding items to database');
 //       });
@@ -74,13 +74,13 @@
 //   // Test that the API is able to return the correct result when there are multiple reviews for the desired restaurant.
 //   it('3. should return an array of reviews when the restaurant has multiple reviews', async function () {
 //     await connection
-//       .asyncQuery(`INSERT INTO restaurant_db.REVIEW VALUES (1, "Bryan", 1, "This place sucks");`)
+//       .asyncQuery(`INSERT INTO REVIEW VALUES (1, "Bryan", 1, "This place sucks");`)
 //       .then(({ error }) => {
 //         assert.isUndefined(error, 'Expected no errors when adding items to database');
 //       });
 
 //     await connection
-//       .asyncQuery(`INSERT INTO restaurant_db.REVIEW VALUES (2, "Richard", 1, "OMG best place ever");`)
+//       .asyncQuery(`INSERT INTO REVIEW VALUES (2, "Richard", 1, "OMG best place ever");`)
 //       .then(({ error }) => {
 //         assert.isUndefined(error, 'Expected no errors when adding items to database');
 //       });
