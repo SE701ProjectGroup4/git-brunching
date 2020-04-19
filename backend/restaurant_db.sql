@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-280935';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-300141';
 
 --
 -- Table structure for table `HOURS`
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `MENU`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `MENU` (
-  `Id` int(32) NOT NULL,
+  `Id` int(32) NOT NULL AUTO_INCREMENT,
   `RestaurantId` int(11) NOT NULL,
   `Link` varchar(200) NOT NULL,
   `Height` int(11) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `MENU` (
   PRIMARY KEY (`Id`),
   KEY `Menu_Restaurant` (`RestaurantId`),
   CONSTRAINT `Menu_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,14 +153,14 @@ DROP TABLE IF EXISTS `REVIEW`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `REVIEW` (
-  `Id` int(32) NOT NULL,
+  `Id` int(32) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   `RestaurantId` int(11) NOT NULL,
   `Review` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `Review_Restaurant` (`RestaurantId`),
   CONSTRAINT `Review_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +215,7 @@ CREATE TABLE `USER` (
   `Phone` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=384 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,4 +238,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 18:41:21
+-- Dump completed on 2020-04-19 21:21:31
