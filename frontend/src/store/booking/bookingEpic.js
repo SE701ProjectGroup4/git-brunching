@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, USER, TABLE_ID,
+  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID,
 } from "../../general/config";
 
 /**
@@ -17,23 +17,6 @@ const addReservation = (action$, store) => action$.pipe(
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
-
-    // The booking requires a user. So we need to create one.
-    const user = await fetch(USER, {
-      method: "POST",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: bookingData.name,
-        lastName: " ",
-        phone: bookingData.phone,
-        email: bookingData.email,
-      }),
-    }).then((res) => res.json());
 
     const tableIDEndpoint = `${TABLE_ID.toString()}?date=${bookingData.date}&time=${bookingData.time.substring(0, 2)}&numberOfGuests=${bookingData.seats}&restaurantID=${restaurantData.selected.ID}`;
 
@@ -62,7 +45,9 @@ const addReservation = (action$, store) => action$.pipe(
         numberOfGuests: bookingData.seats,
         tableID: tableID.result[0].ID,
         notes: bookingData.notes,
-        userID: user.userID,
+        name: bookingData.name,
+        phone: bookingData.phone,
+        email: bookingData.email,
       }),
     }).then((res) => res.json());
 
@@ -87,25 +72,7 @@ const editReservation = (action$, store) => action$.pipe(
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
 
-    await fetch(USER, {
-      method: "PUT",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: bookingData.name,
-        // The API accepts firstName and lastName but the store only contains name...
-        lastName: " ",
-        phone: bookingData.phone,
-        email: bookingData.email,
-        reservationID: bookingData.bookingCode,
-      }),
-    });
-
-    const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
+    const booking = await fetch(`${RESERVATION}/${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
       credentials: "same-origin",
@@ -119,6 +86,9 @@ const editReservation = (action$, store) => action$.pipe(
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         notes: bookingData.notes,
+        name: bookingData.name,
+        phone: bookingData.phone,
+        email: bookingData.email,
       }),
     }).then((res) => res.json());
 
