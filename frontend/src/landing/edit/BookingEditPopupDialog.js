@@ -12,6 +12,7 @@ import style from "./BookingEditPopup.module.css";
 import changePath from "../../general/helperFunctions";
 import textHolder from "../../general/textHolder";
 import getRestaurantByReference from "./services/getReservationByReference";
+import deleteReservationByReference from "./services/deleteReservationByReference";
 import {
   addBookingDate,
   addBookingDetails,
@@ -20,7 +21,6 @@ import {
   setBookingCode,
 } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
-import getUserById from "./services/getUserById";
 import getRestaurantByID from "./services/getRestaurantByID";
 
 
@@ -65,8 +65,7 @@ const BookingEditPopupDialog = (props) => {
       getRestaurantByReference(bookingID).then((r) => {
         setReservationCode(bookingID);
         const data = r.result[0];
-        getUserById(data ? data.UserID : null).then((res) => {
-          const userData = res.result[0];
+        if (data !== undefined) {
           getRestaurantByID(data.RestaurantID).then((restaurant) => {
             changeInput(false);
             const restaurantData = restaurant[0];
@@ -74,14 +73,17 @@ const BookingEditPopupDialog = (props) => {
             addTime(data.Time);
             addSeats(data.NumberOfGuests);
             addDate(data.Date);
-            addDetails(`${userData.FirstName} ${userData.LastName}`, userData.Phone, userData.Email, data.Notes);
+            addDetails(data.Name, data.Phone, data.Email, data.Notes);
             setLoading(false);
+          }).catch(() => {
+            setLoading(false);
+            changeError(true);
+            // handleClosePopup();
           });
-        }).catch(() => {
-          setLoading(false);
+        } else {
           changeError(true);
-          // handleClosePopup();
-        });
+          setLoading(false);
+        }
       });
     } else {
       changeError(true);
@@ -104,6 +106,10 @@ const BookingEditPopupDialog = (props) => {
     if (e.key === "Enter") {
       handleChangeToBookingDetails();
     }
+  };
+
+  const handleDeleteBooking = () => {
+    deleteReservationByReference(bookingID).then(handleClosePopup());
   };
 
   return (
@@ -179,7 +185,7 @@ const BookingEditPopupDialog = (props) => {
                   </div>
                 </div>
                 <div className={style.dialogTripleButtonContainer}>
-                  <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
+                  <Button variant="outlined" fullWidth={false} onClick={() => handleDeleteBooking()} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupDelete}
                   </Button>
                   <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>

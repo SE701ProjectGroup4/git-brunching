@@ -88,7 +88,7 @@ router.get('/:userID', async (req, res) => {
   }
 
   const { error, result } = await connection.asyncQuery(
-    'SELECT * FROM restaurant_db.USER WHERE ID = ? ',
+    'SELECT * FROM USER WHERE ID = ? ',
     [userID]
   );
 
