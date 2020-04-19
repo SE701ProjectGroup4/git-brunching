@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-300014';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-300141';
 
 --
 -- Table structure for table `HOURS`
@@ -113,7 +113,7 @@ CREATE TABLE `RESERVATION` (
 
 LOCK TABLES `RESERVATION` WRITE;
 /*!40000 ALTER TABLE `RESERVATION` DISABLE KEYS */;
-INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Emma','021889900','emma@gmail.com'),('80gyicb9ck95glbb6','2020-04-18','18:00:00','a',1,1,1,'a','a','a'),('80gyicb9ck95h5r3l','2020-04-18','19:00:00','',3,1,1,'ff','ff','f'),('80gyicblgk954awny','2020-04-19','18:00:00','shrimp allergy',3,1,1,'John','027123987','john@gmail.com'),('80gyictck95eeb2w','2020-04-20','18:00:00',NULL,2,1,1,'dd','dd','dd'),('bxmeaak4k96tsxdh','2020-04-20','16:00:00','aodfimasodf',2,1,1,'Richard','1212121','richard@gmail.com');
+INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Emma','021889900','emma@gmail.com'),('80gyicblgk954awny','2020-04-19','18:00:00','shrimp allergy',3,1,1,'John','027123987','john@gmail.com');
 /*!40000 ALTER TABLE `RESERVATION` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +169,7 @@ CREATE TABLE `REVIEW` (
 
 LOCK TABLES `REVIEW` WRITE;
 /*!40000 ALTER TABLE `REVIEW` DISABLE KEYS */;
-INSERT INTO `REVIEW` VALUES (1,'Anon',1,'Best fried chicken'),(2,'Bryan',1,'Best chicken');
+INSERT INTO `REVIEW` VALUES (1,'Anon',1,'Best fried chicken');
 /*!40000 ALTER TABLE `REVIEW` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,4 +238,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-19 21:11:26
+-- Dump completed on 2020-04-19 21:21:31
