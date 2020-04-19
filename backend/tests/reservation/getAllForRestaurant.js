@@ -10,16 +10,16 @@ before(async () => {
   // Setup the database before any tests in this file run.
   const errors = [];
   await connection
-    .asyncQuery('INSERT INTO restaurant_db.RESTAURANT VALUES (1, "Example restaurant0");')
+    .asyncQuery('INSERT INTO RESTAURANT VALUES (1, "Example restaurant0");')
     .then(({ error }) => error && errors.push(error));
 
   await connection
-    .asyncQuery(`INSERT INTO restaurant_db.TABLE VALUES (1, 1, 1, 6);`)
+    .asyncQuery(`INSERT INTO \`TABLE\` VALUES (1, 1, 1, 6);`)
     .then(({ error }) => error && errors.push(error));
 
   await connection
     .asyncQuery(
-      `INSERT INTO restaurant_db.USER VALUES (1, "First name", "Last name", "09 123,456", "example@email.com");`
+      `INSERT INTO USER VALUES (1, "First name", "Last name", "09 123,456", "example@email.com");`
     )
     .then(({ error }) => error && errors.push(error));
   assert.strictEqual(errors.length, 0, 'Expected no errors in initial setup');
@@ -48,7 +48,7 @@ describe('GET reservations/', () => {
   it('2. should return an array of reservations when the restaurant only has one reservation', async function () {
     // await connection
     //   .asyncQuery(
-    //     `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+    //     `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
     // VALUES (1, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
     //   )
     //   .then(({ error }) => {
@@ -92,7 +92,7 @@ describe('GET reservations/', () => {
   it('3. should return an array of reservations when the restaurant has multiple reservations', async function () {
     // await connection
     //   .asyncQuery(
-    //     `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+    //     `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
     // VALUES (2, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
     //   )
     //   .then(({ error }) => {
@@ -101,7 +101,7 @@ describe('GET reservations/', () => {
 
     // await connection
     //   .asyncQuery(
-    //     `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+    //     `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
     // VALUES (3, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
     //   )
     //   .then(({ error }) => {
