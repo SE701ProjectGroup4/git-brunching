@@ -49,6 +49,7 @@ const TimeContainer = (props) => {
   // There will be no times when the restaurant is closed
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
+  const dateError = selectedDate == null;
 
   let openTime = "";
   let closeTime = "";
@@ -78,7 +79,7 @@ const TimeContainer = (props) => {
         <div className={style.bookingDetail}>
           <TextField
             type="text"
-            inputProps={{pattern: '[0-9]*' }}
+            inputProps={{ pattern: "[0-9]*" }}
             className={style.textField}
             label="Number of Guests"
             variant="outlined"
@@ -102,11 +103,17 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
+              error={dateError}
               onChange={(e) => {
-                const formattedDate = format(e, "yyyy-MM-dd");
-                setSelectedDate(formattedDate);
-                onDateChange(formattedDate);
-                getAvailable();
+                try {
+                  const formattedDate = format(e, "yyyy-MM-dd");
+                  setSelectedDate(formattedDate);
+                  onDateChange(formattedDate);
+                  getAvailable();
+                } catch (RangeError) {
+                  setSelectedDate(null);
+                  getAvailable();
+                }
               }}
               KeyboardButtonProps={{
                 "aria-label": "change date",

@@ -1,22 +1,31 @@
 import React from "react";
 import { useHistory } from "react-router";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
 import style from "./LandingPage.module.css";
 import BookingEditPopupButton from "./edit/BookingEditPopupButton";
 import RestaurantTile from "./RestaurantTile";
 import changePath from "../general/helperFunctions";
 import SearchBar from "./SearchBar";
 import { ReactComponent as Logo2 } from "../general/Logo2.svg";
+import { getRestaurantBookings } from "../store/booking/bookingActions";
+
 
 const LandingPage = (props) => {
-  const { setRestaurant } = props;
+  const { setRestaurant, onRestaurantClicked } = props;
   const history = useHistory();
+  const restaurantID = 1;
 
   const toBooking = () => {
     changePath("/booking", history);
   };
   // TODO: need to change this to be a state that is managed by Redux for RESTAURANT user login
   const isLoggedIn = true;
+
+  const toRestaurants = () => {
+    onRestaurantClicked(restaurantID);
+    changePath("/restaurant", history);
+  };
 
   return (
     <div className={style.landingPageContainer}>
@@ -39,7 +48,7 @@ const LandingPage = (props) => {
                     ? style.secondaryButton
                     : style.secondaryButtonDisabled
                 }
-                onClick={() => changePath("/restaurant", history)}
+                onClick={() => toRestaurants()}
               >
                 {/* Todo replace with something else */}
                 RESERVATIONS
@@ -55,4 +64,9 @@ const LandingPage = (props) => {
   );
 };
 
-export default LandingPage;
+
+const mapDispatchToProps = (dispatch) => ({
+  onRestaurantClicked: (restaurantID) => { dispatch(getRestaurantBookings(restaurantID)); },
+});
+
+export default connect(null, mapDispatchToProps)(LandingPage);
