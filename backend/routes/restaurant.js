@@ -101,6 +101,8 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *     responses:
  *       200:
  *         description: Returns all restaurant objects
+ *       400:
+ *         description: At least one of the parameters was not supplied correctly.
  */
 router.get('/', (req, res) => {
   const { batch, limit } = req.query;
@@ -247,16 +249,18 @@ router.get('/:restaurantID/capacity', (req, res) => {
     res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
     return;
   }
-  
+
   connection.query(
-  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
-  (error, results) => {
+    'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;',
+    [restaurantID],
+    (error, results) => {
       if (error) {
         res.status(400).json({ error });
         return;
       }
       res.json(results);
-    });
- });
+    }
+  );
+});
 
 export default router;
