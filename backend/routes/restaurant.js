@@ -84,7 +84,7 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *
  * /restaurant:
  *   get:
- *     description: Fetch all restaurant objects from the database
+ *     description: Fetch all or a batch of restaurant objects from the database in one API call.
  *     produces:
  *       - application/json
  *     parameters:
