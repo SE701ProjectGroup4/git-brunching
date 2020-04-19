@@ -77,6 +77,10 @@ router.get('/', async (req, res) => {
     res.status(400).json({ error });
     return;
   }
+  //Convert date from UTC to local time
+  result.forEach(element => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  });
   res.json({ result });
 });
 
@@ -117,6 +121,10 @@ router.get('/restaurant', async (req, res) => {
     res.status(400).json({ error });
     return;
   }
+  //Convert dates from UTC to local time
+  result.forEach(element => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  });
   res.json({ result });
 });
 
