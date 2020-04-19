@@ -426,7 +426,7 @@ router.get('/available', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT t.ID ' +
-    'FROM restaurant_db.TABLE t ' +
+    'FROM `TABLE` t ' +
     'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
                                                                         'FROM RESERVATION r ' +
                                                                         'WHERE t.RestaurantID = r.RestaurantID AND ' +
