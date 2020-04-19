@@ -128,6 +128,7 @@ CREATE TABLE `RESTAURANT` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   `OwnerId` int(11) NOT NULL,
+  `Image` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   KEY `Restaurant_User` (`OwnerId`),
@@ -141,7 +142,7 @@ CREATE TABLE `RESTAURANT` (
 
 LOCK TABLES `RESTAURANT` WRITE;
 /*!40000 ALTER TABLE `RESTAURANT` DISABLE KEYS */;
-INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1);
+INSERT INTO `RESTAURANT` (ID, Name, OwnerId) VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1);
 /*!40000 ALTER TABLE `RESTAURANT` ENABLE KEYS */;
 UNLOCK TABLES;
 

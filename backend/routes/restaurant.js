@@ -147,7 +147,9 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`) VALUES (?, ?);', [body.name, body.ownerId], error => {
+  var image = body.image ? body.image : null;
+
+  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`) VALUES (?, ?, ?);', [body.name, body.ownerId, image], error => {
     if (error) {
       res.status(400).json({ error });
       return;
