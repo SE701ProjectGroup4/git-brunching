@@ -67,7 +67,7 @@ const RestaurantViewBookingPage = (props) => {
         <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
       </div>
       <div>
-        <span className={style.date}>{`${date}`}</span>
+        <span className={style.date}>{`${date.substring(0,10)}`}</span>
         <span className={style.time}>{time}</span>
       </div>
       <div className={style.userDetails}>
