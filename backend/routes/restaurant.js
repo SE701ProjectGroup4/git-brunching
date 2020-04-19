@@ -10,6 +10,92 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /**
  * @swagger
  *
+ * /restaurant/popular:
+ *   get:
+ *     description: Fetch most popular (has most bookings made) restaurant objects from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: limit
+ *         description: Number of restaurants to retrieve
+ *         in: query
+ *         required: false
+ *         type: string
+ *       - name: offset
+ *         description: Number of restaurants to offset the retrieval by
+ *         in: query
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns restaurant objects
+ */
+router.get('/popular', (req, res) => {
+  const { limit, offset } = req.query;
+
+  let queryLimit = limit ? parseInt(limit) : 10;
+  let queryOffset = offset ? parseInt(offset) : 0;
+
+  connection.query(
+    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID GROUP BY RESTAURANT.ID, RESTAURANT.Name '
+      + 'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
+    [queryLimit, queryOffset],
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+/**
+ * @swagger
+ *
+ * /restaurant/open:
+ *   get:
+ *     description: Fetch the restaurant objects of restuarants which are open from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: limit
+ *         description: Number of restaurants to retrieve
+ *         in: query
+ *         required: false
+ *         type: string
+ *       - name: offset
+ *         description: Number of restaurants to offset the retrieval by
+ *         in: query
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns restaurant objects
+ */
+router.get('/open', (req, res) => {
+  const { limit, offset } = req.query;
+
+  let queryLimit = limit ? parseInt(limit) : 10;
+  let queryOffset = offset ? parseInt(offset) : 0;
+
+  connection.query(
+    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN HOURS ON RESTAURANT.ID = HOURS.RestaurantID AND HOURS.DayOfWeek = LEFT(DAYNAME(CURDATE()), 3) '
+      + 'AND CURTIME() BETWEEN HOURS.OpenTime AND HOURS.CloseTime LIMIT ? OFFSET ?',
+    [queryLimit, queryOffset],
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+/**
+ * @swagger
+ *
  * /restaurant/{restaurantID}:
  *   get:
  *     description: Fetch a restaurant object
