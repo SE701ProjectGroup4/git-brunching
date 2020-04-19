@@ -65,20 +65,25 @@ const BookingEditPopupDialog = (props) => {
       getRestaurantByReference(bookingID).then((r) => {
         setReservationCode(bookingID);
         const data = r.result[0];
-        getRestaurantByID(data.RestaurantID).then((restaurant) => {
-          changeInput(false);
-          const restaurantData = restaurant[0];
-          select({ ID: restaurantData.ID, Name: restaurantData.Name });
-          addTime(data.Time);
-          addSeats(data.NumberOfGuests);
-          addDate(data.Date);
-          addDetails(data.Name, data.Phone, data.Email, data.Notes);
-          setLoading(false);
-        }).catch(() => {
-          setLoading(false);
+        if (data !== undefined) {
+          getRestaurantByID(data.RestaurantID).then((restaurant) => {
+            changeInput(false);
+            const restaurantData = restaurant[0];
+            select({ ID: restaurantData.ID, Name: restaurantData.Name });
+            addTime(data.Time);
+            addSeats(data.NumberOfGuests);
+            addDate(data.Date);
+            addDetails(data.Name, data.Phone, data.Email, data.Notes);
+            setLoading(false);
+          }).catch(() => {
+            setLoading(false);
+            changeError(true);
+            // handleClosePopup();
+          });
+        } else {
           changeError(true);
-          // handleClosePopup();
-        });
+          setLoading(false);
+        }
       });
     } else {
       changeError(true);
