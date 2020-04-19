@@ -13,6 +13,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  * /reviews/{reviewID}:
 =======
  * /restaurant:
@@ -23,6 +24,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 =======
  * /reviews:
 >>>>>>> 304a074... added review post method
+=======
+ * /reviews/{reviewID}:
+>>>>>>> 09e60cd... added swagger documentation
  *   get:
  *     description: Fetch a review object
  *     produces:
@@ -66,11 +70,15 @@ router.get('/:reviewID', async (req, res) => {
 /**
  * @swagger
  *
+<<<<<<< HEAD
  * /reviews:
 <<<<<<< HEAD
 >>>>>>> fb8e382... added review post method
 =======
 >>>>>>> 304a074... added review post method
+=======
+ * /reviews/restaurant/{restaurantID}:
+>>>>>>> 09e60cd... added swagger documentation
  *   get:
  *     description: Fetch a list of review objects
  *     produces:
@@ -229,9 +237,14 @@ router.post('/', (req, res) => {
  *         in: formData
  *         required: true
  *         type: integer
+ *       - name: review
+ *         description: review description
+ *         in: formData
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
- *         description: Successfully added restaurant to database
+ *         description: Successfully added review to database
  */
 router.post('/', (req, res) => {
   const { body } = req;
@@ -302,10 +315,14 @@ router.delete('/:reviewID', (req, res) => {
 
   if (!reviewID) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     res.status(400).json({ error: 'DELETE /reviews/{id} invocation error: {id} must be an int' });
 =======
     res.status(400).json({ error: 'DELETE /review/{id} invocation error: {id} must be an int' });
 >>>>>>> 181f028... added reviews file and get request
+=======
+    res.status(400).json({ error: 'DELETE /reviews/{id} invocation error: {id} must be an int' });
+>>>>>>> 09e60cd... added swagger documentation
     return;
   }
 

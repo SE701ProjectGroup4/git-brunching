@@ -9,5 +9,5 @@ export default {
     DB_USER: 'admin',
     DB_PASS: 'softeng701'
   },
-  mock: false
+  mock: true
 };
