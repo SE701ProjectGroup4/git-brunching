@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
  * /reviews/{reviewID}:
  *   get:
+ *     tags: [Review]
  *     description: Fetch a review object
  *     produces:
  *       - application/json
@@ -24,6 +25,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *     responses:
  *       200:
  *         description: Returns review object
+ *       400:
+ *         description: failed to deleted reviews to database
  */
 router.get('/:reviewID', async (req, res) => {
   const { reviewID } = req.params;
@@ -46,6 +49,7 @@ router.get('/:reviewID', async (req, res) => {
  *
  * /reviews/restaurant/{restaurantID}:
  *   get:
+ *     tags: [Review]
  *     description: Fetch a list of review objects
  *     produces:
  *       - application/json
@@ -58,6 +62,8 @@ router.get('/:reviewID', async (req, res) => {
  *     responses:
  *       200:
  *         description: Returns a lsit of review objects for the specified restaurant ID
+ *       400:
+ *         description: failed to deleted reviews to database
  */
 router.get('/restaurant/:restaurantID', async (req, res) => {
   const { restaurantID } = req.params;
@@ -80,6 +86,7 @@ router.get('/restaurant/:restaurantID', async (req, res) => {
  *
  * /reviews:
  *   post:
+ *     tags: [Review]
  *     description: Adds a reviews object to the database
  *     produces:
  *       - application/json
@@ -102,6 +109,8 @@ router.get('/restaurant/:restaurantID', async (req, res) => {
  *     responses:
  *       200:
  *         description: Successfully added review to database
+ *       400:
+ *         description: failed to deleted reviews to database
  */
 router.post('/', (req, res) => {
   const { body } = req;
@@ -138,6 +147,7 @@ router.post('/', (req, res) => {
  *
  * /reviews:
  *   delete:
+ *     tags: [Review]
  *     description: Deletes a reviews object to the database
  *     produces:
  *       - application/json
@@ -150,6 +160,8 @@ router.post('/', (req, res) => {
  *     responses:
  *       200:
  *         description: Successfully deleted reviews to database
+ *       400:
+ *         description: failed to deleted reviews to database
  */
 router.delete('/:reviewID', (req, res) => {
   const { reviewID } = req.params;
