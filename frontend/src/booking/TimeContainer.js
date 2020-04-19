@@ -57,9 +57,6 @@ const TimeContainer = (props) => {
   const maxGuest = tableCapacity.maximum;
   const minGuest = tableCapacity.minimum;
 
-  const maxGuest = tableCapacity.maximum;
-  const minGuest = tableCapacity.minimum;
-
   let openTime = "";
   let closeTime = "";
 
@@ -182,7 +179,7 @@ const TimeContainer = (props) => {
             variant="contained"
             color="primary"
             onClick={handleTimeConfirmation}
-            disabled={seats.length === 0 || selectedTime.length === 0 || overCapacity == true}
+            disabled={seats.length === 0 || selectedTime.length === 0 || overCapacity === true}
           >
             {timeMessages.buttonNextText}
           </Button>
