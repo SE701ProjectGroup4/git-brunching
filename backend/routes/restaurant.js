@@ -120,6 +120,7 @@ router.get('/open', (req, res) => {
  *
  * /restaurant/{restaurantID}:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch a restaurant object
  *     produces:
  *       - application/json
@@ -155,6 +156,7 @@ router.get('/:restaurantID', async (req, res) => {
  *
  * /restaurant/{restaurantID}/openhours:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch the opening hours of the restaurent
  *     produces:
  *       - application/json
@@ -176,7 +178,8 @@ router.get('/:restaurantID/openhours', async (req, res) => {
   }
 
   connection.query(
-    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;', [restaurantID],
+    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;',
+    [restaurantID],
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
@@ -192,7 +195,8 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *
  * /restaurant:
  *   get:
- *     description: Fetch all or a batch of restaurant objects from the database in one API call.
+ *     tags: [Restaurant]
+ *     description: Fetch all restaurant objects from the database
  *     produces:
  *       - application/json
  *     parameters:
@@ -249,7 +253,8 @@ router.get('/', (req, res) => {
       }
       res.json(results);
     }
-  );
+    res.json(results);
+  });
 });
 
 /**
@@ -257,6 +262,7 @@ router.get('/', (req, res) => {
  *
  * /restaurant:
  *   post:
+ *     tags: [Restaurant]
  *     description: Adds a restaurant object to the database
  *     produces:
  *       - application/json
@@ -342,6 +348,7 @@ router.get('/search/:restaurantName', async (req, res) => {
  *
  * /restaurant/{restaurantID}:
  *   delete:
+ *     tags: [Restaurant]
  *     description: Deletes a restaurant object to the database
  *     produces:
  *       - application/json
@@ -363,7 +370,7 @@ router.delete('/:restaurantID', (req, res) => {
     return;
   }
 
-  connection.query('DELETE FROM RESTAURANT WHERE ID=?;', [restaurantID], error => {
+  connection.query('DELETE FROM RESTAURANT WHERE ID=?;', [restaurantID], (error) => {
     if (error) {
       res.status(400).json({ error });
       return;

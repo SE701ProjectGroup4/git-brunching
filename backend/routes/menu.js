@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
  * /menu/{menuId}:
  *   get:
+ *     tags: [Menu]
  *     description: Fetch a menu object
  *     produces:
  *       - application/json
@@ -46,6 +47,7 @@ router.get('/:menuId', async (req, res) => {
  *
  * /menu/restaurant/{restaurantId}:
  *   get:
+ *     tags: [Menu]
  *     description: Fetch all menu objects for a restaurant
  *     produces:
  *       - application/json
@@ -80,6 +82,7 @@ router.get('/restaurant/:restaurantId', async (req, res) => {
  *
  * /menu:
  *   post:
+ *     tags: [Menu]
  *     description: Adds a menu object to the database
  *     produces:
  *       - application/json
@@ -145,6 +148,7 @@ router.post('/', (req, res) => {
  *
  * /menu/{menuID}:
  *   delete:
+ *     tags: [Menu]
  *     description: Deletes a menu object to the database
  *     produces:
  *       - application/json

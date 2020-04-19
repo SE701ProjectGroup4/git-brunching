@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
  * /table/free:
  *   get:
+ *     tags: [Table]
  *     description: Get a list of of hours where there is a table free for a restaurent
  *     produces:
  *       - application/json
@@ -44,8 +45,7 @@ router.get('/free', async (req, res) => {
 
   if (!date || !numberOfGuests || !restaurantID) {
     res.status(400).json({
-      error:
-        'table/free GET endpoint needs: date, numberOfGuests and restaurantID query params'
+      error: 'table/free GET endpoint needs: date, numberOfGuests and restaurantID query params'
     });
     return;
   }
@@ -55,11 +55,14 @@ router.get('/free', async (req, res) => {
   const dayOfWeekIndex = reservationDate.getDay();
   const day = dayNames[dayOfWeekIndex];
 
-
   // Getting opening hours for the restaurant for that day
-  const { error: queryError, result: restaurentHours } = await connection.asyncQuery(
-    'SELECT OpenTime, CloseTime from HOURS WHERE RestaurantID = ? AND DayOfWeek = ?', [restaurantID, day]
-  );
+  const {
+    error: queryError,
+    result: restaurentHours
+  } = await connection.asyncQuery('SELECT OpenTime, CloseTime from HOURS WHERE RestaurantID = ? AND DayOfWeek = ?', [
+    restaurantID,
+    day
+  ]);
 
   if (queryError) {
     res.status(500).json({ error: 'Internal server error' });

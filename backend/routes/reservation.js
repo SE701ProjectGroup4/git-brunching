@@ -18,7 +18,7 @@ const validateTime = (databaseRow, databaseError, action) => {
   }
 
   const reservationTime = databaseRow[0].Time;
-  const [hour, min, sec] = reservationTime.split(':').map(token => Number(token));
+  const [hour, min, sec] = reservationTime.split(':').map((token) => Number(token));
 
   const reservationDateTime = new Date(databaseRow[0].Date);
   reservationDateTime.setHours(reservationDateTime.getHours() + hour);
@@ -45,6 +45,7 @@ const validateTime = (databaseRow, databaseError, action) => {
  *
  * /reservation:
  *   get:
+ *     tags: [Reservation]
  *     description: Fetch a reservation object
  *     produces:
  *       - application/json
@@ -66,12 +67,9 @@ router.get('/', async (req, res) => {
   //   return;
   // }
 
-  const { error, result } = await connection.asyncQuery(
-    'SELECT * ' +
-    'FROM RESERVATION ' +
-    'WHERE ID = ? ',
-    [reservationID]
-  );
+  const { error, result } = await connection.asyncQuery('SELECT * ' + 'FROM RESERVATION ' + 'WHERE ID = ? ', [
+    reservationID
+  ]);
 
   if (error) {
     res.status(400).json({ error });
@@ -89,7 +87,8 @@ router.get('/', async (req, res) => {
  *
  * /reservation/restaurant:
  *   get:
- *     description: Fetch all reservations for a restaurant
+ *     tags: [Reservation]
+ *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -133,7 +132,8 @@ router.get('/restaurant', async (req, res) => {
  *
  * /reservation/{reservationID}:
  *   put:
- *     description: Updates reservation information
+ *     tags: [Reservation]
+ *     summary: Used to update reservation information
  *     parameters:
  *       - name: reservationID
  *         description: Primary Key of Reservation database table
@@ -252,7 +252,8 @@ router.put('/:reservationID', async (req, res) => {
  *
  * /reservation:
  *   post:
- *     description: Creates a reservation for a restaurant
+ *     tags: [Reservation]
+ *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -338,6 +339,7 @@ router.post('/', async (req, res) => {
  *
  * /reservation/{reservationID}:
  *   delete:
+ *     tags: [Reservation]
  *     description: Deletes a reservation on the database
  *     produces:
  *       - application/json
@@ -385,6 +387,7 @@ router.delete('/:reservationID', async (req, res) => {
  *
  * /reservation/available:
  *   get:
+ *     tags: [Reservation]
  *     description: Get a list of tables that are free for booking
  *     produces:
  *       - application/json
@@ -418,8 +421,7 @@ router.get('/available', async (req, res) => {
 
   if (!date || !time || !numberOfGuests || !restaurantID) {
     res.status(400).json({
-      error:
-        'reservation/available GET endpoint needs: date, time, numberOfGuests and restaurantID body params'
+      error: 'reservation/available GET endpoint needs: date, time, numberOfGuests and restaurantID body params'
     });
     return;
   }
@@ -443,6 +445,5 @@ router.get('/available', async (req, res) => {
 
   res.json({ result });
 });
-
 
 export default router;
