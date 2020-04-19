@@ -18,7 +18,7 @@ const validateTime = (databaseRow, databaseError, action) => {
   }
 
   const reservationTime = databaseRow[0].Time;
-  const [hour, min, sec] = reservationTime.split(':').map(token => Number(token));
+  const [hour, min, sec] = reservationTime.split(':').map((token) => Number(token));
 
   const reservationDateTime = new Date(databaseRow[0].Date);
   reservationDateTime.setHours(reservationDateTime.getHours() + hour);
@@ -45,6 +45,7 @@ const validateTime = (databaseRow, databaseError, action) => {
  *
  * /reservation/{reservationId}:
  *   get:
+ *     tags: [Reservation]
  *     description: Fetch a reservation object
  *     produces:
  *       - application/json
@@ -66,12 +67,9 @@ router.get('/findreservation/:reservationId', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery(
-    'SELECT * ' +
-    'FROM RESERVATION ' +
-    'WHERE ID = ? ',
-    [reservationID]
-  );
+  const { error, result } = await connection.asyncQuery('SELECT * ' + 'FROM RESERVATION ' + 'WHERE ID = ? ', [
+    reservationID
+  ]);
 
   if (error) {
     res.status(400).json({ error });
@@ -85,6 +83,7 @@ router.get('/findreservation/:reservationId', async (req, res) => {
  *
  * /reservation:
  *   get:
+ *     tags: [Reservation]
  *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
@@ -108,8 +107,8 @@ router.get('/', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
-    'WHERE RestaurantID = ?;',
+      'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID FROM RESERVATION ' +
+      'WHERE RestaurantID = ?;',
     [restaurantID]
   );
 
@@ -125,6 +124,7 @@ router.get('/', async (req, res) => {
  *
  * /reservation/{reservationID}:
  *   put:
+ *     tags: [Reservation]
  *     summary: Used to update reservation information
  *     parameters:
  *       - name: restaurantID
@@ -185,10 +185,12 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const { error: reservationQueryError, result: reservationQueryResult } = await connection.asyncQuery(
-    'SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;',
-    [reservationID]
-  );
+  const {
+    error: reservationQueryError,
+    result: reservationQueryResult
+  } = await connection.asyncQuery('SELECT Date, Time, Notes, NumberOfGuests, UserID FROM RESERVATION WHERE ID = ?;', [
+    reservationID
+  ]);
 
   // check that this is an applicable booking to update (i.e more than 1 hour away)
   const validationResult = validateTime(reservationQueryResult, reservationQueryError, 'update');
@@ -198,9 +200,10 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const { error: userQueryError, result: userQueryResult } = await connection.asyncQuery(
-    'SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]
-  );
+  const {
+    error: userQueryError,
+    result: userQueryResult
+  } = await connection.asyncQuery('SELECT * FROM USER WHERE ID = ?;', [reservationQueryResult[0].UserID]);
 
   if (userQueryError) {
     res.status(400).json({ error: userQueryError });
@@ -218,7 +221,9 @@ router.put('/:reservationID', async (req, res) => {
   const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
-  const { error: reservationUpdateError } = await connection.asyncQuery(
+  const {
+    error: reservationUpdateError
+  } = await connection.asyncQuery(
     'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ? WHERE ID = ?;',
     [newNotes, newDate, newTime, newNoOfGuests, reservationID]
   );
@@ -228,10 +233,15 @@ router.put('/:reservationID', async (req, res) => {
   }
 
   // update user details
-  const { error: userUpdateError } = await connection.asyncQuery(
-    'UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;',
-    [newFirstName, newLastName, newPhone, newEmail, reservationQueryResult[0].userID]
-  );
+  const {
+    error: userUpdateError
+  } = await connection.asyncQuery('UPDATE USER SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?;', [
+    newFirstName,
+    newLastName,
+    newPhone,
+    newEmail,
+    reservationQueryResult[0].userID
+  ]);
 
   if (userUpdateError) {
     res.status(400).json({ error: userUpdateError });
@@ -245,6 +255,7 @@ router.put('/:reservationID', async (req, res) => {
  *
  * /reservation:
  *   post:
+ *     tags: [Reservation]
  *     description: Fetch a all reservation for a restaurant
  *     produces:
  *       - application/json
@@ -298,8 +309,8 @@ router.post('/', async (req, res) => {
 
   const { error } = await connection.asyncQuery(
     'INSERT ' +
-    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+      'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID) ' +
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
     [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, userID]
   );
 
@@ -315,6 +326,7 @@ router.post('/', async (req, res) => {
  *
  * /reservation/{reservationID}:
  *   delete:
+ *     tags: [Reservation]
  *     description: Deletes a reservation on the database
  *     produces:
  *       - application/json
@@ -362,6 +374,7 @@ router.delete('/:reservationID', async (req, res) => {
  *
  * /reservation/available:
  *   get:
+ *     tags: [Reservation]
  *     description: Get a list of tables that are free for booking
  *     produces:
  *       - application/json
@@ -395,21 +408,20 @@ router.get('/available', async (req, res) => {
 
   if (!date || !time || !numberOfGuests || !restaurantID) {
     res.status(400).json({
-      error:
-        'reservation/available GET endpoint needs: date, time, numberOfGuests and restaurantID body params'
+      error: 'reservation/available GET endpoint needs: date, time, numberOfGuests and restaurantID body params'
     });
     return;
   }
 
   const { error, result } = await connection.asyncQuery(
     'SELECT t.ID ' +
-    'FROM restaurant_db.TABLE t ' +
-    'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-                                                                        'FROM RESERVATION r ' +
-                                                                        'WHERE t.RestaurantID = r.RestaurantID AND ' +
-                                                                        't.ID = r.TableID AND ' +
-                                                                        'r.Date = ? AND ' +
-                                                                        'r.Time = ? );',
+      'FROM restaurant_db.TABLE t ' +
+      'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+      'FROM RESERVATION r ' +
+      'WHERE t.RestaurantID = r.RestaurantID AND ' +
+      't.ID = r.TableID AND ' +
+      'r.Date = ? AND ' +
+      'r.Time = ? );',
     [restaurantID, numberOfGuests, numberOfGuests, date, time]
   );
 
@@ -420,6 +432,5 @@ router.get('/available', async (req, res) => {
 
   res.json({ result });
 });
-
 
 export default router;
