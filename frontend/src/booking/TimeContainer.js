@@ -45,7 +45,15 @@ const TimeContainer = (props) => {
   useEffect(getHours, []);
 
   const day = getDayForDate(new Date(selectedDate));
+  const month = new Date(selectedDate).getMonth();
+  const dates = new Date(selectedDate).getDate();
   const times = restaurantHours.find((x) => x.DayOfWeek === day);
+
+  const today = new Date();
+  const todaysMonth = today.getMonth();
+  const todaysDate = today.getDate();
+  const todaystime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const todaystimeInt = Number.parseInt(todaystime.substring(0, 2), 10);
   // There will be no times when the restaurant is closed
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
@@ -104,6 +112,7 @@ const TimeContainer = (props) => {
               label="Select a Date"
               value={selectedDate}
               error={dateError}
+              disablePast = "true"
               onChange={(e) => {
                 try {
                   const formattedDate = format(e, "yyyy-MM-dd");
@@ -134,7 +143,7 @@ const TimeContainer = (props) => {
                         <Button
                           key={`time_button_${time.time}`}
                           variant="contained"
-                          disabled={available.indexOf(hour) === -1}
+                          disabled={(available.indexOf(hour) === -1) || (hour <= todaystimeInt && month === todaysMonth && dates === todaysDate) }
                           value={time}
                           color={time.time === selectedTime ? "secondary" : "primary"}
                           onClick={() => handleTime(time.time)}
