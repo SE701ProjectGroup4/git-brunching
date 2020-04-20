@@ -51,10 +51,10 @@ const SearchBar = (props) => {
   };
 
   useEffect(() => {
-    if (searchText === "" && clear === true) {
+    if (clear === true && searchText === "") {
       getAll();
     }
-  }, [searchText, getAll]);
+  }, [searchText, clear, getAll]);
 
   return (
     <TextField
