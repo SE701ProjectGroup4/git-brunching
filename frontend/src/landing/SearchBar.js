@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { InputAdornment } from "@material-ui/core";
@@ -31,8 +31,14 @@ const SearchBar = (props) => {
     getAll, getSearched, classes,
   } = props;
   const [searchText, searchChange] = React.useState("");
+  const [clear, changeClear] = React.useState(false);
 
   const onTextChange = (e) => {
+    if (e.target.value === "" && e.nativeEvent.inputType !== "deleteContentBackward") {
+      changeClear(true);
+    } else {
+      changeClear(false);
+    }
     searchChange(e.target.value);
   };
 
@@ -43,6 +49,12 @@ const SearchBar = (props) => {
       getSearched(searchText);
     }
   };
+
+  useEffect(() => {
+    if (searchText === "" && clear === true) {
+      getAll();
+    }
+  }, [searchText, getAll]);
 
   return (
     <TextField
