@@ -34,7 +34,8 @@ const SearchBar = (props) => {
   const [clear, changeClear] = React.useState(false);
 
   const onTextChange = (e) => {
-    if (e.target.value === "" && e.nativeEvent.inputType !== "deleteContentBackward") {
+    if (e.target.value === "" && e.nativeEvent.inputType !== "deleteContentBackward"
+      && e.nativeEvent.inputType !== "deleteWordBackward") {
       changeClear(true);
     } else {
       changeClear(false);
@@ -47,6 +48,12 @@ const SearchBar = (props) => {
       getAll();
     } else {
       getSearched(searchText);
+    }
+  };
+
+  const searchOnEnter = (e) => {
+    if (e.which === 13 || e.keyCode === 13) {
+      onSearchClicked();
     }
   };
 
@@ -64,6 +71,7 @@ const SearchBar = (props) => {
       placeholder="Search"
       value={searchText}
       onChange={onTextChange}
+      onKeyPress={searchOnEnter}
       InputProps={{
         endAdornment: (
           <InputAdornment position="start" onClick={onSearchClicked}>
