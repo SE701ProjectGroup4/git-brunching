@@ -86,14 +86,13 @@ const Tiles = ({ restaurants, toBooking }) => {
         className={style.gridList}
         cols={columns}
       >
-        {restaurants.map((data, index) => (
-          <GridListTile className={style.gridTile}>
+        {restaurants.map((data) => (
+          <GridListTile className={style.gridTile} key={data.Name}>
             <Card onClick={() => toBooking(data)} className={style.card}>
               <CardActionArea>
                 <CardMedia
                   style={{ height: cellHeight }}
-                  // TODO: Swap this out with images from API
-                  image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
+                  image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
                   title={data.Name}
                 />
               </CardActionArea>

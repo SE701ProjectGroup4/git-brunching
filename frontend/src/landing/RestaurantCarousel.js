@@ -49,14 +49,13 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
           className={style.gridList}
           cols={columns}
         >
-          {displayRestaurants.map((data, index) => (
-            <GridListTile className={style.gridTile}>
+          {displayRestaurants.map((data) => (
+            <GridListTile className={style.gridTile} key={data.Name}>
               <Card onClick={() => toBooking(data)} className={style.card}>
                 <CardActionArea>
                   <CardMedia
                     style={{ height: cellHeight }}
-                    // TODO: Swap this out with images from API
-                    image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
+                    image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
                     title={data.Name}
                   />
                 </CardActionArea>
