@@ -11,12 +11,18 @@ import { connect } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
-import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+import {
+  getRestaurants,
+  selectRestaurant, setMode,
+  getPopularRestaurants,
+  getNewRestaurants,
+  getOpenRestaurants,
+} from "../store/restaurant/restaurantAction";
 import MenuPopupButton from "./menu/MenuPopupButton";
 
+import RestaurantCarousel from "./RestaurantCarousel";
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
-
 
 /**
  * After the API has been loaded, we check if we have received any data.
@@ -24,13 +30,25 @@ import { resetBooking } from "../store/booking/bookingActions";
  * @param toBooking
  * @returns {*}
  */
-const processEmpty = (restaurants, toBooking) => ((restaurants.length === 0)
-  ? <NoRestaurants />
-  : <Tiles restaurants={restaurants} toBooking={toBooking} />);
+const processEmpty = (restaurants, openRestaurants, popularRestaurants, newRestaurants, toBooking) => {
+  if (restaurants.length === 0) {
+    return <NoRestaurants />;
+  }
+  return (
+    <>
+      {popularRestaurants.length !== 0 ? <RestaurantCarousel title="Popular" restaurants={popularRestaurants} toBooking={toBooking} /> : null}
+      {openRestaurants.length !== 0 ? <RestaurantCarousel title="Currently Open" restaurants={openRestaurants} toBooking={toBooking} /> : null}
+      {newRestaurants.length !== 0 ? <RestaurantCarousel title="New" restaurants={newRestaurants} toBooking={toBooking} /> : null}
+      <Tiles restaurants={restaurants} toBooking={toBooking} />
+    </>
+  );
+};
 
 const RestaurantTile = (props) => {
   const {
-    getAll, loading, restaurants, select, changeMode, reset,
+    getAll, getPopular, getNew, getOpen, loading,
+    restaurants, openRestaurants, popularRestaurants, newRestaurants,
+    select, changeMode, reset,
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
@@ -40,11 +58,17 @@ const RestaurantTile = (props) => {
     changeMode("CREATE");
   };
 
-  useEffect(getAll, []);
+  useEffect(() => {
+    getAll();
+    getPopular();
+    getNew();
+    getOpen();
+  }, []);
+
   return (
     <div className={style.gridRoot}>
       {loading ? <CircularProgress />
-        : processEmpty(restaurants, toBooking)}
+        : processEmpty(restaurants, openRestaurants, popularRestaurants, newRestaurants, toBooking)}
     </div>
   );
 };
@@ -54,31 +78,34 @@ const Tiles = ({ restaurants, toBooking }) => {
   const columns = 3;
 
   return (
-    <GridList
-      cellHeight={cellHeight}
-      spacing={40}
-      className={style.gridList}
-      cols={columns}
-    >
-      {restaurants.map((data, index) => (
-        <GridListTile key={data.Name} className={style.gridTile}>
-          <Card onClick={() => toBooking(data)} className={style.card}>
-            <CardActionArea>
-              <CardMedia
-                style={{ height: cellHeight }}
-                // TODO: Swap this out with images from API
-                image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
+    <div className={style.carouselContainer}>
+      <p className={style.titleText}>All</p>
+      <GridList
+        cellHeight={cellHeight}
+        spacing={40}
+        className={style.gridList}
+        cols={columns}
+      >
+        {restaurants.map((data, index) => (
+          <GridListTile className={style.gridTile}>
+            <Card onClick={() => toBooking(data)} className={style.card}>
+              <CardActionArea>
+                <CardMedia
+                  style={{ height: cellHeight }}
+                  // TODO: Swap this out with images from API
+                  image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
+                  title={data.Name}
+                />
+              </CardActionArea>
+              <GridListTileBar
                 title={data.Name}
+                actionIcon={<MenuPopupButton restaurantName={data.Name} />}
               />
-            </CardActionArea>
-            <GridListTileBar
-                title={data.Name}
-                actionIcon={<MenuPopupButton restaurantName={data.Name}/>}
-            />
-          </Card>
-        </GridListTile>
-      ))}
-    </GridList>
+            </Card>
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
   );
 };
 
@@ -97,13 +124,18 @@ const Tiles = ({ restaurants, toBooking }) => {
 
 const mapStateToProps = (state) => ({
   loading: state.restaurantReducer.isLoading,
-  // Used for API calling
   restaurants: state.restaurantReducer.restaurants,
+  openRestaurants: state.restaurantReducer.openRestaurants,
+  popularRestaurants: state.restaurantReducer.popularRestaurants,
+  newRestaurants: state.restaurantReducer.newRestaurants,
   // restaurants: fakeData,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
+  getPopular: getPopularRestaurants,
+  getNew: getNewRestaurants,
+  getOpen: getOpenRestaurants,
   select: selectRestaurant,
   changeMode: setMode,
   reset: resetBooking,
