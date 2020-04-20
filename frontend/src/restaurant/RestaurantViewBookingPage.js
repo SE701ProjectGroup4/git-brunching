@@ -59,7 +59,7 @@ import {
 
 const RestaurantViewBookingPage = (props) => {
   const history = useHistory();
-  const [isError, changeError] = useState(false);
+  const [isError, changeError] = useState(false); // TODO: Do something with error state e.g. display different screen
   const restaurantID = 1;
 
   const {
@@ -73,8 +73,9 @@ const RestaurantViewBookingPage = (props) => {
   }, []);
 
   const handleDeleteBooking = (bookingID) => {
-    deleteReservationByReference(bookingID);
-    getBookings(currentRestaurantID);
+    deleteReservationByReference(bookingID).then(() => {
+      getBookings(currentRestaurantID);
+    });
   };
 
   /**
@@ -92,17 +93,15 @@ const RestaurantViewBookingPage = (props) => {
           addSeats(data.NumberOfGuests);
           addDate(data.Date);
           addDetails(data.Name, data.Phone, data.Email, data.Notes);
+          changeMode("EDIT");
+          changePath("/booking", history);
         }).catch(() => {
           changeError(true);
-          // handleClosePopup();
         });
       } else {
         changeError(true);
       }
     });
-    changeMode("EDIT");
-    // IDSwitchMethod(dummyBooking.name);
-    changePath("/booking", history);
   };
 
   const createBookingItem = (
