@@ -209,7 +209,6 @@ router.post('/', (req, res) => {
  */
 router.get('/search/:restaurantName', async (req, res) => {
     const { restaurantName } = req.params;
-    console.log(restaurantName);
     if (!restaurantName) {
         res.status(400).json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
         return;
