@@ -21,7 +21,8 @@
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "validator": "^13.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

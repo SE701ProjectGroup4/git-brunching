@@ -84,23 +84,56 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *
  * /restaurant:
  *   get:
- *     description: Fetch all restaurant objects from the database
+ *     description: Fetch all or a batch of restaurant objects from the database in one API call.
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name: limit
+ *         description: The maximum number of results to show. By default there is no limit.
+ *         in: query
+ *         required: false
+ *         type: integer
+ *       - name: batch
+ *         description: An index for batch(es) of results. Only usable when limit is assigned a value. Index starts from 0.
+ *         in: query
+ *         required: false
+ *         type: integer
  *     responses:
  *       200:
  *         description: Returns all restaurant objects
+ *       400:
+ *         description: At least one of the parameters was not supplied correctly.
  */
 router.get('/', (req, res) => {
-  const input = req.query;
+  const { batch, limit } = req.query;
 
-  if (JSON.stringify(input) !== '{}') {
-    res.status(400).json({ error: '/restaurant/ GET endpoint needs no query param' });
+  let sql = 'SELECT * FROM RESTAURANT';
+  const sqlParams = [];
+
+  if (batch && !limit) {
+    res.status(400).json({ error: 'You must supply a limit query in order to supply a batch query.' });
     return;
   }
 
+  if (limit) { // By default returns all results if none supplied.
+    if (limit < 0) {
+      res.status(400).json({ error: 'Limit value must be at least 0 or omitted.' });
+      return;
+    }
+    sql += ' LIMIT ?';
+    sqlParams.push(limit * 1);
+    if (batch) { // By default returns first batch.
+      if (batch < 0) {
+        res.status(400).json({ error: 'Batch value must be at least 0 or omitted.' });
+        return;
+      }
+      sql += ' OFFSET ?';
+      sqlParams.push(batch * limit);
+    }
+  }
+
   connection.query(
-    'SELECT * FROM RESTAURANT',
+    sql, sqlParams,
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
@@ -147,13 +180,53 @@ router.post('/', (req, res) => {
     return;
   }
 
-  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`) VALUES (?, ?);', [body.name, body.ownerId], error => {
+  var image = body.image ? body.image : null;
+
+  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`) VALUES (?, ?, ?);', [body.name, body.ownerId, image], error => {
     if (error) {
       res.status(400).json({ error });
       return;
     }
     res.json('added');
   });
+});
+
+/**
+ * @swagger
+ *
+ * /restaurant/search/{restaurantName}:
+ *   get:
+ *     description: Fetch restaurant objects that contains the search phrase from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantName
+ *         description: Phrase used to search in Name field in the database
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns matching restaurant objects
+ */
+router.get('/search/:restaurantName', async (req, res) => {
+    const { restaurantName } = req.params;
+    if (!restaurantName) {
+        res.status(400).json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+        return;
+    }
+    else {
+        connection.query(
+            'SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%',
+            (error, results) => {
+                if (error) {
+                    res.status(400).json({ error });
+                    return;
+                }
+                res.json(results);
+            }
+        );
+    }
 });
 
 /**
@@ -216,16 +289,18 @@ router.get('/:restaurantID/capacity', (req, res) => {
     res.status(400).json({ error: 'GET /restaurant/{id}/openhours invocation error: {id} must be an int' });
     return;
   }
-  
+
   connection.query(
-  'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;', [restaurantID], 
-  (error, results) => {
+    'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.table as t WHERE t.RestaurantID = ?;',
+    [restaurantID],
+    (error, results) => {
       if (error) {
         res.status(400).json({ error });
         return;
       }
       res.json(results);
-    });
- });
+    }
+  );
+});
 
 export default router;

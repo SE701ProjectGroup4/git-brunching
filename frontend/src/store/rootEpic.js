@@ -1,7 +1,7 @@
 import { combineEpics } from "redux-observable";
 import restaurantEpic from "./restaurant/restaurantEpic";
 import bookingEpic, {
-  editReservation, getAvailableHours, getRestaurantHours, getRestaurantBookings,
+  editReservation, getAvailableHours, getRestaurantHours, getRestaurantBookings, getTableCapacity,
 } from "./booking/bookingEpic";
 
 /**
@@ -17,6 +17,7 @@ const rootEpic = combineEpics(
   getRestaurantHours,
   getAvailableHours,
   getRestaurantBookings,
+  getTableCapacity,
   // pingEpic,
 );
 

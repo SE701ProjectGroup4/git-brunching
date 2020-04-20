@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID,
+  FREE_TABLE, POST_RESERVATION, PUT_RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID, TABLE_CAPACITY, 
 } from "../../general/config";
 
 /**
@@ -30,7 +30,7 @@ const addReservation = (action$, store) => action$.pipe(
       },
     }).then((res) => res.json());
 
-    const booking = await fetch(RESERVATION, {
+    const booking = await fetch(POST_RESERVATION, {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -72,7 +72,7 @@ const editReservation = (action$, store) => action$.pipe(
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
 
-    const booking = await fetch(`${RESERVATION}/${bookingData.bookingCode}`, {
+    const booking = await fetch(`${PUT_RESERVATION}/${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
       credentials: "same-origin",
@@ -164,6 +164,31 @@ const getAvailableHours = (action$, store) => action$.pipe(
   })),
 );
 
+/**
+ * Asynchronous call for receiving the minimum and maximum number of guests for a booking
+ * which is depending on the restaurantID
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
+const getTableCapacity = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.GET_TABLE_CAPACITY),
+  mergeMap(async (action) => {
+    const restaurantData = store.value.restaurantReducer;
+    const capacity = await fetch(TABLE_CAPACITY(restaurantData.selected.ID)).then((res) => res.json());
+    return {
+      ...action,
+      type: actionType.GET_TABLE_CAPACITY_SUCCESS,
+      tableCapacity: capacity,
+    };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.GET_TABLE_CAPACITY_FAIL,
+    message: err.message,
+  })),
+);
+
+
 export default addReservation;
 
 export {
@@ -171,4 +196,5 @@ export {
   getRestaurantBookings,
   getRestaurantHours,
   getAvailableHours,
+  getTableCapacity,
 };
