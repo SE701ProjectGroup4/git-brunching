@@ -147,6 +147,45 @@ router.get('/', (req, res) => {
 /**
  * @swagger
  *
+ * /restaurant/search/{restaurantName}:
+ *   get:
+ *     description: Fetch restaurant objects that contains the search phrase from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: restaurantName
+ *         description: Phrase used to search in Name field in the database
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns matching restaurant objects
+ */
+router.get('/search/:restaurantName', async (req, res) => {
+    const { restaurantName } = req.params;
+    console.log(restaurantName);
+    if (!restaurantName) {
+        res.status(400).json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+        return;
+    }
+    else {
+        connection.query(
+            'SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%',
+            (error, results) => {
+                if (error) {
+                    res.status(400).json({ error });
+                    return;
+                }
+                res.json(results);
+            }
+        );
+    }
+});
+
+/**
+ * @swagger
+ *
  * /restaurant:
  *   post:
  *     description: Adds a restaurant object to the database
