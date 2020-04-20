@@ -37,8 +37,8 @@ router.get('/popular', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID GROUP BY RESTAURANT.ID, RESTAURANT.Name '
-      + 'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
+    'SELECT RESTAURANT.* FROM RESTAURANT LEFT JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID AND CURDATE() <= DATE_ADD(RESERVATION.Date, INTERVAL 1 MONTH) '
+    + 'GROUP BY RESTAURANT.ID ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
