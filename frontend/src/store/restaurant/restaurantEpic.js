@@ -2,7 +2,7 @@ import {
   catchError, delay, filter, mapTo, mergeMap,
 } from "rxjs/operators";
 import { actionType } from "./restaurantAction";
-import { GET_ALL_RESTAURANTS } from "../../general/config";
+import { GET_ALL_RESTAURANTS, GET_SEARCH_RESTAURANTS } from "../../general/config";
 
 /**
  * Async call for receiving all restaurants
@@ -33,8 +33,7 @@ const fetchRestaurants = (action$) => action$.pipe(
 const fetchSearchedRestaurants = (action$) => action$.pipe(
   filter((action) => action.type === actionType.ADD_SEARCH_RESTAURANTS),
   mergeMap(async (action) => {
-    // TODO: Change api call here
-    const restaurants = await fetch(GET_ALL_RESTAURANTS).then((res) => res.json());
+    const restaurants = await fetch(`${GET_SEARCH_RESTAURANTS}${action.searchText}`).then((res) => res.json());
     return { ...action, type: actionType.ADD_RESTAURANTS_SUCCESS, restaurants };
   }),
   catchError((err) => Promise.resolve({
