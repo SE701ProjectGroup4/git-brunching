@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, POST_RESERVATION, PUT_RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID, TABLE_CAPACITY, 
+  FREE_TABLE, POST_RESERVATION, PUT_RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID, TABLE_CAPACITY,
 } from "../../general/config";
 
 /**
@@ -104,7 +104,7 @@ const getRestaurantBookings = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_RESTAURANT_BOOKINGS),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
-    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRetaurantID))
+    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRestaurantID))
       .then((res) => res.json());
     return {
       ...action,
