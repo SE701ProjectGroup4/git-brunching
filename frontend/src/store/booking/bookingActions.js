@@ -21,6 +21,9 @@ export const actionType = {
   GET_AVAILABLE_RESTAURANT_HOURS: "GET_AVAILABLE_RESTAURANT_HOURS",
   GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS: "GET_AVAILABLE_RESTAURANT_HOURS_SUCCESS",
   GET_AVAILABLE_RESTAURANT_HOURS_FAIL: "GET_AVAILABLE_RESTAURANT_HOURS_FAIL",
+  GET_TABLE_CAPACITY: "GET_TABLE_CAPACITY",
+  GET_TABLE_CAPACITY_SUCCESS: "GET_TABLE_CAPACITY_SUCCESS",
+  GET_TABLE_CAPACITY_FAIL: "GET_TABLE_CAPACITY_FAIL",
 };
 
 const addBookingTime = (time) => ({
@@ -81,6 +84,10 @@ const getBookingByReference = (booking) => ({
   booking,
 });
 
+const getTableCapacity = () => ({
+  type: actionType.GET_TABLE_CAPACITY,
+});
+
 export {
   addBookingTime,
   addBookingDate,
@@ -94,4 +101,5 @@ export {
   getRestaurantBookings,
   getRestaurantHours,
   getAvailableHours,
+  getTableCapacity,
 };
