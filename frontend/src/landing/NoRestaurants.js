@@ -7,7 +7,7 @@ import React from "react";
  * @constructor
  */
 const NoRestaurants = () => (
-  <div>Nothing is here... :(</div>
+  <div>No restaurants found.</div>
 );
 
 export default NoRestaurants;

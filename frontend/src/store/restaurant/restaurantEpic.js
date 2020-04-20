@@ -23,6 +23,26 @@ const fetchRestaurants = (action$) => action$.pipe(
   })),
 );
 
+/**
+ * Async call for receiving all restaurants that match the search string
+ * This is a sequence of actions which determine if the API call
+ * succeeds or fails.
+ * @param action$
+ * @returns {*}
+ */
+const fetchSearchedRestaurants = (action$) => action$.pipe(
+  filter((action) => action.type === actionType.ADD_SEARCH_RESTAURANTS),
+  mergeMap(async (action) => {
+    // TODO: Change api call here
+    const restaurants = await fetch(GET_ALL_RESTAURANTS).then((res) => res.json());
+    return { ...action, type: actionType.ADD_RESTAURANTS_SUCCESS, restaurants };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.ADD_RESTAURANTS_FAIL,
+    message: err.message,
+  })),
+);
+
 // A PLACEHOLDER
 export const pingEpic = (action$) => action$.pipe(
   filter((action) => action.type === actionType.ADD_RESTAURANTS),
@@ -32,3 +52,7 @@ export const pingEpic = (action$) => action$.pipe(
 
 
 export default fetchRestaurants;
+
+export {
+  fetchSearchedRestaurants,
+};
