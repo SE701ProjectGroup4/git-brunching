@@ -100,7 +100,8 @@
   height: 100%;
   padding: 0 20px 0 20px;
   position: relative;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 0px 0px 20px 0px !important;
 }
 
 .gridRoot {
@@ -108,7 +109,7 @@
   flex-wrap: wrap;
   justify-content: center;
   overflow: hidden;
-  padding: 40px;
+  padding: 30px 40px 40px 40px;
   /*background-color: rgb(216, 216, 216);*/
 }
 
@@ -165,4 +166,41 @@
   color: #f2fff0;
   border: 1px solid #61c766;
   background-color: #459651;
+}
+
+.arrowContainer {
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
+  display: flex;
+}
+
+.carouselContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carouselRowContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.horizontalLine {
+  margin: 20px;
+  border: solid 0.5px rgba(200, 200, 200, 0.5);
+  width: 90%;
+}
+
+.titleText {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0px;
+  color: #353535;
+  margin: 15px 0px 15px 0px;
 }

@@ -2,7 +2,7 @@ import { catchError, filter, mergeMap } from "rxjs/operators";
 import { actionType } from "./bookingActions";
 
 import {
-  FREE_TABLE, RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, USER, TABLE_ID,
+  FREE_TABLE, POST_RESERVATION, PUT_RESERVATION, RESTAURANT_BOOKING, RESTAURANT_HOURS, TABLE_ID, TABLE_CAPACITY,
 } from "../../general/config";
 
 /**
@@ -18,23 +18,6 @@ const addReservation = (action$, store) => action$.pipe(
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
 
-    // The booking requires a user. So we need to create one.
-    const user = await fetch(USER, {
-      method: "POST",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: bookingData.name,
-        lastName: " ",
-        phone: bookingData.phone,
-        email: bookingData.email,
-      }),
-    }).then((res) => res.json());
-
     const tableIDEndpoint = `${TABLE_ID.toString()}?date=${bookingData.date}&time=${bookingData.time.substring(0, 2)}&numberOfGuests=${bookingData.seats}&restaurantID=${restaurantData.selected.ID}`;
 
     const tableID = await fetch(tableIDEndpoint, {
@@ -47,7 +30,7 @@ const addReservation = (action$, store) => action$.pipe(
       },
     }).then((res) => res.json());
 
-    const booking = await fetch(RESERVATION, {
+    const booking = await fetch(POST_RESERVATION, {
       method: "POST",
       mode: "cors",
       credentials: "same-origin",
@@ -62,7 +45,9 @@ const addReservation = (action$, store) => action$.pipe(
         numberOfGuests: bookingData.seats,
         tableID: tableID.result[0].ID,
         notes: bookingData.notes,
-        userID: user.userID,
+        name: bookingData.name,
+        phone: bookingData.phone,
+        email: bookingData.email,
       }),
     }).then((res) => res.json());
 
@@ -87,25 +72,7 @@ const editReservation = (action$, store) => action$.pipe(
     const bookingData = store.value.bookingReducer;
     const restaurantData = store.value.restaurantReducer;
 
-    await fetch(USER, {
-      method: "PUT",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: bookingData.name,
-        // The API accepts firstName and lastName but the store only contains name...
-        lastName: " ",
-        phone: bookingData.phone,
-        email: bookingData.email,
-        reservationID: bookingData.bookingCode,
-      }),
-    });
-
-    const booking = await fetch(`${RESERVATION}${bookingData.bookingCode}`, {
+    const booking = await fetch(`${PUT_RESERVATION}/${bookingData.bookingCode}`, {
       method: "PUT",
       mode: "cors",
       credentials: "same-origin",
@@ -119,6 +86,9 @@ const editReservation = (action$, store) => action$.pipe(
         restaurantID: restaurantData.selected.ID,
         numberOfGuests: bookingData.seats,
         notes: bookingData.notes,
+        name: bookingData.name,
+        phone: bookingData.phone,
+        email: bookingData.email,
       }),
     }).then((res) => res.json());
 
@@ -134,7 +104,7 @@ const getRestaurantBookings = (action$, store) => action$.pipe(
   filter((action) => action.type === actionType.GET_RESTAURANT_BOOKINGS),
   mergeMap(async (action) => {
     const bookingData = store.value.bookingReducer;
-    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRetaurantID))
+    const bookings = await fetch(RESTAURANT_BOOKING(bookingData.currentRestaurantID))
       .then((res) => res.json());
     return {
       ...action,
@@ -194,6 +164,31 @@ const getAvailableHours = (action$, store) => action$.pipe(
   })),
 );
 
+/**
+ * Asynchronous call for receiving the minimum and maximum number of guests for a booking
+ * which is depending on the restaurantID
+ * @param action$
+ * @param store
+ * @returns {*}
+ */
+const getTableCapacity = (action$, store) => action$.pipe(
+  filter((action) => action.type === actionType.GET_TABLE_CAPACITY),
+  mergeMap(async (action) => {
+    const restaurantData = store.value.restaurantReducer;
+    const capacity = await fetch(TABLE_CAPACITY(restaurantData.selected.ID)).then((res) => res.json());
+    return {
+      ...action,
+      type: actionType.GET_TABLE_CAPACITY_SUCCESS,
+      tableCapacity: capacity,
+    };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.GET_TABLE_CAPACITY_FAIL,
+    message: err.message,
+  })),
+);
+
+
 export default addReservation;
 
 export {
@@ -201,4 +196,5 @@ export {
   getRestaurantBookings,
   getRestaurantHours,
   getAvailableHours,
+  getTableCapacity,
 };

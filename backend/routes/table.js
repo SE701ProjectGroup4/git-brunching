@@ -88,9 +88,9 @@ router.get('/free', async (req, res) => {
       connection
         .asyncQuery(
           'SELECT t.ID ' +
-          'FROM restaurant_db.TABLE t ' +
+          'FROM `TABLE` t ' +
           'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-                                                                                  'FROM restaurant_db.RESERVATION r ' +
+                                                                                  'FROM RESERVATION r ' +
                                                                                   'WHERE t.RestaurantID = r.RestaurantID AND ' +
                                                                                   't.ID = r.TableID AND ' +
                                                                                   'r.Date = ? AND ' +

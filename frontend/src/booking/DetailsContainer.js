@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import classNames from "classnames";
+import validator from "validator";
 import style from "./DetailsContainer.module.css";
 import landingStyle from "../landing/LandingPage.module.css";
 import confirmationStyle from "./ConfirmationContainer.module.css";
 import changePath from "../general/helperFunctions";
 import messages from "../general/textHolder";
 import { addBookingDetails } from "../store/booking/bookingActions";
+
 
 
 /**
@@ -31,14 +33,38 @@ const DetailsContainer = (props) => {
   const [phone, changePhone] = useState((oldPhone == null) ? "" : oldPhone);
   const [email, changeEmail] = useState((oldEmail == null) ? "" : oldEmail);
   const [notes, changeNotes] = useState((oldNotes == null) ? "" : oldNotes);
+  const [touch, changeTouch] = useState([{ email: false, phone: false }]);
+
+  const handleBlur = (field) => () => {
+    changeTouch({ ...touch, [field]: true });
+  };
 
   const handleDetailsConfirmation = () => {
     changePath("/confirmation", history);
     props.onConfirmClick(name, phone, email, notes);
   };
 
+  const handlePhoneChange = (e) => {
+    const currentPhone = (e.target.validity.valid) ? e.target.value : phone;
+    changePhone(currentPhone);
+  };
+
+
+  const validation = (field) => {
+    let error = false;
+    const shouldShow = touch[field];
+    if (field === "email") {
+      error = validator.isEmail(email);
+    } else {
+      error = validator.isMobilePhone(phone);
+    }
+    return !error ? shouldShow : false;
+  };
+
   // Make button clickable if the required fields are set
-  const isSubmittable = (name.length > 0 && phone.length > 0 && email.length > 0);
+  // eslint-disable-next-line max-len
+  const isSubmittable = (name.length > 0 && phone.length > 0 && email.length > 0 && validator.isEmail(email) && validator.isMobilePhone(phone));
+
 
   return (
     <div className={style.detailsContentContainer}>
@@ -54,15 +80,21 @@ const DetailsContainer = (props) => {
           className="form-value"
         />
         <TextField
+          error={validation("phone")}
+          onBlur={(evt) => handleBlur("phone")(evt)}
           type="text"
-          inputProps={{ maxLength: 40 }}
+          inputProps={{ maxLength: 40, pattern: "[0-9]*" }}
           label="Phone Number*"
           name="phonenumber"
           value={phone}
-          onChange={(e) => changePhone(e.target.value)}
+          onChange={(e) => {
+            handlePhoneChange(e);
+          }}
           className="form-value"
         />
         <TextField
+          error={validation("email")}
+          onBlur={(evt) => handleBlur("email")(evt)}
           type="text"
           label="Email*"
           inputProps={{ maxLength: 40 }}

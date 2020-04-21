@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-278576';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e9f8d073-747f-11ea-9b62-42010a800373:1-300141';
 
 --
 -- Table structure for table `HOURS`
@@ -50,6 +50,35 @@ LOCK TABLES `HOURS` WRITE;
 /*!40000 ALTER TABLE `HOURS` DISABLE KEYS */;
 INSERT INTO `HOURS` VALUES (1,'mon','12:00:00','20:00:00'),(1,'tue','12:00:00','20:00:00'),(1,'wed','12:00:00','20:00:00'),(1,'thu','12:00:00','22:00:00'),(1,'fri','11:00:00','22:00:00'),(1,'sat','17:00:00','20:00:00'),(1,'sun','17:00:00','20:00:00'),(2,'mon','11:00:00','20:00:00'),(2,'tue','11:00:00','20:00:00'),(2,'wed','11:00:00','20:00:00'),(2,'thu','11:00:00','22:00:00'),(2,'fri','11:00:00','22:00:00'),(2,'sat','17:00:00','20:00:00'),(2,'sun','17:00:00','20:00:00'),(3,'mon','12:00:00','20:00:00'),(3,'tue','12:00:00','20:00:00'),(3,'wed','12:00:00','20:00:00'),(3,'thu','12:00:00','22:00:00'),(3,'fri','11:00:00','22:00:00'),(3,'sat','17:00:00','20:00:00'),(3,'sun','17:00:00','20:00:00'),(4,'mon','11:00:00','20:00:00'),(4,'tue','11:00:00','20:00:00'),(4,'wed','11:00:00','20:00:00'),(4,'thu','11:00:00','22:00:00'),(4,'fri','11:00:00','22:00:00'),(4,'sat','12:00:00','21:00:00'),(4,'sun','12:00:00','21:00:00');
 /*!40000 ALTER TABLE `HOURS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MENU`
+--
+
+DROP TABLE IF EXISTS `MENU`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MENU` (
+  `Id` int(32) NOT NULL AUTO_INCREMENT,
+  `RestaurantId` int(11) NOT NULL,
+  `Link` varchar(200) NOT NULL,
+  `Height` int(11) NOT NULL,
+  `Width` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Menu_Restaurant` (`RestaurantId`),
+  CONSTRAINT `Menu_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MENU`
+--
+
+LOCK TABLES `MENU` WRITE;
+/*!40000 ALTER TABLE `MENU` DISABLE KEYS */;
+INSERT INTO `MENU` VALUES (1,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(2,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(3,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(4,2,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(5,3,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633);
+/*!40000 ALTER TABLE `MENU` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -84,7 +113,7 @@ CREATE TABLE `RESERVATION` (
 
 LOCK TABLES `RESERVATION` WRITE;
 /*!40000 ALTER TABLE `RESERVATION` DISABLE KEYS */;
-INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Customer','0220009991','www@email.com'),('bxmea4rwk9502j7v','2020-04-18','17:00:00','asdf',2,1,1,'Customer','0220009991','www@email.com'),('bxmea4rwk950lrl6','2020-04-18','18:00:00','asd',3,1,1,'Customer','0220009991','www@email.com');
+INSERT INTO `RESERVATION` VALUES ('1','2021-01-01','12:00:00','Vegan',2,1,1,'Emma','021889900','emma@gmail.com'),('80gyicblgk954awny','2020-04-19','18:00:00','shrimp allergy',3,1,1,'John','027123987','john@gmail.com');
 /*!40000 ALTER TABLE `RESERVATION` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,6 +128,8 @@ CREATE TABLE `RESTAURANT` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   `OwnerId` int(11) NOT NULL,
+  `Image` varchar(200) DEFAULT NULL,
+  `DateAdded` date NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`),
   KEY `Restaurant_User` (`OwnerId`),
@@ -112,7 +143,7 @@ CREATE TABLE `RESTAURANT` (
 
 LOCK TABLES `RESTAURANT` WRITE;
 /*!40000 ALTER TABLE `RESTAURANT` DISABLE KEYS */;
-INSERT INTO `RESTAURANT` VALUES (1,'KCF',1),(2,'Mendat Ramen',1),(3,'Nantoz',1),(4,'Uni Zushi',1),(15,'Example restaurant0',1),(327,'Panmure Fried Chicken',1);
+INSERT INTO `RESTAURANT` (ID, Name, OwnerId, DateAdded) VALUES (1,'KCF',1,CURDATE()),(2,'Mendat Ramen',1,CURDATE()),(3,'Nantoz',1,DATE_ADD(CURDATE(), INTERVAL -2 MONTH)),(4,'Uni Zushi',1, DATE_ADD(CURDATE(), INTERVAL -3 MONTH));
 /*!40000 ALTER TABLE `RESTAURANT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,14 +155,14 @@ DROP TABLE IF EXISTS `REVIEW`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `REVIEW` (
-  `Id` int(32) NOT NULL,
+  `Id` int(32) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   `RestaurantId` int(11) NOT NULL,
   `Review` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `Review_Restaurant` (`RestaurantId`),
   CONSTRAINT `Review_Restaurant` FOREIGN KEY (`RestaurantId`) REFERENCES `RESTAURANT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +217,7 @@ CREATE TABLE `USER` (
   `Phone` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=384 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +226,7 @@ CREATE TABLE `USER` (
 
 LOCK TABLES `USER` WRITE;
 /*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES (1,'Bob','Builder','0800838383','bob@burgers.com'),(379,'asd',' ','asd','a'),(380,'Rasd',' ','asd','asd');
+INSERT INTO `USER` VALUES (1,'Bob','Builder','0800838383','bob@burgers.com');
 /*!40000 ALTER TABLE `USER` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
@@ -209,4 +240,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 15:26:03
+-- Dump completed on 2020-04-19 21:21:31
