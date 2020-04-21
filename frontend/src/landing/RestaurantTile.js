@@ -30,7 +30,11 @@ import { resetBooking } from "../store/booking/bookingActions";
  * @param toBooking
  * @returns {*}
  */
-const processEmpty = (restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking) => {
+const processEmpty = (loading, restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking) => {
+  if (loading && searchText === "") {
+    return <CircularProgress />;
+  }
+
   if (restaurants.length === 0) {
     if (searchText === "") {
       return <NoRestaurants title="Something went wrong" />;
@@ -40,7 +44,7 @@ const processEmpty = (restaurants, openRestaurants, popularRestaurants, newResta
 
   if (searchText !== "") {
     return (
-      <Tiles restaurants={restaurants} toBooking={toBooking} title="Search Results" />
+      <Tiles restaurants={restaurants} toBooking={toBooking} title="Search Results" loading={loading} />
     );
   }
 
@@ -77,43 +81,47 @@ const RestaurantTile = (props) => {
 
   return (
     <div className={style.gridRoot}>
-      {loading ? <CircularProgress />
-        : processEmpty(restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking)}
+      {processEmpty(loading, restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking)}
     </div>
   );
 };
 
-const Tiles = ({ restaurants, toBooking, title }) => {
+const Tiles = ({
+  restaurants, toBooking, title, loading,
+}) => {
   const cellHeight = 250;
   const columns = 3;
 
   return (
     <div className={style.carouselContainer}>
       <p className={style.titleText}>{title}</p>
-      <GridList
-        cellHeight={cellHeight}
-        spacing={40}
-        className={style.gridList}
-        cols={columns}
-      >
-        {restaurants.map((data) => (
-          <GridListTile className={style.gridTile} key={data.Name}>
-            <Card onClick={() => toBooking(data)} className={style.card}>
-              <CardActionArea>
-                <CardMedia
-                  style={{ height: cellHeight }}
-                  image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
-                  title={data.Name}
-                />
-              </CardActionArea>
-              <GridListTileBar
-                title={data.Name}
-                actionIcon={<MenuPopupButton restaurantName={data.Name} />}
-              />
-            </Card>
-          </GridListTile>
-        ))}
-      </GridList>
+      {loading ? <CircularProgress />
+        : (
+          <GridList
+            cellHeight={cellHeight}
+            spacing={40}
+            className={style.gridList}
+            cols={columns}
+          >
+            {restaurants.map((data) => (
+              <GridListTile className={style.gridTile} key={data.Name}>
+                <Card onClick={() => toBooking(data)} className={style.card}>
+                  <CardActionArea>
+                    <CardMedia
+                      style={{ height: cellHeight }}
+                      image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
+                      title={data.Name}
+                    />
+                  </CardActionArea>
+                  <GridListTileBar
+                    title={data.Name}
+                    actionIcon={<MenuPopupButton restaurantName={data.Name} />}
+                  />
+                </Card>
+              </GridListTile>
+            ))}
+          </GridList>
+        )}
     </div>
   );
 };
