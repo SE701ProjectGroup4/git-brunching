@@ -1,5 +1,6 @@
 export const actionType = {
   ADD_RESTAURANTS: "ADD_RESTAURANTS",
+  ADD_SEARCH_RESTAURANTS: "ADD_SEARCH_RESTAURANTS",
   ADD_RESTAURANTS_SUCCESS: "ADD_RESTAURANTS_SUCCESS",
   ADD_RESTAURANTS_FAIL: "ADD_RESTAURANTS_FAIL",
   SELECT_RESTAURANTS: "SELECT_RESTAURANTS",
@@ -20,9 +21,15 @@ const setMode = (mode) => ({
   mode,
 });
 
+const getSearchRestaurants = (searchText) => ({
+  type: actionType.ADD_SEARCH_RESTAURANTS,
+  searchText,
+});
+
 
 export {
   getRestaurants,
+  getSearchRestaurants,
   selectRestaurant,
   setMode,
 };
