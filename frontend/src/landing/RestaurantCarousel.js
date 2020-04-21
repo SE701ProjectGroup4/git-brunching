@@ -67,7 +67,7 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
             </GridListTile>
           ))}
         </GridList>
-        {startIndex !== restaurants.length - 3 ? (
+        {startIndex + 3 < restaurants.length ? (
           <div className={style.arrowContainer}>
             <ArrowForwardIosIcon classes={{ root: style.arrow }} onClick={forwardsClicked} />
           </div>
