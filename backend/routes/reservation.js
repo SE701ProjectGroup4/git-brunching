@@ -76,8 +76,8 @@ router.get('/', async (req, res) => {
     return;
   }
   //Convert date from UTC to local time
-  result.forEach(element => {
-    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  result.forEach((element) => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset());
   });
   res.json({ result });
 });
@@ -111,8 +111,8 @@ router.get('/restaurant', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT ' +
-    'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email FROM RESERVATION ' +
-    'WHERE RestaurantID = ?;',
+      'ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email FROM RESERVATION ' +
+      'WHERE RestaurantID = ?;',
     [restaurantID]
   );
 
@@ -121,8 +121,8 @@ router.get('/restaurant', async (req, res) => {
     return;
   }
   //Convert dates from UTC to local time
-  result.forEach(element => {
-    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset())
+  result.forEach((element) => {
+    element.Date.setUTCMinutes(element.Date.getMinutes() - element.Date.getTimezoneOffset());
   });
   res.json({ result });
 });
@@ -188,7 +188,10 @@ router.put('/:reservationID', async (req, res) => {
     return;
   }
 
-  const { error: reservationQueryError, result: reservationQueryResult } = await connection.asyncQuery(
+  const {
+    error: reservationQueryError,
+    result: reservationQueryResult
+  } = await connection.asyncQuery(
     'SELECT Date, Time, Notes, NumberOfGuests, Name, Phone, Email FROM RESERVATION WHERE ID = ?;',
     [reservationID]
   );
@@ -225,7 +228,9 @@ router.put('/:reservationID', async (req, res) => {
   // const newEmail = email || userQueryResult[0].Email;
 
   // update booking details
-  const { error: reservationUpdateError } = await connection.asyncQuery(
+  const {
+    error: reservationUpdateError
+  } = await connection.asyncQuery(
     'UPDATE RESERVATION SET Notes = ?, Date = ?, Time = ?, NumberOfGuests = ?, Name = ?, Phone = ?, Email = ? WHERE ID = ?;',
     [newNotes, newDate, newTime, newNoOfGuests, newName, newPhone, newEmail, reservationID]
   );
@@ -253,7 +258,7 @@ router.put('/:reservationID', async (req, res) => {
  * /reservation:
  *   post:
  *     tags: [Reservation]
- *     description: Fetch a all reservation for a restaurant
+ *     description: Adds a reservation for a particular restaurant
  *     produces:
  *       - application/json
  *     parameters:
@@ -322,8 +327,8 @@ router.post('/', async (req, res) => {
 
   const { error } = await connection.asyncQuery(
     'INSERT ' +
-    'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email) ' +
-    'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+      'INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, Name, Phone, Email) ' +
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
     [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email]
   );
 
@@ -428,13 +433,13 @@ router.get('/available', async (req, res) => {
 
   const { error, result } = await connection.asyncQuery(
     'SELECT t.ID ' +
-    'FROM `TABLE` t ' +
-    'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
-                                                                        'FROM RESERVATION r ' +
-                                                                        'WHERE t.RestaurantID = r.RestaurantID AND ' +
-                                                                        't.ID = r.TableID AND ' +
-                                                                        'r.Date = ? AND ' +
-                                                                        'r.Time = ? );',
+      'FROM `TABLE` t ' +
+      'WHERE t.RestaurantID = ? AND t.maxGuests >= ? AND t.minGuests <= ? AND NOT EXISTS ( SELECT * ' +
+      'FROM RESERVATION r ' +
+      'WHERE t.RestaurantID = r.RestaurantID AND ' +
+      't.ID = r.TableID AND ' +
+      'r.Date = ? AND ' +
+      'r.Time = ? );',
     [restaurantID, numberOfGuests, numberOfGuests, date, time]
   );
 
