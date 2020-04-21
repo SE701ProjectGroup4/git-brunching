@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
  * /restaurant/popular:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch most popular (has most bookings made) restaurant objects from the database
  *     produces:
  *       - application/json
@@ -47,9 +48,9 @@ router.get('/popular', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT RESTAURANT.* FROM RESTAURANT LEFT JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID AND '
-      + 'CURDATE() <= DATE_ADD(RESERVATION.Date, INTERVAL 1 MONTH) GROUP BY RESTAURANT.ID '
-      + 'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
+    'SELECT RESTAURANT.* FROM RESTAURANT LEFT JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID AND ' +
+      'CURDATE() <= DATE_ADD(RESERVATION.Date, INTERVAL 1 MONTH) GROUP BY RESTAURANT.ID ' +
+      'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
@@ -66,6 +67,7 @@ router.get('/popular', (req, res) => {
  *
  * /restaurant/open:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch the restaurant objects of restuarants which are open from the database
  *     produces:
  *       - application/json
@@ -101,9 +103,9 @@ router.get('/open', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN HOURS ON RESTAURANT.ID = HOURS.RestaurantID AND '
-      + 'HOURS.DayOfWeek = LEFT(DAYNAME(CURDATE()), 3) AND CURTIME() BETWEEN HOURS.OpenTime AND '
-      + 'HOURS.CloseTime LIMIT ? OFFSET ?',
+    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN HOURS ON RESTAURANT.ID = HOURS.RestaurantID AND ' +
+      'HOURS.DayOfWeek = LEFT(DAYNAME(CURDATE()), 3) AND CURTIME() BETWEEN HOURS.OpenTime AND ' +
+      'HOURS.CloseTime LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
@@ -120,6 +122,7 @@ router.get('/open', (req, res) => {
  *
  * /restaurant/new:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch restaurant objects of restaurants created in the last month from the database
  *     produces:
  *       - application/json
@@ -155,8 +158,8 @@ router.get('/new', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT * FROM RESTAURANT WHERE CURDATE() <= DATE_ADD(DateAdded, INTERVAL 1 MONTH) '
-      + 'ORDER BY DateAdded DESC, Name ASC LIMIT ? OFFSET ?',
+    'SELECT * FROM RESTAURANT WHERE CURDATE() <= DATE_ADD(DateAdded, INTERVAL 1 MONTH) ' +
+      'ORDER BY DateAdded DESC, Name ASC LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
@@ -173,6 +176,7 @@ router.get('/new', (req, res) => {
  *
  * /restaurant/{restaurantID}:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch a restaurant object
  *     produces:
  *       - application/json
@@ -208,6 +212,7 @@ router.get('/:restaurantID', async (req, res) => {
  *
  * /restaurant/{restaurantID}/openhours:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch the opening hours of the restaurent
  *     produces:
  *       - application/json
@@ -229,7 +234,8 @@ router.get('/:restaurantID/openhours', async (req, res) => {
   }
 
   connection.query(
-    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;', [restaurantID],
+    'SELECT DayOfWeek, OpenTime, CloseTime from HOURS WHERE RestaurantID = ?;',
+    [restaurantID],
     (error, results) => {
       if (error) {
         res.status(400).json({ error });
@@ -245,6 +251,7 @@ router.get('/:restaurantID/openhours', async (req, res) => {
  *
  * /restaurant:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch all or a batch of restaurant objects from the database in one API call.
  *     produces:
  *       - application/json
@@ -276,14 +283,16 @@ router.get('/', (req, res) => {
     return;
   }
 
-  if (limit) { // By default returns all results if none supplied.
+  if (limit) {
+    // By default returns all results if none supplied.
     if (limit < 0) {
       res.status(400).json({ error: 'Limit value must be at least 0 or omitted.' });
       return;
     }
     sql += ' LIMIT ?';
     sqlParams.push(limit * 1);
-    if (batch) { // By default returns first batch.
+    if (batch) {
+      // By default returns first batch.
       if (batch < 0) {
         res.status(400).json({ error: 'Batch value must be at least 0 or omitted.' });
         return;
@@ -293,16 +302,13 @@ router.get('/', (req, res) => {
     }
   }
 
-  connection.query(
-    sql, sqlParams,
-    (error, results) => {
-      if (error) {
-        res.status(400).json({ error });
-        return;
-      }
-      res.json(results);
+  connection.query(sql, sqlParams, (error, results) => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
     }
-  );
+    res.json(results);
+  });
 });
 
 /**
@@ -310,6 +316,7 @@ router.get('/', (req, res) => {
  *
  * /restaurant:
  *   post:
+ *     tags: [Restaurant]
  *     description: Adds a restaurant object to the database
  *     produces:
  *       - application/json
@@ -344,14 +351,17 @@ router.post('/', (req, res) => {
   let image = body.image ? body.image : null;
   let date = new Date();
 
-  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`, `DateAdded`) VALUES (?, ?, ?, ?);', 
-    [body.name, body.ownerId, image, date], error => {
-    if (error) {
-      res.status(400).json({ error });
-      return;
+  connection.query(
+    'INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`, `DateAdded`) VALUES (?, ?, ?, ?);',
+    [body.name, body.ownerId, image, date],
+    (error) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json('added');
     }
-    res.json('added');
-  });
+  );
 });
 
 /**
@@ -359,6 +369,7 @@ router.post('/', (req, res) => {
  *
  * /restaurant/search/{restaurantName}:
  *   get:
+ *     tags: [Restaurant]
  *     description: Fetch restaurant objects that contains the search phrase from the database
  *     produces:
  *       - application/json
@@ -373,23 +384,21 @@ router.post('/', (req, res) => {
  *         description: Returns matching restaurant objects
  */
 router.get('/search/:restaurantName', async (req, res) => {
-    const { restaurantName } = req.params;
-    if (!restaurantName) {
-        res.status(400).json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+  const { restaurantName } = req.params;
+  if (!restaurantName) {
+    res
+      .status(400)
+      .json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+    return;
+  } else {
+    connection.query('SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%', (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
         return;
-    }
-    else {
-        connection.query(
-            'SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%',
-            (error, results) => {
-                if (error) {
-                    res.status(400).json({ error });
-                    return;
-                }
-                res.json(results);
-            }
-        );
-    }
+      }
+      res.json(results);
+    });
+  }
 });
 
 /**
@@ -397,6 +406,7 @@ router.get('/search/:restaurantName', async (req, res) => {
  *
  * /restaurant/{restaurantID}:
  *   delete:
+ *     tags: [Restaurant]
  *     description: Deletes a restaurant object to the database
  *     produces:
  *       - application/json
@@ -418,7 +428,7 @@ router.delete('/:restaurantID', (req, res) => {
     return;
   }
 
-  connection.query('DELETE FROM RESTAURANT WHERE ID=?;', [restaurantID], error => {
+  connection.query('DELETE FROM RESTAURANT WHERE ID=?;', [restaurantID], (error) => {
     if (error) {
       res.status(400).json({ error });
       return;
@@ -432,6 +442,7 @@ router.delete('/:restaurantID', (req, res) => {
  *
  * /restaurant/{restaurantID}/capacity:
  *   get:
+ *     tags: [Restaurant]
  *     description: Get the minimum and maximum guest allowed of a restaurant
  *     produces:
  *       - application/json
