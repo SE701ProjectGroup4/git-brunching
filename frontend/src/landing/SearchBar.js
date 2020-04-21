@@ -30,7 +30,6 @@ const SearchBar = (props) => {
   const {
     getAll, getSearched, classes, searchText,
   } = props;
-  const [clear, changeClear] = React.useState(false);
 
   const onSearchClicked = (text) => {
     if (text === "") {
@@ -41,20 +40,8 @@ const SearchBar = (props) => {
   };
 
   const onTextChange = (e) => {
-    if (e.target.value === "" && e.nativeEvent.inputType !== "deleteContentBackward"
-      && e.nativeEvent.inputType !== "deleteWordBackward") {
-      changeClear(true);
-    } else {
-      changeClear(false);
-    }
     onSearchClicked(e.target.value);
   };
-
-  useEffect(() => {
-    if (clear === true && searchText === "") {
-      getAll();
-    }
-  }, [searchText, clear, getAll]);
 
   return (
     <TextField
