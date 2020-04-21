@@ -9,6 +9,7 @@ const initialState = {
   error: null,
   selected: null,
   mode: "",
+  searchText: "",
 };
 
 /**
@@ -27,6 +28,13 @@ const restaurantReducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
+        searchText: "",
+      };
+    case actionType.ADD_SEARCH_RESTAURANTS:
+      return {
+        ...state,
+        isLoading: true,
+        searchText: action.searchText,
       };
     case actionType.ADD_RESTAURANTS_SUCCESS:
       return {

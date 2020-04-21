@@ -30,10 +30,20 @@ import { resetBooking } from "../store/booking/bookingActions";
  * @param toBooking
  * @returns {*}
  */
-const processEmpty = (restaurants, openRestaurants, popularRestaurants, newRestaurants, toBooking) => {
+const processEmpty = (restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking) => {
   if (restaurants.length === 0) {
-    return <NoRestaurants />;
+    if (searchText === "") {
+      return <NoRestaurants title="Something went wrong" />;
+    }
+    return <NoRestaurants title="Search Results" />;
   }
+
+  if (searchText !== "") {
+    return (
+      <Tiles restaurants={restaurants} toBooking={toBooking} title="Search Results" />
+    );
+  }
+
   return (
     <>
       {popularRestaurants.length !== 0 ? <RestaurantCarousel title="Popular" restaurants={popularRestaurants} toBooking={toBooking} /> : null}
@@ -48,7 +58,7 @@ const RestaurantTile = (props) => {
   const {
     getAll, getPopular, getNew, getOpen, loading,
     restaurants, openRestaurants, popularRestaurants, newRestaurants,
-    select, changeMode, reset,
+    select, changeMode, reset, searchText,
   } = props;
   const history = useHistory();
   const toBooking = (restaurant) => {
@@ -68,7 +78,7 @@ const RestaurantTile = (props) => {
   return (
     <div className={style.gridRoot}>
       {loading ? <CircularProgress />
-        : processEmpty(restaurants, openRestaurants, popularRestaurants, newRestaurants, toBooking)}
+        : processEmpty(restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking)}
     </div>
   );
 };
@@ -127,6 +137,7 @@ const mapStateToProps = (state) => ({
   openRestaurants: state.restaurantReducer.openRestaurants,
   popularRestaurants: state.restaurantReducer.popularRestaurants,
   newRestaurants: state.restaurantReducer.newRestaurants,
+  searchText: state.restaurantReducer.searchText,
   // restaurants: fakeData,
 });
 

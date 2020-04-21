@@ -87,7 +87,6 @@ const SearchBar = (props) => {
   );
 };
 
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
   getSearched: getSearchRestaurants,
