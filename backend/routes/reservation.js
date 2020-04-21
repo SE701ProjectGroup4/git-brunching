@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import uniqid from 'uniqid';
 
 import connection from '../database';
+import * as Mail from 'nodemailer/lib/mailer';
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -326,10 +327,38 @@ router.post('/', async (req, res) => {
     [reservationID, date, time, notes, numberOfGuests, tableID, restaurantID, name, phone, email]
   );
 
-  if (error) {
-    res.status(400).json({ error });
-    return;
-  }
+    if (error) {
+        res.status(400).json({ error });
+        return;
+    }
+    else {
+        // Send booking details to the user once DB gets updated successfully. 
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'gitbrunch.noreply@gmail.com',
+                pass: 'gitbrunch2020!'
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        })
+        const { error } = await transporter.sendMail({
+            from: 'gitbrunch.noreply@gmail.com',
+            to: email,
+            subject: 'Booking Confirmation for ' + name,
+            text:
+                'You have booked a table for ' + numberOfGuests + '\n' +
+                'Time: ' + time + ' on ' + date + '\n' +
+                'Your reservation ID is: ' + reservationID
+        });
+        if (error) {
+            res.status(400).json({ error });
+            return;
+        }
+    }
+
   res.json({ result: 'Added single reservation', reservationID });
 });
 
