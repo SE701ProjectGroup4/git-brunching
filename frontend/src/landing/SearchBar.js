@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { InputAdornment } from "@material-ui/core";
