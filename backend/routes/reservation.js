@@ -133,7 +133,7 @@ router.get('/restaurant', async (req, res) => {
  * /reservation/{reservationID}:
  *   put:
  *     tags: [Reservation]
- *     summary: Used to update reservation information
+ *     description: Used to update reservation information
  *     parameters:
  *       - name: reservationID
  *         description: Primary Key of Reservation database table
