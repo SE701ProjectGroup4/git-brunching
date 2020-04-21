@@ -32,7 +32,7 @@ it('1. should return expected error if no restaurantID are entered', function(do
         assert.isNull(err, 'Expected error to be null. Ensure an instance of the api is running');
         const { body } = res;
         assert.isObject(body, 'Expected response to contain a body object');
-        assert.deepEqual(body,[{minimum:null,maximum:null}], {error: '/restaurant/{restaurantID}/capacity GET endpoint needs a restaurantID query param'});
+        assert.deepEqual(body,{error: '/restaurant/{restaurantID}/capacity GET endpoint needs a restaurantID query param'});
         done();
       });
   });
@@ -46,7 +46,7 @@ it('1. should return expected error if no restaurantID are entered', function(do
         assert.isNull(err, 'Expected error to be null. Ensure an instance of the api is running');
         const { body } = res;
         assert.isObject(body, 'Expected response to contain a body object');
-        assert.deepEqual(body, [{minimum:null,maximum:null}],{error: '/restaurant/{restaurantID}/capacity GET endpoint needs a restaurantID query param'});
+        assert.deepEqual(body, {error: '/restaurant/{restaurantID}/capacity GET endpoint needs a restaurantID query param'});
         done();
       });
   });
