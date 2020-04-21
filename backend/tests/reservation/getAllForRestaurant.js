@@ -18,9 +18,7 @@ before(async () => {
     .then(({ error }) => error && errors.push(error));
 
   await connection
-    .asyncQuery(
-      `INSERT INTO USER VALUES (1, "First name", "Last name", "09 123,456", "example@email.com");`
-    )
+    .asyncQuery(`INSERT INTO USER VALUES (1, "First name", "Last name", "09 123,456", "example@email.com");`)
     .then(({ error }) => error && errors.push(error));
   assert.strictEqual(errors.length, 0, 'Expected no errors in initial setup');
 });
@@ -41,7 +39,7 @@ describe('GET reservations/', () => {
     // assert.isObject(body, 'Expected response to contain a body object');
     // assert.isArray(body.result, 'Expected response body to contain an array of results');
     // assert.deepEqual(body.result, [], 'Expected an empty array of results');
-    assert.isOk(true)
+    assert.isOk(true);
   });
 
   // Test that the API is able to return the correct result when there is only one reservation for the desired restaurant.
@@ -85,7 +83,7 @@ describe('GET reservations/', () => {
     //   ],
     //   'Expected the correct row to be returned from database'
     // );
-    assert.isOk(true)
+    assert.isOk(true);
   });
 
   // Test that the API is able to return the correct result when there are multiple reservations for the desired restaurant.
@@ -158,7 +156,7 @@ describe('GET reservations/', () => {
     //   ],
     //   'Expected the correct rows to be returned from database'
     // );
-    assert.isOk(true)
+    assert.isOk(true);
   });
 
   // Test that the API is able to handle requests that do not provide a desired restaurantID and return the appropriate error.
@@ -175,7 +173,7 @@ describe('GET reservations/', () => {
     // assert.deepEqual(body, {
     //   error: 'GET reservation invocation error: missing ?restaurantID= query param'
     // });
-    assert.isOk(true)
+    assert.isOk(true);
   });
 
   // Test that the API is able to handle requests that include additional, un-needed parameters and still return the expected result.
@@ -230,7 +228,7 @@ describe('GET reservations/', () => {
     //   ],
     //   'Expected the correct rows to be returned from database'
     // );
-    assert.isOk(true)
+    assert.isOk(true);
   });
 
   // Test that the API is able to handle requests that have a malformed restaurantID and return the appropriate error.
@@ -240,30 +238,31 @@ describe('GET reservations/', () => {
       .get('')
       .query({ restaurantID: [1, 2, 3] });
 
-//     assert.isObject(queryResult, 'Expected the request to return an object');
-//     assert.isObject(queryResult.body, 'Expected the request body to be an object');
+    //     assert.isObject(queryResult, 'Expected the request to return an object');
+    //     assert.isObject(queryResult.body, 'Expected the request body to be an object');
 
-//     const { error } = queryResult.body;
-//     assert.isObject(error, 'Expected the error to be an object');
-//     assert.strictEqual(error.code, 'ER_PARSE_ERROR', 'Expected the correct error code');
-//   });
+    //     const { error } = queryResult.body;
+    //     assert.isObject(error, 'Expected the error to be an object');
+    //     assert.strictEqual(error.code, 'ER_PARSE_ERROR', 'Expected the correct error code');
+    //   });
 
-  // Test that the API is able to handle requests that have a restaurantID that is not in the database. Should return an empty array.
-  it('7. should return an empty array when restaurantID does not exist in database.', async function () {
-    const queryResult = await chai
-      .request(`${config.listen.address}:${config.listen.port}/reservation`)
-      .get('')
-      .query({ restaurantID: 4 });
+    // Test that the API is able to handle requests that have a restaurantID that is not in the database. Should return an empty array.
+    it('7. should return an empty array when restaurantID does not exist in database.', async function () {
+      const queryResult = await chai
+        .request(`${config.listen.address}:${config.listen.port}/reservation`)
+        .get('')
+        .query({ restaurantID: 4 });
 
-//     assert.isObject(queryResult, 'Expected the request to return an object');
-//     assert.isObject(queryResult.body, 'Expected the request body to be an object');
+      //     assert.isObject(queryResult, 'Expected the request to return an object');
+      //     assert.isObject(queryResult.body, 'Expected the request body to be an object');
 
-//     const { body } = queryResult;
-//     assert.isObject(body, 'Expected response to contain a body object');
-//     assert.isArray(body.result, 'Expected response body to contain an array of results');
+      //     const { body } = queryResult;
+      //     assert.isObject(body, 'Expected response to contain a body object');
+      //     assert.isArray(body.result, 'Expected response body to contain an array of results');
 
-//     const rows = body.result;
-//     assert.deepEqual(body.result, [], 'Expected an empty array of results');
-        assert.isOk(true)
+      //     const rows = body.result;
+      //     assert.deepEqual(body.result, [], 'Expected an empty array of results');
+      assert.isOk(true);
+    });
   });
 });
