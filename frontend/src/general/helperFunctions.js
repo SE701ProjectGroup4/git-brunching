@@ -35,6 +35,9 @@ const getDayForDate = (date) => {
   }
 };
 
+
+
+
 /**
  * Generate all the times when a restaurant is opened
  * @param start

@@ -20,7 +20,7 @@ const BookingPage = (props) => {
 
   return (
     <div className={style.container}>
-      { selected == null ? <NotFound />
+      {selected == null ? <NotFound />
         : (
           <div className={style.contentContainer}>
             {/* A surrounding div for styling purposes */}
@@ -41,7 +41,7 @@ const BookingPage = (props) => {
                 <Route path="/details" component={() => <ContentContainer type="detail" />} />
                 <Route path="/confirmation" component={() => <ContentContainer type="confirmation" />} />
                 <Route path="/complete" component={() => <ConfirmedBooking history={history} />} />
-                <Route path="/" component={() => <ContentContainer type="time" />} />
+                <Route path="/" component={() => <ContentContainer type="time" mainHistory={history} />} />
               </Switch>
             </Router>
           </div>

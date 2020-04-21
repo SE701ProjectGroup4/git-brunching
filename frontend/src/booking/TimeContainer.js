@@ -19,6 +19,7 @@ import {
   addBookingTime,
   getAvailableHours,
   getRestaurantHours,
+  getTableCapacity,
 } from "../store/booking/bookingActions";
 
 const timeMessages = messages.time;
@@ -32,22 +33,37 @@ const timeMessages = messages.time;
  */
 const TimeContainer = (props) => {
   const history = useHistory();
+
   const {
     oldSeats, oldDate, oldTime, onConfirmClick, getHours, restaurantHours, getAvailable,
-    availableTimes, onSeatChange, onDateChange, isLoading,
+    availableTimes, onSeatChange, onDateChange, isLoading, mainHistory, tableCapacity, getCapacity,
   } = props;
 
   const [seats, changeSeats] = useState(oldSeats);
   const [selectedDate, setSelectedDate] = useState(oldDate);
   const [selectedTime, setSelectedTime] = useState(oldTime);
+  const [overCapacity, setOverCapacity] = useState(false);
+  const [capacityMsg, setCapacityMsg] = useState("");
 
   useEffect(getHours, []);
+  useEffect(getCapacity, []);
 
   const day = getDayForDate(new Date(selectedDate));
+  const month = new Date(selectedDate).getMonth();
+  const dates = new Date(selectedDate).getDate();
   const times = restaurantHours.find((x) => x.DayOfWeek === day);
+
+  const today = new Date();
+  const todaysMonth = today.getMonth();
+  const todaysDate = today.getDate();
+  const todaystime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  const todaystimeInt = Number.parseInt(todaystime.substring(0, 2), 10);
   // There will be no times when the restaurant is closed
   const noTimes = times == null;
   const hideTimes = seats.length === 0 || selectedDate == null;
+  const dateError = selectedDate == null;
+  const maxGuest = tableCapacity.maximum;
+  const minGuest = tableCapacity.minimum;
 
   let openTime = "";
   let closeTime = "";
@@ -66,21 +82,40 @@ const TimeContainer = (props) => {
     setSelectedTime(value);
   };
 
+  const handleGuestChange = (e) => {
+    const currentSeats = (e.target.validity.valid) ? e.target.value : seats;
+    changeSeats(currentSeats);
+  };
+
+  const handleCapacity = (seat) => {
+    if (seat > maxGuest || seat < minGuest) {
+      if (seat < minGuest) setCapacityMsg(messages.time.minGuestMsg + minGuest);
+      else setCapacityMsg(messages.time.maxGuestMsg + maxGuest);
+      setOverCapacity(true);
+    } else {
+      getAvailable();
+      setOverCapacity(false);
+    }
+  };
+
   return (
     <div className={style.stylingParent}>
       <div className={style.bookingDetailsContainer}>
         <div className={style.bookingDetail}>
           <TextField
-            type="number"
+            type="text"
+            inputProps={{ pattern: "[0-9]*" }}
             className={style.textField}
             label="Number of Guests"
             variant="outlined"
             value={seats}
             onBlur={() => {
               onSeatChange(seats);
-              getAvailable();
+              handleCapacity(seats);
             }}
-            onChange={(e) => changeSeats(e.target.value)}
+            onChange={(e) => {
+              handleGuestChange(e);
+            }}
           />
         </div>
         <div className={style.bookingDetail}>
@@ -93,11 +128,18 @@ const TimeContainer = (props) => {
               margin="normal"
               label="Select a Date"
               value={selectedDate}
+              error={dateError}
+              disablePast = "true"
               onChange={(e) => {
-                const formattedDate = format(e, "yyyy-MM-dd");
-                setSelectedDate(formattedDate);
-                onDateChange(formattedDate);
-                getAvailable();
+                try {
+                  const formattedDate = format(e, "yyyy-MM-dd");
+                  setSelectedDate(formattedDate);
+                  onDateChange(formattedDate);
+                  getAvailable();
+                } catch (RangeError) {
+                  setSelectedDate(null);
+                  getAvailable();
+                }
               }}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -110,7 +152,8 @@ const TimeContainer = (props) => {
             <div className={classNames(style.buttonContainer, isLoading ? style.loading : "")}>
               {isLoading ? <div className={style.loading}><CircularProgress /></div> : (
                 <>
-                  {noTimes || availableTimes.availableHours == null ? <div>Closed</div>
+                {overCapacity ? <div className = {style.capacityMsg}>{capacityMsg}</div> : 
+                 noTimes || availableTimes.availableHours == null ? <div>Closed</div>
                     : generateAllTimes(openTime, closeTime).map((time) => {
                       const available = availableTimes.availableHours;
                       const hour = Number.parseInt(time.time.substring(0, 2), 10);
@@ -118,7 +161,7 @@ const TimeContainer = (props) => {
                         <Button
                           key={`time_button_${time.time}`}
                           variant="contained"
-                          disabled={available.indexOf(hour) === -1}
+                          disabled={(available.indexOf(hour) === -1) || (hour <= todaystimeInt && month === todaysMonth && dates === todaysDate) }
                           value={time}
                           color={time.time === selectedTime ? "secondary" : "primary"}
                           onClick={() => handleTime(time.time)}
@@ -136,8 +179,16 @@ const TimeContainer = (props) => {
             className={style.submitButton}
             variant="contained"
             color="primary"
+            onClick={() => changePath("/", mainHistory)}
+          >
+            Cancel
+          </Button>
+          <Button
+            className={style.submitButton}
+            variant="contained"
+            color="primary"
             onClick={handleTimeConfirmation}
-            disabled={seats.length === 0 || selectedTime.length === 0}
+            disabled={seats.length === 0 || selectedTime.length === 0 || overCapacity === true}
           >
             {timeMessages.buttonNextText}
           </Button>
@@ -154,6 +205,7 @@ const mapStateToProps = (state) => ({
   oldTime: state.bookingReducer.time,
   restaurantHours: state.bookingReducer.restaurantHours,
   availableTimes: state.bookingReducer.availableRestaurantHours,
+  tableCapacity: state.bookingReducer.tableCapacity,
   isLoading: state.bookingReducer.loading,
 });
 
@@ -163,6 +215,7 @@ const mapDispatchToProps = (dispatch) => ({
   onDateChange: (date) => { dispatch(addBookingDate(date)); },
   getHours: bindActionCreators(getRestaurantHours, dispatch),
   getAvailable: bindActionCreators(getAvailableHours, dispatch),
+  getCapacity: bindActionCreators(getTableCapacity, dispatch),
 });
 
 

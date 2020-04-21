@@ -15,7 +15,7 @@ if [ ! "$(docker ps -q -f name=mysqltest)" ]; then
 
 ########## UPDATE THIS IF YOU ARE ON WINDOWS ####################
 
-    #homePath=$(pwd) # UNIX
+    # homePath=$(pwd) # UNIX
     homePath=$(pwd -W) # WINDOWS
 
 #################################################################

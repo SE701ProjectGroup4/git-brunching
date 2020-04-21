@@ -12,6 +12,7 @@ import { CircularProgress } from "@material-ui/core";
 import style from "./LandingPage.module.css";
 import changePath from "../general/helperFunctions";
 import { getRestaurants, selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+import MenuPopupButton from "./menu/MenuPopupButton";
 
 import NoRestaurants from "./NoRestaurants";
 import { resetBooking } from "../store/booking/bookingActions";
@@ -69,8 +70,11 @@ const Tiles = ({ restaurants, toBooking }) => {
                 image={index % 2 === 0 ? "./images/nandoz.png" : "./images/kcf.png"}
                 title={data.Name}
               />
-              <GridListTileBar title={data.Name} />
             </CardActionArea>
+            <GridListTileBar
+                title={data.Name}
+                actionIcon={<MenuPopupButton restaurantName={data.Name}/>}
+            />
           </Card>
         </GridListTile>
       ))}
