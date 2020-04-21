@@ -47,9 +47,9 @@ router.get('/popular', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT RESTAURANT.* FROM RESTAURANT LEFT JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID AND '
-      + 'CURDATE() <= DATE_ADD(RESERVATION.Date, INTERVAL 1 MONTH) GROUP BY RESTAURANT.ID '
-      + 'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
+    'SELECT RESTAURANT.* FROM RESTAURANT LEFT JOIN RESERVATION ON RESTAURANT.ID = RESERVATION.RestaurantID AND ' +
+      'CURDATE() <= DATE_ADD(RESERVATION.Date, INTERVAL 1 MONTH) GROUP BY RESTAURANT.ID ' +
+      'ORDER BY SUM(RESERVATION.NumberOfGuests) DESC, RESTAURANT.Name DESC LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
@@ -101,9 +101,9 @@ router.get('/open', (req, res) => {
   let queryOffset = offset ? parseInt(offset) : 0;
 
   connection.query(
-    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN HOURS ON RESTAURANT.ID = HOURS.RestaurantID AND '
-      + 'HOURS.DayOfWeek = LEFT(DAYNAME(CURDATE()), 3) AND CURTIME() BETWEEN HOURS.OpenTime AND '
-      + 'HOURS.CloseTime LIMIT ? OFFSET ?',
+    'SELECT RESTAURANT.* FROM RESTAURANT INNER JOIN HOURS ON RESTAURANT.ID = HOURS.RestaurantID AND ' +
+      'HOURS.DayOfWeek = LEFT(DAYNAME(CURDATE()), 3) AND CURTIME() BETWEEN HOURS.OpenTime AND ' +
+      'HOURS.CloseTime LIMIT ? OFFSET ?',
     [queryLimit, queryOffset],
     (error, results) => {
       if (error) {
@@ -227,14 +227,16 @@ router.get('/', (req, res) => {
     return;
   }
 
-  if (limit) { // By default returns all results if none supplied.
+  if (limit) {
+    // By default returns all results if none supplied.
     if (limit < 0) {
       res.status(400).json({ error: 'Limit value must be at least 0 or omitted.' });
       return;
     }
     sql += ' LIMIT ?';
     sqlParams.push(limit * 1);
-    if (batch) { // By default returns first batch.
+    if (batch) {
+      // By default returns first batch.
       if (batch < 0) {
         res.status(400).json({ error: 'Batch value must be at least 0 or omitted.' });
         return;
@@ -244,14 +246,10 @@ router.get('/', (req, res) => {
     }
   }
 
-  connection.query(
-    sql, sqlParams,
-    (error, results) => {
-      if (error) {
-        res.status(400).json({ error });
-        return;
-      }
-      res.json(results);
+  connection.query(sql, sqlParams, (error, results) => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
     }
     res.json(results);
   });
@@ -296,13 +294,17 @@ router.post('/', (req, res) => {
 
   var image = body.image ? body.image : null;
 
-  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`) VALUES (?, ?, ?);', [body.name, body.ownerId, image], error => {
-    if (error) {
-      res.status(400).json({ error });
-      return;
+  connection.query(
+    'INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`) VALUES (?, ?, ?);',
+    [body.name, body.ownerId, image],
+    (error) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json('added');
     }
-    res.json('added');
-  });
+  );
 });
 
 /**
@@ -324,23 +326,21 @@ router.post('/', (req, res) => {
  *         description: Returns matching restaurant objects
  */
 router.get('/search/:restaurantName', async (req, res) => {
-    const { restaurantName } = req.params;
-    if (!restaurantName) {
-        res.status(400).json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+  const { restaurantName } = req.params;
+  if (!restaurantName) {
+    res
+      .status(400)
+      .json({ error: 'GET /restaurant/{restaurantName} invocation error: {restaurantName} must be an string' });
+    return;
+  } else {
+    connection.query('SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%', (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
         return;
-    }
-    else {
-        connection.query(
-            'SELECT * FROM RESTAURANT WHERE NAME LIKE ?', '%' + restaurantName + '%',
-            (error, results) => {
-                if (error) {
-                    res.status(400).json({ error });
-                    return;
-                }
-                res.json(results);
-            }
-        );
-    }
+      }
+      res.json(results);
+    });
+  }
 });
 
 /**
