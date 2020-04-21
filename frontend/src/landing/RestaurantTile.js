@@ -70,11 +70,11 @@ const Tiles = ({ restaurants, toBooking }) => {
                 title={data.Name}
               />
             </CardActionArea>
-            <GridListTileBar
-                title={data.Name}
-                actionIcon={<MenuPopupButton restaurantName={data.Name}/>}
-            />
           </Card>
+          <GridListTileBar
+            title={data.Name}
+            actionIcon={<MenuPopupButton restaurantName={data.Name} />}
+          />
         </GridListTile>
       ))}
     </GridList>

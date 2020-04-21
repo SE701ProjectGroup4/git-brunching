@@ -118,6 +118,59 @@ router.get('/open', (req, res) => {
 /**
  * @swagger
  *
+ * /restaurant/new:
+ *   get:
+ *     description: Fetch restaurant objects of restaurants created in the last month from the database
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: limit
+ *         description: Number of restaurants to retrieve
+ *         in: query
+ *         required: false
+ *         type: string
+ *       - name: offset
+ *         description: Number of restaurants to offset search by
+ *         in: query
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Returns restaurant objects
+ */
+router.get('/new', (req, res) => {
+  const { limit, offset } = req.query;
+
+  if (limit < 0) {
+    res.status(400).json({ error: 'Limit value must be at least 0 or omitted.' });
+    return;
+  }
+
+  if (offset < 0) {
+    res.status(400).json({ error: 'Offset value must be at least 0 or omitted.' });
+    return;
+  }
+
+  let queryLimit = limit ? parseInt(limit) : 10;
+  let queryOffset = offset ? parseInt(offset) : 0;
+
+  connection.query(
+    'SELECT * FROM RESTAURANT WHERE CURDATE() <= DATE_ADD(DateAdded, INTERVAL 1 MONTH) '
+      + 'ORDER BY DateAdded DESC, Name ASC LIMIT ? OFFSET ?',
+    [queryLimit, queryOffset],
+    (error, results) => {
+      if (error) {
+        res.status(400).json({ error });
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+/**
+ * @swagger
+ *
  * /restaurant/{restaurantID}:
  *   get:
  *     tags: [Restaurant]
@@ -292,17 +345,14 @@ router.post('/', (req, res) => {
     return;
   }
 
-  var image = body.image ? body.image : null;
+  let image = body.image ? body.image : null;
+  let date = new Date();
 
-  connection.query(
-    'INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`) VALUES (?, ?, ?);',
-    [body.name, body.ownerId, image],
-    (error) => {
-      if (error) {
-        res.status(400).json({ error });
-        return;
-      }
-      res.json('added');
+  connection.query('INSERT INTO RESTAURANT (`Name`, `OwnerId`, `Image`, `DateAdded`) VALUES (?, ?, ?, ?);', 
+    [body.name, body.ownerId, image, date], error => {
+    if (error) {
+      res.status(400).json({ error });
+      return;
     }
   );
 });
