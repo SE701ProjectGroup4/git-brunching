@@ -24,7 +24,9 @@
 
 .header {
   border-bottom: solid 1px rgba(200, 200, 200, 0.5);
-  width: 100%;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   display: table;
   text-align: center;
 }
