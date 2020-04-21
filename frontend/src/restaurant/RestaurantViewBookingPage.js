@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import style from "./RestaurantViewBookingPage.module.css";
 import { ReactComponent as Logo } from "../general/Logo2.svg";
 import changePath from "../general/helperFunctions";
-
+import deleteReservationByReference from "../landing/edit/services/deleteReservationByReference";
+import getRestaurantByReference from "../landing/edit/services/getReservationByReference";
+import { selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
+import getRestaurantByID from "../landing/edit/services/getRestaurantByID";
+import {
+  getRestaurantBookings,
+  addBookingDate,
+  addBookingDetails,
+  addBookingSeats,
+  addBookingTime,
+  setBookingCode,
+} from "../store/booking/bookingActions";
 
 // const mockBookings = [
 //   {
@@ -48,8 +59,50 @@ import changePath from "../general/helperFunctions";
 
 const RestaurantViewBookingPage = (props) => {
   const history = useHistory();
+  const [isError, changeError] = useState(false); // TODO: Do something with error state e.g. display different screen
+  const restaurantID = 1;
 
-  const { isLoading, restaurantBookings } = props;
+  const {
+    isLoading, restaurantBookings, select, changeMode, getBookings,
+    addTime, addSeats, addDate, addDetails, setReservationCode,
+    currentRestaurantID,
+  } = props;
+
+  useEffect(() => {
+    getBookings(restaurantID);
+  }, []);
+
+  const handleDeleteBooking = (bookingID) => {
+    deleteReservationByReference(bookingID).then(() => {
+      getBookings(currentRestaurantID);
+    });
+  };
+
+  /**
+   * Switches page to the specified restaurant booking page
+   */
+  const handleEditBooking = (bookingID) => {
+    getRestaurantByReference(bookingID).then((r) => {
+      setReservationCode(bookingID);
+      const data = r.result[0];
+      if (data !== undefined) {
+        getRestaurantByID(data.RestaurantID).then((restaurant) => {
+          const restaurantData = restaurant[0];
+          select({ ID: restaurantData.ID, Name: restaurantData.Name });
+          addTime(data.Time);
+          addSeats(data.NumberOfGuests);
+          addDate(data.Date);
+          addDetails(data.Name, data.Phone, data.Email, data.Notes);
+          changeMode("EDIT");
+          changePath("/booking", history);
+        }).catch(() => {
+          changeError(true);
+        });
+      } else {
+        changeError(true);
+      }
+    });
+  };
 
   const createBookingItem = (
     id,
@@ -67,7 +120,7 @@ const RestaurantViewBookingPage = (props) => {
         <span className={style.bookingCode}>{`Booking Code: ${id}`}</span>
       </div>
       <div>
-        <span className={style.date}>{`${date.substring(0,10)}`}</span>
+        <span className={style.date}>{`${date.substring(0, 10)}`}</span>
         <span className={style.time}>{time}</span>
       </div>
       <div className={style.userDetails}>
@@ -96,10 +149,10 @@ const RestaurantViewBookingPage = (props) => {
         </p>
       </div>
       <div className={style.buttonWrapper}>
-        <Button className={style.secondaryButton} variant="contained">
+        <Button className={style.secondaryButton} variant="contained" onClick={() => handleEditBooking(id)}>
           Modify
         </Button>
-        <Button className={style.secondaryButton} variant="contained">
+        <Button className={style.secondaryButton} variant="contained" onClick={() => handleDeleteBooking(id)}>
           Delete
         </Button>
       </div>
@@ -158,6 +211,20 @@ const RestaurantViewBookingPage = (props) => {
 const mapStateToProps = (state) => ({
   isLoading: state.bookingReducer.loading,
   restaurantBookings: state.bookingReducer.restaurantBookings,
+  currentRestaurantID: state.bookingReducer.currentRestaurantID,
 });
 
-export default connect(mapStateToProps)(RestaurantViewBookingPage);
+const mapDispatchToProps = (dispatch) => ({
+  addTime: (time) => { dispatch(addBookingTime(time)); },
+  addSeats: (seats) => { dispatch(addBookingSeats(seats)); },
+  addDate: (date) => { dispatch(addBookingDate(date)); },
+  addDetails: (name, phone, email, notes) => {
+    dispatch(addBookingDetails(name, phone, email, notes));
+  },
+  select: (restaurant) => dispatch(selectRestaurant(restaurant)),
+  changeMode: (mode) => dispatch(setMode(mode)),
+  setReservationCode: (code) => dispatch(setBookingCode(code)),
+  getBookings: (restaurantID) => { dispatch(getRestaurantBookings(restaurantID)); },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantViewBookingPage);
