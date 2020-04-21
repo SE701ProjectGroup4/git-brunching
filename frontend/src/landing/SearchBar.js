@@ -23,6 +23,7 @@ const styles = {
     border: 0,
     padding: 0,
     paddingLeft: 5,
+    paddingRight: 10,
   },
 };
 
