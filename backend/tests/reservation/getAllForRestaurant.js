@@ -46,7 +46,7 @@ describe('GET reservations/', () => {
   it('2. should return an array of reservations when the restaurant only has one reservation', async function () {
     await connection
       .asyncQuery(
-        `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+        `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
     VALUES (1, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
       )
       .then(({ error }) => {
@@ -90,7 +90,7 @@ describe('GET reservations/', () => {
   it('3. should return an array of reservations when the restaurant has multiple reservations', async function () {
     await connection
       .asyncQuery(
-        `INSERT INTO restaurant_db.RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
+        `INSERT INTO RESERVATION (ID, Date, Time, Notes, NumberOfGuests, TableID, RestaurantID, UserID)
     VALUES (2, '2020-03-14', '11:30:00', '', '1', '1', '1', '1');`
       )
       .then(({ error }) => {
