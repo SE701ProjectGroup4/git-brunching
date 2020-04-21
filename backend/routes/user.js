@@ -11,6 +11,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
  *
  * /user:
  *   post:
+ *     tags: [User]
  *     description: Adds a user object to the database
  *     produces:
  *       - application/json
@@ -47,10 +48,15 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery(
-    'INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);',
-    [body.firstName, body.lastName, body.phone, body.email]
-  );
+  const {
+    error,
+    result
+  } = await connection.asyncQuery('INSERT INTO USER(FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?);', [
+    body.firstName,
+    body.lastName,
+    body.phone,
+    body.email
+  ]);
 
   if (error) {
     res.status(400).json({ error });
@@ -66,6 +72,7 @@ router.post('/', async (req, res) => {
  *
  * /user/{userID}:
  *   get:
+ *     tags: [User]
  *     description: Get a list of tables that are free for booking
  *     produces:
  *       - application/json
@@ -87,10 +94,7 @@ router.get('/:userID', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery(
-    'SELECT * FROM USER WHERE ID = ? ',
-    [userID]
-  );
+  const { error, result } = await connection.asyncQuery('SELECT * FROM USER WHERE ID = ? ', [userID]);
 
   if (error) {
     res.status(400).json({ error });
@@ -105,6 +109,7 @@ router.get('/:userID', async (req, res) => {
  *
  * /user:
  *   put:
+ *     tags: [User]
  *     description: |
  *      Update a user in the database, identified by the booking that user has made.
  *      At least one parameter out of firstName, lastName, phone, or email must be entered.
@@ -150,7 +155,10 @@ router.put('/', async (req, res) => {
     return;
   }
 
-  const { error, result } = await connection.asyncQuery(
+  const {
+    error,
+    result
+  } = await connection.asyncQuery(
     'SELECT * FROM USER JOIN RESERVATION ON USER.ID = RESERVATION.UserID WHERE RESERVATION.ID = ?',
     [body.reservationID]
   );
