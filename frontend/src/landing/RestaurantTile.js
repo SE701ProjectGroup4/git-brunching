@@ -44,7 +44,7 @@ const processEmpty = (loading, restaurants, openRestaurants, popularRestaurants,
 
   if (searchText !== "") {
     return (
-      <Tiles restaurants={restaurants} toBooking={toBooking} title="Search Results" loading={loading} />
+      <Tiles restaurants={restaurants} toBooking={toBooking} title="Search Results" />
     );
   }
 
@@ -87,7 +87,7 @@ const RestaurantTile = (props) => {
 };
 
 const Tiles = ({
-  restaurants, toBooking, title, loading,
+  restaurants, toBooking, title,
 }) => {
   const cellHeight = 250;
   const columns = 3;
@@ -95,33 +95,30 @@ const Tiles = ({
   return (
     <div className={style.carouselContainer}>
       <p className={style.titleText}>{title}</p>
-      {loading ? <CircularProgress />
-        : (
-          <GridList
-            cellHeight={cellHeight}
-            spacing={40}
-            className={style.gridList}
-            cols={columns}
-          >
-            {restaurants.map((data) => (
-              <GridListTile className={style.gridTile} key={data.Name}>
-                <Card onClick={() => toBooking(data)} className={style.card}>
-                  <CardActionArea>
-                    <CardMedia
-                      style={{ height: cellHeight }}
-                      image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
-                      title={data.Name}
-                    />
-                  </CardActionArea>
-                  <GridListTileBar
-                    title={data.Name}
-                    actionIcon={<MenuPopupButton restaurantName={data.Name} />}
-                  />
-                </Card>
-              </GridListTile>
-            ))}
-          </GridList>
-        )}
+      <GridList
+        cellHeight={cellHeight}
+        spacing={40}
+        className={style.gridList}
+        cols={columns}
+      >
+        {restaurants.map((data) => (
+          <GridListTile className={style.gridTile} key={data.Name}>
+            <Card onClick={() => toBooking(data)} className={style.card}>
+              <CardActionArea>
+                <CardMedia
+                  style={{ height: cellHeight }}
+                  image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
+                  title={data.Name}
+                />
+              </CardActionArea>
+              <GridListTileBar
+                title={data.Name}
+                actionIcon={<MenuPopupButton restaurantName={data.Name} />}
+              />
+            </Card>
+          </GridListTile>
+        ))}
+      </GridList>
     </div>
   );
 };
