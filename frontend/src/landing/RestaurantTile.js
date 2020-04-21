@@ -39,7 +39,7 @@ const processEmpty = (restaurants, openRestaurants, popularRestaurants, newResta
       {popularRestaurants.length !== 0 ? <RestaurantCarousel title="Popular" restaurants={popularRestaurants} toBooking={toBooking} /> : null}
       {openRestaurants.length !== 0 ? <RestaurantCarousel title="Currently Open" restaurants={openRestaurants} toBooking={toBooking} /> : null}
       {newRestaurants.length !== 0 ? <RestaurantCarousel title="New" restaurants={newRestaurants} toBooking={toBooking} /> : null}
-      <Tiles restaurants={restaurants} toBooking={toBooking} />
+      <Tiles restaurants={restaurants} toBooking={toBooking} title="All" />
     </>
   );
 };
@@ -73,13 +73,13 @@ const RestaurantTile = (props) => {
   );
 };
 
-const Tiles = ({ restaurants, toBooking }) => {
+const Tiles = ({ restaurants, toBooking, title }) => {
   const cellHeight = 250;
   const columns = 3;
 
   return (
     <div className={style.carouselContainer}>
-      <p className={style.titleText}>All</p>
+      <p className={style.titleText}>{title}</p>
       <GridList
         cellHeight={cellHeight}
         spacing={40}

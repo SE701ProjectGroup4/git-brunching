@@ -3,6 +3,7 @@ export const actionType = {
   ADD_POPULAR_RESTAURANTS: "ADD_POPULAR_RESTAURANTS",
   ADD_NEW_RESTAURANTS: "ADD_NEW_RESTAURANTS",
   ADD_OPEN_RESTAURANTS: "ADD_OPEN_RESTAURANTS",
+  ADD_SEARCH_RESTAURANTS: "ADD_SEARCH_RESTAURANTS",
   ADD_RESTAURANTS_SUCCESS: "ADD_RESTAURANTS_SUCCESS",
   ADD_POPULAR_RESTAURANTS_SUCCESS: "ADD_POPULAR_RESTAURANTS_SUCCESS",
   ADD_NEW_RESTAURANTS_SUCCESS: "ADD_NEW_RESTAURANTS_SUCCESS",
@@ -38,12 +39,18 @@ const setMode = (mode) => ({
   mode,
 });
 
+const getSearchRestaurants = (searchText) => ({
+  type: actionType.ADD_SEARCH_RESTAURANTS,
+  searchText,
+});
+
 
 export {
   getRestaurants,
   getPopularRestaurants,
   getNewRestaurants,
   getOpenRestaurants,
+  getSearchRestaurants,
   selectRestaurant,
   setMode,
 };

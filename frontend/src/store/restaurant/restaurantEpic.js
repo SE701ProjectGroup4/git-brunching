@@ -4,6 +4,7 @@ import {
 import { actionType } from "./restaurantAction";
 import {
   GET_ALL_RESTAURANTS,
+  GET_SEARCH_RESTAURANTS,
   GET_OPEN_RESTAURANTS,
   GET_POPULAR_RESTAURANTS,
   GET_NEW_RESTAURANTS,
@@ -29,7 +30,7 @@ const fetchRestaurants = (action$) => action$.pipe(
 );
 
 /**
- * Async call for receiving all restaurants
+ * Async call for receiving all currently open restaurants
  * This is a sequence of actions which determine if the API call
  * succeeds or fails.
  * @param action$
@@ -48,7 +49,7 @@ const fetchOpenRestaurants = (action$) => action$.pipe(
 );
 
 /**
- * Async call for receiving all restaurants
+ * Async call for receiving all popular restaurants
  * This is a sequence of actions which determine if the API call
  * succeeds or fails.
  * @param action$
@@ -67,7 +68,7 @@ const fetchPopularRestaurants = (action$) => action$.pipe(
 );
 
 /**
- * Async call for receiving all restaurants
+ * Async call for receiving all new restaurants
  * This is a sequence of actions which determine if the API call
  * succeeds or fails.
  * @param action$
@@ -78,6 +79,25 @@ const fetchNewRestaurants = (action$) => action$.pipe(
   mergeMap(async (action) => {
     const newRestaurants = await fetch(GET_NEW_RESTAURANTS).then((res) => res.json());
     return { ...action, type: actionType.ADD_NEW_RESTAURANTS_SUCCESS, newRestaurants };
+  }),
+  catchError((err) => Promise.resolve({
+    type: actionType.ADD_RESTAURANTS_FAIL,
+    message: err.message,
+  })),
+);
+
+/**
+ * Async call for receiving all restaurants that match the search string
+ * This is a sequence of actions which determine if the API call
+ * succeeds or fails.
+ * @param action$
+ * @returns {*}
+ */
+const fetchSearchedRestaurants = (action$) => action$.pipe(
+  filter((action) => action.type === actionType.ADD_SEARCH_RESTAURANTS),
+  mergeMap(async (action) => {
+    const restaurants = await fetch(`${GET_SEARCH_RESTAURANTS}${action.searchText}`).then((res) => res.json());
+    return { ...action, type: actionType.ADD_RESTAURANTS_SUCCESS, restaurants };
   }),
   catchError((err) => Promise.resolve({
     type: actionType.ADD_RESTAURANTS_FAIL,
@@ -99,4 +119,5 @@ export {
   fetchNewRestaurants,
   fetchOpenRestaurants,
   fetchPopularRestaurants,
+  fetchSearchedRestaurants,
 };

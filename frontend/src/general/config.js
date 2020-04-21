@@ -4,6 +4,7 @@ const GET_ALL_RESTAURANTS = `${HOST}/restaurant/`;
 const GET_NEW_RESTAURANTS = `${HOST}/restaurant/new`;
 const GET_OPEN_RESTAURANTS = `${HOST}/restaurant/open`;
 const GET_POPULAR_RESTAURANTS = `${HOST}/restaurant/popular`;
+const GET_SEARCH_RESTAURANTS = `${HOST}/restaurant/search/`;
 const GET_RESERVATION = (reservationID) => `${HOST}/reservation/?reservationID=${reservationID}`;
 const DELETE_RESERVATION = `${HOST}/reservation/`;
 const PUT_RESERVATION = `${HOST}/reservation/`;
@@ -20,6 +21,7 @@ export {
   GET_NEW_RESTAURANTS,
   GET_OPEN_RESTAURANTS,
   GET_POPULAR_RESTAURANTS,
+  GET_SEARCH_RESTAURANTS,
   HOST,
   GET_RESERVATION,
   DELETE_RESERVATION,
