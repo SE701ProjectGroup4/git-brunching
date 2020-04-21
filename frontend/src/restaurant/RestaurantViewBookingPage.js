@@ -153,7 +153,7 @@ const RestaurantViewBookingPage = (props) => {
         <Button className={style.secondaryButton} variant="contained" onClick={() => handleEditBooking(id)}>
           Modify
         </Button>
-        <ConfirmDeletePopupButton onDelete={() => handleDeleteBooking(id)}></ConfirmDeletePopupButton>
+        <ConfirmDeletePopupButton onDelete={() => handleDeleteBooking(id)} />
       </div>
     </div>
   );
