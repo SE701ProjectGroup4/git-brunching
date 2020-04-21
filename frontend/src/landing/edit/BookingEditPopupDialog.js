@@ -22,6 +22,7 @@ import {
 } from "../../store/booking/bookingActions";
 import { selectRestaurant, setMode } from "../../store/restaurant/restaurantAction";
 import getRestaurantByID from "./services/getRestaurantByID";
+import ConfirmDeletePopupButton from "./ConfirmDeletePopupButton";
 
 
 /**
@@ -185,9 +186,7 @@ const BookingEditPopupDialog = (props) => {
                   </div>
                 </div>
                 <div className={style.dialogTripleButtonContainer}>
-                  <Button variant="outlined" fullWidth={false} onClick={() => handleDeleteBooking()} className={style.popupButton}>
-                    {textHolder.bookingsPopup.popupDelete}
-                  </Button>
+                  <ConfirmDeletePopupButton bookingId={bookingID} onDelete={handleDeleteBooking}></ConfirmDeletePopupButton>
                   <Button variant="outlined" fullWidth={false} onClick={handleEditBooking} className={style.popupButton}>
                     {textHolder.bookingsPopup.popupEdit}
                   </Button>
