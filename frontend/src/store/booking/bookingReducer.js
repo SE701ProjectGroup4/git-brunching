@@ -14,7 +14,7 @@ const initialState = {
   error: null,
   loading: false,
   bookingCode: "",
-  currentRetaurantID: 0,
+  currentRestaurantID: 0,
   restaurantBookings: [],
   restaurantHours: [],
   availableRestaurantHours: [],
@@ -105,7 +105,7 @@ const bookingReducer = (state, action) => {
       return {
         ...state,
         loading: true,
-        currentRetaurantID: action.restaurantID,
+        currentRestaurantID: action.restaurantID,
       };
     case actionType.GET_RESTAURANT_BOOKINGS_SUCCCESS:
       return {

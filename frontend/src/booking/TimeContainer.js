@@ -109,12 +109,11 @@ const TimeContainer = (props) => {
             label="Number of Guests"
             variant="outlined"
             value={seats}
-            onBlur={() => {
-              onSeatChange(seats);
-              handleCapacity(seats);
-            }}
             onChange={(e) => {
               handleGuestChange(e);
+              onSeatChange(e.target.value)
+              handleCapacity(e.target.value)
+              getAvailable();
             }}
           />
         </div>
