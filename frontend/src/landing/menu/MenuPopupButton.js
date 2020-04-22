@@ -39,7 +39,7 @@ import Button from "@material-ui/core/Button";
               </Typography>
             </DialogTitle>
             <div className={style.menuButtonsContainer}>
-                <Button variant="outlined" className={style.secondaryButton}>Cancel</Button>
+                <Button variant="outlined" className={style.primaryButton}>Cancel</Button>
             </div>
         </Dialog>
       </>
