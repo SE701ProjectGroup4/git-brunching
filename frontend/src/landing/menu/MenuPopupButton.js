@@ -7,8 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 
-  const MenuPopupButton = (props) => {
-    const { restaurantName } = props;
+  const MenuPopupButton = ({restaurantName, restaurant, toBooking}) => {
     const [open, setOpen] = React.useState(false);
   
     // Show popup
@@ -44,7 +43,7 @@ import Button from "@material-ui/core/Button";
             </DialogTitle>
             <div className={style.menuButtonsContainer}>
                 <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Cancel</Button>
-                <Button variant="outlined" className={style.secondaryButton} onClick={handleClose}>Make Booking</Button>
+                <Button variant="outlined" className={style.secondaryButton} onClick={() => toBooking(restaurant)}>Make Booking</Button>
             </div>
         </Dialog>
       </>
