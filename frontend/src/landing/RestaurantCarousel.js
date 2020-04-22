@@ -61,7 +61,7 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
                 </CardActionArea>
                 <GridListTileBar
                   title={data.Name}
-                  actionIcon={<MenuPopupButton restaurantName={data.Name} restaurant={data} toBooking={toBooking} />}
+                  actionIcon={<MenuPopupButton restaurant={data} toBooking={toBooking} />}
                   />
               </Card>
             </GridListTile>

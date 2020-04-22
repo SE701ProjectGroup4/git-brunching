@@ -7,9 +7,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 
-  const MenuPopupButton = ({restaurantName, restaurant, toBooking}) => {
+  const MenuPopupButton = ({restaurant, toBooking}) => {
     const [open, setOpen] = React.useState(false);
-  
+    const restaurantName = restaurant.Name;
     // Show popup
     const handleClickOpen = (e) => {
       // Prevent click from propagating to restaurant card and going straight to booking
