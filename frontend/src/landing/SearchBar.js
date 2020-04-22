@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { InputAdornment } from "@material-ui/core";
@@ -23,45 +23,26 @@ const styles = {
     border: 0,
     padding: 0,
     paddingLeft: 5,
+    paddingRight: 10,
   },
 };
 
 const SearchBar = (props) => {
   const {
-    getAll, getSearched, classes,
+    getAll, getSearched, classes, searchText,
   } = props;
-  const [searchText, searchChange] = React.useState("");
-  const [clear, changeClear] = React.useState(false);
+
+  const onSearchClicked = (text) => {
+    if (text === "") {
+      getAll();
+    } else {
+      getSearched(text);
+    }
+  };
 
   const onTextChange = (e) => {
-    if (e.target.value === "" && e.nativeEvent.inputType !== "deleteContentBackward"
-      && e.nativeEvent.inputType !== "deleteWordBackward") {
-      changeClear(true);
-    } else {
-      changeClear(false);
-    }
-    searchChange(e.target.value);
+    onSearchClicked(e.target.value);
   };
-
-  const onSearchClicked = () => {
-    if (searchText === "") {
-      getAll();
-    } else {
-      getSearched(searchText);
-    }
-  };
-
-  const searchOnEnter = (e) => {
-    if (e.which === 13 || e.keyCode === 13) {
-      onSearchClicked();
-    }
-  };
-
-  useEffect(() => {
-    if (clear === true && searchText === "") {
-      getAll();
-    }
-  }, [searchText, clear, getAll]);
 
   return (
     <TextField
@@ -71,11 +52,10 @@ const SearchBar = (props) => {
       placeholder="Search"
       value={searchText}
       onChange={onTextChange}
-      onKeyPress={searchOnEnter}
       InputProps={{
-        endAdornment: (
-          <InputAdornment position="start" onClick={onSearchClicked}>
-            <IconButton>
+        startAdornment: (
+          <InputAdornment position="start" style={{ marginRight: 0 }}>
+            <IconButton disabled>
               <Search />
             </IconButton>
           </InputAdornment>
@@ -87,10 +67,13 @@ const SearchBar = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  searchText: state.restaurantReducer.searchText,
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAll: getRestaurants,
   getSearched: getSearchRestaurants,
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(SearchBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchBar));
