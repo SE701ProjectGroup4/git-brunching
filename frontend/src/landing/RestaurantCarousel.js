@@ -51,15 +51,15 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
         >
           {displayRestaurants.map((data) => (
             <GridListTile className={style.gridTile} key={data.Name}>
-              <Card onClick={() => toBooking(data)} className={style.card}>
-                <CardActionArea>
+              <Card  className={style.card}>
+                <CardActionArea onClick={() => toBooking(data)}>
                   <CardMedia
                     style={{ height: cellHeight }}
                     image={data.Image ? data.Image : "./images/defaultRestaurantImage.jpg"}
                     title={data.Name}
                   />
                 </CardActionArea>
-                <GridListTileBar
+                <GridListTileBar onClick={() => toBooking(data)} 
                   title={data.Name}
                   actionIcon={<MenuPopupButton restaurantName={data.Name} />}
                 />

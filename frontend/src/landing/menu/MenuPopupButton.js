@@ -24,6 +24,10 @@ import Button from "@material-ui/core/Button";
       e.stopPropagation();
       setOpen(false);
     };
+
+    const handlePopupClick = (e) => {
+      e.stopPropagation();
+    } 
   
     return (
       <>
@@ -32,7 +36,7 @@ import Button from "@material-ui/core/Button";
             onClick={handleClickOpen}>
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} onClick={handlePopupClick} >
             <DialogTitle className={style.menuPopup}>
               <Typography className={style.menuPopup}>
                 {restaurantName}
