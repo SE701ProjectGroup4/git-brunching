@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from '@material-ui/core/Typography';
+import Button from "@material-ui/core/Button";
 
   const MenuPopupButton = (props) => {
     const { restaurantName } = props;
@@ -37,6 +38,9 @@ import Typography from '@material-ui/core/Typography';
                 {restaurantName}
               </Typography>
             </DialogTitle>
+            <div className={style.menuButtonsContainer}>
+                <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Cancel</Button>
+            </div>
         </Dialog>
       </>
     );
