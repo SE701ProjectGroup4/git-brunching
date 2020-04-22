@@ -43,15 +43,11 @@ const LandingPage = (props) => {
               <Button
                 disabled={!isLoggedIn}
                 variant="outlined"
-                className={
-                  isLoggedIn
-                    ? style.secondaryButton
-                    : style.secondaryButtonDisabled
-                }
+                className={style.secondaryButton}
                 onClick={() => toRestaurants()}
               >
                 {/* Todo replace with something else */}
-                RESERVATIONS
+                res
               </Button>
             </div>
           </div>
