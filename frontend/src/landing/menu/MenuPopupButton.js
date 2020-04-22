@@ -40,7 +40,7 @@ import Button from "@material-ui/core/Button";
             </DialogTitle>
             <div className={style.menuButtonsContainer}>
                 <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Cancel</Button>
-                <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Book</Button>
+                <Button variant="outlined" className={style.secondaryButton} onClick={handleClose}>Make Booking</Button>
             </div>
         </Dialog>
       </>
