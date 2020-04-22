@@ -57,6 +57,15 @@
   text-align: center;
 }
 
+.menuButtonsContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 10px;
+  grid-template-rows: 40px 10px;
+  justify-items: right;
+}
+
 .editContainer {
   width: 100%;
   height: 100%;
