@@ -30,7 +30,11 @@ import { resetBooking } from "../store/booking/bookingActions";
  * @param toBooking
  * @returns {*}
  */
-const processEmpty = (restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking) => {
+const processEmpty = (loading, restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking) => {
+  if (loading && searchText === "") {
+    return <CircularProgress />;
+  }
+
   if (restaurants.length === 0) {
     if (searchText === "") {
       return <NoRestaurants title="Something went wrong" />;
@@ -77,13 +81,14 @@ const RestaurantTile = (props) => {
 
   return (
     <div className={style.gridRoot}>
-      {loading ? <CircularProgress />
-        : processEmpty(restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking)}
+      {processEmpty(loading, restaurants, openRestaurants, popularRestaurants, newRestaurants, searchText, toBooking)}
     </div>
   );
 };
 
-const Tiles = ({ restaurants, toBooking, title }) => {
+const Tiles = ({
+  restaurants, toBooking, title,
+}) => {
   const cellHeight = 250;
   const columns = 3;
 
