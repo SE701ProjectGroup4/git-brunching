@@ -38,8 +38,10 @@ const LandingPage = (props) => {
         <div className={style.searchContainer}>
           <SearchBar />
           <div className={style.buttonHolder}>
-            <BookingEditPopupButton IDSwitchMethod={toBooking} />
-            <div>
+            <div className={style.editBookingButton}>
+              <BookingEditPopupButton IDSwitchMethod={toBooking} />
+            </div>
+            <div className={style.reservationButton}>
               <Button
                 disabled={!isLoggedIn}
                 variant="outlined"
