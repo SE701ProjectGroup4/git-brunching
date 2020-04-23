@@ -44,7 +44,7 @@ const BookingPage = (props) => {
                 <Route path="/" component={() => <ContentContainer type="time" mainHistory={history} />} />
               </Switch>
             </Router>
-            <Prompt when={true} message="Are you sure you want to leave before finishing?"/>
+            <Prompt when={true} message="Are you sure you want to leave before booking? Progress will not be saved"/>
           </div>
         )}
 
