@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Prompt } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import {
   Route, Router, Switch,
@@ -44,6 +44,7 @@ const BookingPage = (props) => {
                 <Route path="/" component={() => <ContentContainer type="time" mainHistory={history} />} />
               </Switch>
             </Router>
+            <Prompt when={true} message="Are you sure you want to leave before booking? Progress will not be saved"/>
           </div>
         )}
 
