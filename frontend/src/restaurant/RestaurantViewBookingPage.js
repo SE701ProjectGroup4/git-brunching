@@ -9,6 +9,7 @@ import deleteReservationByReference from "../landing/edit/services/deleteReserva
 import getRestaurantByReference from "../landing/edit/services/getReservationByReference";
 import { selectRestaurant, setMode } from "../store/restaurant/restaurantAction";
 import getRestaurantByID from "../landing/edit/services/getRestaurantByID";
+import ConfirmDeletePopupButton from "./ConfirmDeletePopupButton";
 import {
   getRestaurantBookings,
   addBookingDate,
@@ -152,9 +153,7 @@ const RestaurantViewBookingPage = (props) => {
         <Button className={style.secondaryButton} variant="contained" onClick={() => handleEditBooking(id)}>
           Modify
         </Button>
-        <Button className={style.secondaryButton} variant="contained" onClick={() => handleDeleteBooking(id)}>
-          Delete
-        </Button>
+        <ConfirmDeletePopupButton onDelete={() => handleDeleteBooking(id)} />
       </div>
     </div>
   );
