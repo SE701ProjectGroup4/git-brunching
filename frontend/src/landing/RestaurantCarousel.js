@@ -9,6 +9,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import style from "./LandingPage.module.css";
 import MenuPopupButton from "./menu/MenuPopupButton";
+import ReviewPopupButton from "./reviews/ReviewPopupButton"
 
 const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
   const cellHeight = 250;
@@ -61,7 +62,14 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
                 </CardActionArea>
                 <GridListTileBar
                   title={data.Name}
-                  actionIcon={<MenuPopupButton restaurant={data} toBooking={toBooking} />}
+                  actionIcon={
+                    <div>
+                      <MenuPopupButton restaurant={data} toBooking={toBooking}>
+                      </MenuPopupButton> 
+                      <ReviewPopupButton restaurant={data}>
+                      </ReviewPopupButton> 
+                    </div>                 
+                  }
                   />
               </Card>
             </GridListTile>

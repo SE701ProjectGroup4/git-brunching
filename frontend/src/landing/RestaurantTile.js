@@ -19,6 +19,7 @@ import {
   getOpenRestaurants,
 } from "../store/restaurant/restaurantAction";
 import MenuPopupButton from "./menu/MenuPopupButton";
+import ReviewPopupButton from "./reviews/ReviewPopupButton"
 
 import RestaurantCarousel from "./RestaurantCarousel";
 import NoRestaurants from "./NoRestaurants";
@@ -113,7 +114,14 @@ const Tiles = ({
               </CardActionArea>
               <GridListTileBar
                 title={data.Name}
-                actionIcon={<MenuPopupButton restaurant={data} toBooking={toBooking} />}
+                actionIcon={
+                  <div>
+                    <MenuPopupButton restaurant={data} toBooking={toBooking}>
+                    </MenuPopupButton> 
+                    <ReviewPopupButton restaurant={data}>
+                    </ReviewPopupButton> 
+                  </div>                 
+                }
                 />
             </Card>
           </GridListTile>
