@@ -60,9 +60,9 @@ const RestaurantCarousel = ({ title, restaurants, toBooking }) => {
                   />
                 </CardActionArea>
                 <GridListTileBar
-                  title={data.Name}
-                  actionIcon={<MenuPopupButton restaurant={data} toBooking={toBooking} />}
-                  />
+                  title={data.Name} //Need to give an actual ID in, just giving in 1 for now
+                  actionIcon={<MenuPopupButton restaurant={data} toBooking={toBooking} currentRestaurantID={1} />}
+                />
               </Card>
             </GridListTile>
           ))}
