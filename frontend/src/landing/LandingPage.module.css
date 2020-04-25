@@ -134,11 +134,20 @@
   height: 24px;
 }
 
-.menuPopup {
-  width: 400px;
-  height: 600px;
+.menuPopupTitle {
   font-size: 24px;
   font-weight: bold;
+}
+
+.menuPopup {
+  align-self: center;
+}
+
+.menuImage {
+  padding: 15px 20px;
+  width: 500px;
+  height: 500px;
+  align-self: center;
 }
 
 .primaryButton {
