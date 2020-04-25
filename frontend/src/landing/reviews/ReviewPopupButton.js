@@ -9,8 +9,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
+import {makeStyles} from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import {Rating} from '@material-ui/lab';
 
-    const ReviewPopupButton = ({restaurant, toBooking}) => {
+    const ReviewPopupButton = ({restaurant}) => {
         const [open, setOpen] = React.useState(false);
         const restaurantName = restaurant.Name;
         // Show popup
@@ -30,6 +33,31 @@ import Button from "@material-ui/core/Button";
         const handlePopupClick = (e) => {
         e.stopPropagation();
         } 
+
+        const labels = {
+            0.5: 'Useless',
+            1: 'Useless+',
+            1.5: 'Poor',
+            2: 'Poor+',
+            2.5: 'Ok',
+            3: 'Ok+',
+            3.5: 'Good',
+            4: 'Good+',
+            4.5: 'Excellent',
+            5: 'Excellent+',
+        };
+          
+        const useStyles = makeStyles({
+            root: {
+              width: 200,
+              display: 'flex',
+              alignItems: 'center',
+            },
+        });
+
+        const [value, setValue] = React.useState(2);
+        const [hover, setHover] = React.useState(-1);
+        const classes = useStyles();
     
         return (
         <>
@@ -43,24 +71,47 @@ import Button from "@material-ui/core/Button";
                 <DialogTitle className={style.reviewPopup}>
                 <Typography className={style.reviewPopup}>
                     {restaurantName}'s Reviews
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            type="name"
+                            label="Name"
+                            fullWidth
+                        />
+                        <div className={classes.root}>
+                            <Rating
+                                name="hover-feedback"
+                                value={value}
+                                precision={0.5}
+                                onChange={(event, newValue) => {
+                                setValue(newValue);
+                                }}
+                                onChangeActive={(event, newHover) => {
+                                setHover(newHover);
+                                }}
+                            />
+                            {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+                        </div>
+                        <DialogContentText>
+                            Please submit your review here
+                        </DialogContentText>
+                        <TextField
+                            multiline
+                            rows = "4"
+                            autoFocus
+                            margin="dense"
+                            id="review"
+                            type="review"
+                            fullWidth
+                        />
+                    </DialogContent>
                 </Typography>
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Please submit your reviews here!
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                    />
-                </DialogContent>
                 <div className={style.reviewButtonsContainer}>
                     <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Cancel</Button>
-                    <Button variant="outlined" className={style.secondaryButton} onClick={() => toBooking(restaurant)}>Submit</Button>
+                    <Button variant="outlined" className={style.secondaryButton} onClick={handleClose}>Submit</Button>
                 </div>
             </Dialog>
         </>
