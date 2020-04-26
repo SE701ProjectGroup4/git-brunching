@@ -13,10 +13,10 @@ import Button from "@material-ui/core/Button";
 
 
   const MenuPopupButton = (props) => {
-    const { restaurant, toBooking, currentRestaurantID, isLoading, getRestaurantMenu, menus } = props;
+    const { restaurant, toBooking, isLoading, getRestaurantMenu, menus } = props;
     const [open, setOpen] = React.useState(false);
     const restaurantName = restaurant.Name;
-
+    const currentRestaurantID = restaurant.ID;
 
     // Show popup
     const handleClickOpen = (e) => {
@@ -44,7 +44,8 @@ import Button from "@material-ui/core/Button";
             onClick={(e) => handleClickOpen(e)}>
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
-        <Dialog open={open} onClose={(e) => handleClose(e)} onClick={handlePopupClick}>
+        <Dialog fullWidth="true" maxWidth="sm"
+        open={open} onClose={(e) => handleClose(e)} onClick={handlePopupClick}>
             <DialogTitle>
               <Typography className={style.menuPopupTitle}>
                 {restaurantName}
