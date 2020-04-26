@@ -28,7 +28,7 @@ const BookingPage = (props) => {
               <div className={style.header}>
                 <div
                   className={style.logo}
-                  onClick={() => changePath("/", history)}
+                  onClick={() => { if (window.confirm('Are you sure you want to leave before booking? Progress will not be saved'))changePath("/", history)}}
                 >
                   <Logo />
                 </div>
@@ -44,7 +44,6 @@ const BookingPage = (props) => {
                 <Route path="/" component={() => <ContentContainer type="time" mainHistory={history} />} />
               </Switch>
             </Router>
-            <Prompt when={true} message="Are you sure you want to leave before booking? Progress will not be saved"/>
           </div>
         )}
 

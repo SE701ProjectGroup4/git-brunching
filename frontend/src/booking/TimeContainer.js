@@ -178,7 +178,7 @@ const TimeContainer = (props) => {
             className={style.submitButton}
             variant="contained"
             color="primary"
-            onClick={() => changePath("/", mainHistory)}
+            onClick={() => { if (window.confirm('Are you sure you want to leave before booking? Progress will not be saved'))changePath("/", mainHistory)}}
           >
             Cancel
           </Button>
