@@ -41,7 +41,7 @@ it('1. should return expected error if no restaurantID are entered', function(do
     chai
       .request(`${config.listen.address}:${config.listen.port}/restaurant`)
       .get('/{restaurantID}/capacity')
-      .query({RestaurantID:999x})
+      .query({RestaurantID:999})
       .end((err, res) => {
         assert.isNull(err, 'Expected error to be null. Ensure an instance of the api is running');
         const { body } = res;
