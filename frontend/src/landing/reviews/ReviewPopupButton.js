@@ -50,7 +50,7 @@ import {Rating} from '@material-ui/lab';
           
         const useStyles = makeStyles({
             root: {
-              width: 200,
+              width: 400,
               display: 'flex',
               alignItems: 'center',
             },
@@ -93,7 +93,7 @@ import {Rating} from '@material-ui/lab';
                                 setHover(newHover);
                                 }}
                             />
-                            {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+                            {value !== null && <Box ml={1}>{labels[hover !== -1 ? hover : value]}</Box>}
                         </div>
                         <DialogContentText>
                             Please submit any comments here
