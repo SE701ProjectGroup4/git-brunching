@@ -41,7 +41,7 @@ it('1. should return expected error if no restaurantID are entered', function(do
     chai
       .request(`${config.listen.address}:${config.listen.port}/restaurant`)
       .get('/{restaurantID}/capacity')
-      .query({notRestaurantID:6})
+      .query({RestaurantID:999})
       .end((err, res) => {
         assert.isNull(err, 'Expected error to be null. Ensure an instance of the api is running');
         const { body } = res;
@@ -56,7 +56,7 @@ it('1. should return expected error if no restaurantID are entered', function(do
     chai
       .request(`${config.listen.address}:${config.listen.port}/restaurant`)
       .get('/7/capacity')
-      .query({restaurantID:1})
+      .query({restaurantID:7})
       .end((err, res) => {
         assert.isNull(err, 'Expected error to be null. Ensure an instance of the api is running');
         
@@ -66,16 +66,13 @@ it('1. should return expected error if no restaurantID are entered', function(do
 		var rslt=[];
 		
 		connection.query(
-		'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM restaurant_db.TABLE as t WHERE t.RestaurantID = ?;',
+		'SELECT MIN(MinGuests) as minimum, MAX(MaxGuests) as maximum FROM `TABLE` as t WHERE t.RestaurantID = ?;',
 		["7"],
 		(error, results) => {
 			rslt=results;
-			assert.deepEqual(body, results,'Expected response to contain a xxxxx object');
+			assert.deepEqual(body, results,'Expected response to contain a body object');
 	  });
-		
-		//expect(rslt).to.have.members([{minimum:null,maximum:null}]);
-		//expect(actual).to.have.members({maximum:null});
-        //});
+
         done();
       });
   });
