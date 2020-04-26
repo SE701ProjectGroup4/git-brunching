@@ -5,6 +5,7 @@ import restaurantEpic, {
 import bookingEpic, {
   editReservation, getAvailableHours, getRestaurantHours, getRestaurantBookings, getTableCapacity,
 } from "./booking/bookingEpic";
+import getRestaurantMenu from "./menu/menu"
 
 /**
  * A root epic contains all of the epics
@@ -24,6 +25,7 @@ const rootEpic = combineEpics(
   getAvailableHours,
   getRestaurantBookings,
   getTableCapacity,
+  getRestaurantMenu
   // pingEpic,
 );
 
