@@ -16,6 +16,7 @@ import {Rating} from '@material-ui/lab';
     const ReviewPopupButton = ({restaurant}) => {
         const [open, setOpen] = React.useState(false);
         const restaurantName = restaurant.Name;
+        const restaurantId = restaurant.ID;
         // Show popup
         const handleClickOpen = (e) => {
         // Prevent click from propagating to restaurant card and going straight to booking
@@ -36,15 +37,15 @@ import {Rating} from '@material-ui/lab';
 
         const labels = {
             0.5: 'Useless',
-            1: 'Useless+',
+            1: 'Very poor',
             1.5: 'Poor',
-            2: 'Poor+',
-            2.5: 'Ok',
-            3: 'Ok+',
+            2: 'Below average',
+            2.5: 'Average',
+            3: 'Above average',
             3.5: 'Good',
-            4: 'Good+',
+            4: 'Great',
             4.5: 'Excellent',
-            5: 'Excellent+',
+            5: 'Outstanding',
         };
           
         const useStyles = makeStyles({
@@ -95,7 +96,7 @@ import {Rating} from '@material-ui/lab';
                             {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
                         </div>
                         <DialogContentText>
-                            Please submit your review here
+                            Please submit any comments here
                         </DialogContentText>
                         <TextField
                             multiline
