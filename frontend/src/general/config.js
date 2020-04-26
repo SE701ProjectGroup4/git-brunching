@@ -15,6 +15,7 @@ const RESTAURANT_HOURS = (restaurantID) => `${HOST}/restaurant/${restaurantID}/o
 const FREE_TABLE = `${HOST}/table/free`;
 const TABLE_ID = `${HOST}/reservation/available`;
 const TABLE_CAPACITY = (restaurantID) => `${HOST}/restaurant/${restaurantID}/capacity`;
+const RESTAURANT_MENU = (restaurantID) => `${HOST}/menu/restaurant/${restaurantID}`;
 
 export {
   GET_ALL_RESTAURANTS,
@@ -33,4 +34,5 @@ export {
   FREE_TABLE,
   TABLE_ID,
   TABLE_CAPACITY,
+  RESTAURANT_MENU
 };

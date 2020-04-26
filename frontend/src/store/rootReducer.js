@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import bookingReducer from "./booking/bookingReducer";
 import restaurantReducer from "./restaurant/restaurantReducer";
 import { actionType } from "./booking/bookingActions";
+import menuReducer from "./menu/menuReducer";
 
 /**
  * A root reducer is used to allow multiple levels of reducers
@@ -10,6 +11,7 @@ import { actionType } from "./booking/bookingActions";
 const appReducer = combineReducers({
   bookingReducer,
   restaurantReducer,
+  menuReducer
 });
 
 const rootReducer = (state, action) => {
