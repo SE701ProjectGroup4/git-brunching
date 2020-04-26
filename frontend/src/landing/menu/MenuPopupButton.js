@@ -44,7 +44,8 @@ import Button from "@material-ui/core/Button";
             onClick={(e) => handleClickOpen(e)}>
             <MenuBook className={style.menuIcon}/> 
         </IconButton>
-        <Dialog open={open} onClose={(e) => handleClose(e)} onClick={handlePopupClick}>
+        <Dialog fullWidth="true" maxWidth="sm"
+        open={open} onClose={(e) => handleClose(e)} onClick={handlePopupClick}>
             <DialogTitle>
               <Typography className={style.menuPopupTitle}>
                 {restaurantName}
