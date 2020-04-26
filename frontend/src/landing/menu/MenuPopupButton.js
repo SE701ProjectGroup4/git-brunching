@@ -13,10 +13,10 @@ import Button from "@material-ui/core/Button";
 
 
   const MenuPopupButton = (props) => {
-    const { restaurant, toBooking, currentRestaurantID, isLoading, getRestaurantMenu, menus } = props;
+    const { restaurant, toBooking, isLoading, getRestaurantMenu, menus } = props;
     const [open, setOpen] = React.useState(false);
     const restaurantName = restaurant.Name;
-
+    const currentRestaurantID = restaurant.ID;
 
     // Show popup
     const handleClickOpen = (e) => {

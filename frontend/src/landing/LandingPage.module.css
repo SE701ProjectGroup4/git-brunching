@@ -142,14 +142,17 @@
   font-weight: bold;
 }
 
-.menuPopup {
-  align-self: center;
-}
-
 .menuImage {
   padding: 15px 20px;
   width: 500px;
   height: 500px;
+  align-self: center;
+}
+
+.noMenuImage {
+  padding: 15px 20px;
+  width: 200px;
+  height: 200px;
   align-self: center;
 }
 
