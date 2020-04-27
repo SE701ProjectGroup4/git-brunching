@@ -37,6 +37,12 @@ import Icon from '@material-ui/core/Icon';
     const handlePopupClick = (e) => {
       e.stopPropagation();
     } 
+
+    // Takes user to the restaurant's website in a new tab
+    const handleWebsiteButtonClick = (e) => {
+      const restaurantWebsite = "https://www.kfc.co.nz/";
+      window.open(restaurantWebsite, "_blank"); //opens the restaurant's website, currently a dummy link
+    }
   
     return (
       <>
@@ -52,7 +58,7 @@ import Icon from '@material-ui/core/Icon';
                 {restaurantName}
                 <IconButton
                   className={style.websiteButton}
-                  onClick={(e) => handleClickOpen(e)}>
+                  onClick={handleWebsiteButtonClick}>
                   <Language className={style.menuIcon}/>
                 </IconButton>
               </Typography>
