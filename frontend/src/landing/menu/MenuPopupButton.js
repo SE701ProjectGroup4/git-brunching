@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuBook } from '@material-ui/icons'
+import { MenuBook, Language } from '@material-ui/icons'
 import style from "../LandingPage.module.css";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
@@ -10,6 +10,7 @@ import { getMenu } from "../../store/menu/menuActions"
 import { connect } from "react-redux";
 import Menu from "./Menu";
 import Button from "@material-ui/core/Button";
+import Icon from '@material-ui/core/Icon';
 
 
   const MenuPopupButton = (props) => {
@@ -49,7 +50,13 @@ import Button from "@material-ui/core/Button";
             <DialogTitle>
               <Typography className={style.menuPopupTitle}>
                 {restaurantName}
+                <IconButton
+                  className={style.websiteButton}
+                  onClick={(e) => handleClickOpen(e)}>
+                  <Language className={style.menuIcon}/>
+                </IconButton>
               </Typography>
+
             </DialogTitle>
             <DialogContent>
               <Menu menus={menus} isLoading={isLoading}/>

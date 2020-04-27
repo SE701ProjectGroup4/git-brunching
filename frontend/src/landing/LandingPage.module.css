@@ -137,6 +137,10 @@
   color: white;
 }
 
+.websiteButton {
+  color: aqua;
+}
+
 .menuButton:hover {
   color: #61c766;
 }
