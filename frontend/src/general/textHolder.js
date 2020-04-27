@@ -12,7 +12,7 @@ const messages = {
   details: {
     buttonNextText: "Done",
     buttonBackText: "Back",
-    infoMessage: "Tell me about about yourself :P",
+    infoMessage: "Please enter your booking details",
     footerText: "* Required",
   },
   time: {
@@ -42,7 +42,7 @@ const messages = {
     popupDelete: "Delete",
   },
   confirmed: {
-    title: "Booking Complete!!!",
+    title: "Booking Complete",
     buttonText: "Finish",
   },
   notFound: {
