@@ -10,7 +10,7 @@ before(async () => {
   // Setup the database before any tests in this file run.
   const errors = [];
   await connection
-    .asyncQuery('INSERT INTO RESTAURANT VALUES (1, "Example restaurant0");')
+    .asyncQuery('INSERT INTO RESTAURANT VALUES (1, "Example restaurant0" , 1);')
     .then(({ error }) => error && errors.push(error));
 
   await connection
@@ -172,7 +172,7 @@ describe('GET reservations/', () => {
      const { body } = queryResult;
      assert.isObject(body, 'Expected response to contain a body object');
      assert.deepEqual(body, {
-    //   error: 'GET reservation invocation error: missing ?restaurantID= query param'
+       error: 'GET reservation invocation error: missing ?restaurantID= query param'
      });
     //assert.isOk(true)
   });
