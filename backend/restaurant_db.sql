@@ -69,7 +69,7 @@ CREATE TABLE `MENU` (
 
 LOCK TABLES `MENU` WRITE;
 /*!40000 ALTER TABLE `MENU` DISABLE KEYS */;
-INSERT INTO `MENU` VALUES (1,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(2,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(3,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(4,2,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(5,3,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633);
+INSERT INTO `MENU` VALUES (1,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(2,1,'https://user-images.githubusercontent.com/40927123/80356666-df0bff00-88cd-11ea-81f8-7fd9f231b587.png',650,633),(3,1,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(4,2,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633),(5,3,'https://user-images.githubusercontent.com/27871855/79630073-91dbaf00-81a2-11ea-89eb-ce3c6015a26e.jpg',650,633);
 /*!40000 ALTER TABLE `MENU` ENABLE KEYS */;
 UNLOCK TABLES;
 
