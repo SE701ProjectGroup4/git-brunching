@@ -1,4 +1,6 @@
 import React from 'react';
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
 import style from "../LandingPage.module.css";
 import { ReactComponent as NoMenu } from "../../general/NoMenuImage.svg";
 
@@ -27,13 +29,15 @@ const Menu = (props) => {
     );
   }
 
-  //TODO
   return (
-    <div>
-      <img className={style.menuImage}
-        src={menus[0].Link}
-        alt="Menu Page" />
-    </div>
+    <ImageGallery
+      items={menus.map(menu => ({ original: menu.Link }))}
+      showPlayButton={false}
+      showThumbnails={false}
+      infinite={false}
+      showBullets={true}
+      additionalClass={"menuGallery"}
+    />
   );
 }
 
