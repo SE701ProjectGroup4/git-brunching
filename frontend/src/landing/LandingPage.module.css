@@ -66,6 +66,15 @@
   justify-items: right;
 }
 
+.reviewButtonsContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 155px 12px;
+  grid-template-rows: 40px 12px;
+  justify-items: right;
+}
+
 .editContainer {
   width: 100%;
   height: 100%;
@@ -142,6 +151,26 @@
   font-weight: bold;
 }
 
+.reviewButton {
+  color: white;
+}
+
+.reviewButton:hover {
+  color: #61c766;
+}
+
+.reviewIcon {
+  width: 23px;
+  height: 23px;
+}
+
+.reviewPopup {
+  width: 400px;
+  height: 300px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .menuPopup {
   align-self: center;
 }
@@ -151,6 +180,15 @@
   width: 500px;
   height: 500px;
   align-self: center;
+}
+
+.noMenuImage {
+  padding: 15px 20px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
 .primaryButton {
