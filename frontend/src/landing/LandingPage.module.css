@@ -179,7 +179,9 @@
   padding: 15px 20px;
   width: 500px;
   height: 500px;
-  align-self: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .noMenuImage {
