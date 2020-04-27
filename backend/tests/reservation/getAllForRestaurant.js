@@ -58,7 +58,7 @@ describe('GET reservations/', () => {
      const queryResult = await chai
       .request(`${config.listen.address}:${config.listen.port}/reservation`)
       .get('')
-       .query({ restaurantID: 1 });
+      .query({ restaurantID: 1 });
 
      assert.isObject(queryResult, 'Expected the request to return an object');
      assert.isFalse(queryResult.error, 'Expected error to be undefined. Ensure an instance of the api is running');
@@ -69,21 +69,22 @@ describe('GET reservations/', () => {
 
      const rows = body.result;
      assert.strictEqual(rows.length, 1, 'Expected only 1 row to be returned');
+     assert.sameDeepMembers(
        rows,
      [
         {
-           ID: '1',
+          ID: '1',
           Date: '2020-03-14T00:00:00.000Z',
           Time: '11:30:00',
           Notes: '',
-        NumberOfGuests: 1,
-           TableID: 1,
+          NumberOfGuests: 1,
+          TableID: 1,
           RestaurantID: 1,
           Name: 'judelaw',
           phone: '686393369',
           Email: 'judelaw@gmail.com',
-         }
-       ],
+        }
+      ],
       // 'Expected the correct row to be returned from database'
      );
    // assert.isOk(true)
