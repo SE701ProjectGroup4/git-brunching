@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuBook, Store } from '@material-ui/icons'
+import { MenuBook } from '@material-ui/icons'
 import style from "../LandingPage.module.css";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
@@ -52,7 +52,7 @@ import Button from "@material-ui/core/Button";
               </Typography>
             </DialogTitle>
             <DialogContent>
-              <Menu menus={menus} isLoading={isLoading}></Menu>
+              <Menu menus={menus} isLoading={isLoading}/>
             </DialogContent>
             <div className={style.menuButtonsContainer}>
                 <Button variant="outlined" className={style.primaryButton} onClick={handleClose}>Cancel</Button>

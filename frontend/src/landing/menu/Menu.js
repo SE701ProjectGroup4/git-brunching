@@ -2,30 +2,39 @@ import React from 'react';
 import style from "../LandingPage.module.css";
 import { ReactComponent as NoMenu } from "../../general/NoMenuImage.svg";
 
-
 const Menu = (props) => {
+  const { menus, isLoading } = props;
 
-    const { menus, isLoading } = props;
+  if (isLoading) {
+    return (
+      <div>Loading...</div>
+    );
+  }
 
-    if (isLoading == true) {
-      return (<div>Loading...</div>);
-    }
-    else if ( !isLoading && menus.length == 0) {
-        return(
-            <NoMenu className={style.noMenuImage}></NoMenu>
-        );
-    }
+  if (menus.length === 0) {
+    return (
+      <NoMenu className={style.noMenuImage} />
+    );
+  }
 
-    else {
-      return (
-        <div>
-          <img className={style.menuImage}
+  if (menus.length === 1) {
+    return (
+      <div>
+        <img className={style.menuImage}
           src={menus[0].Link}
-          alt="new"/>
-        </div>
+          alt="Single Menu Page" />
+      </div>
+    );
+  }
 
-      );
-    } 
-  }  
+  //TODO
+  return (
+    <div>
+      <img className={style.menuImage}
+        src={menus[0].Link}
+        alt="Menu Page" />
+    </div>
+  );
+}
 
-  export default Menu;
+export default Menu;
