@@ -182,6 +182,15 @@
   align-self: center;
 }
 
+.noMenuImage {
+  padding: 15px 20px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
 .primaryButton {
   background-color: white;
   color: #61c766;
