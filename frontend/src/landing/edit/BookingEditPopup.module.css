@@ -25,6 +25,7 @@
     color: #61c766;
     border-radius: 0 !important;
     border-top: none;
+    height: 100%;
 }
 
 .dialogContent {
@@ -40,4 +41,9 @@
     text-align: center;
     padding-top: 100px;
     padding-bottom: 100px;
+}
+
+.deleteTitle {
+    text-align: center;
+    font-size: 18px;
 }
