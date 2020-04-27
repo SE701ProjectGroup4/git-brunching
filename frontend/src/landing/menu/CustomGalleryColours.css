@@ -1,0 +1,19 @@
+button.image-gallery-icon:hover {
+    color: #61c766;
+}
+
+button.image-gallery-icon {
+    scale: 0.6 0.8;
+}
+
+.image-gallery-bullets .image-gallery-bullet:focus, .image-gallery-bullets .image-gallery-bullet:hover {
+    background: #61c766;
+}
+
+.image-gallery-bullets .image-gallery-bullet {
+    background-color:#c5c5c5;
+}
+
+.image-gallery-bullets .image-gallery-bullet.active {
+    background: #61c766;
+  }
