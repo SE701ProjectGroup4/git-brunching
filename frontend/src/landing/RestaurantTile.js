@@ -116,10 +116,8 @@ const Tiles = ({
                 title={data.Name}
                 actionIcon={
                   <div>
-                    <MenuPopupButton restaurant={data} toBooking={toBooking}>
-                    </MenuPopupButton> 
-                    <ReviewPopupButton restaurant={data}>
-                    </ReviewPopupButton> 
+                    <MenuPopupButton restaurant={data} toBooking={toBooking}/>
+                    <ReviewPopupButton restaurant={data}/>
                   </div>                 
                 }
                 />
