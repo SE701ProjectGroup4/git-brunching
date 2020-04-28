@@ -14,5 +14,8 @@ require('./setup');
 // List all tests to be run.
 require('./reservation/getAllForRestaurant'); // Using IDs 1-5
 
+//open one test each time.
+require('./restaurant/capacity');  // Using IDs 6-9
+
 // MUST BE LAST TO CLOSE THE DATABASE CONNECTION
 require('./cleanup');
