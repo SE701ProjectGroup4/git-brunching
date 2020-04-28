@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuBook } from '@material-ui/icons'
+import { MenuBook, Language } from '@material-ui/icons'
 import style from "../LandingPage.module.css";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
@@ -10,6 +10,7 @@ import { getMenu } from "../../store/menu/menuActions"
 import { connect } from "react-redux";
 import Menu from "./Menu";
 import Button from "@material-ui/core/Button";
+import Icon from '@material-ui/core/Icon';
 
 
   const MenuPopupButton = (props) => {
@@ -36,6 +37,12 @@ import Button from "@material-ui/core/Button";
     const handlePopupClick = (e) => {
       e.stopPropagation();
     } 
+
+    // Takes user to the restaurant's website in a new tab
+    const handleWebsiteButtonClick = (e) => {
+      const restaurantWebsite = "https://www.kfc.co.nz/";
+      window.open(restaurantWebsite, "_blank"); //opens the restaurant's website, currently a dummy link
+    }
   
     return (
       <>
@@ -49,7 +56,13 @@ import Button from "@material-ui/core/Button";
             <DialogTitle>
               <Typography className={style.menuPopupTitle}>
                 {restaurantName}
+                <IconButton
+                  className={style.websiteButton}
+                  onClick={handleWebsiteButtonClick}>
+                  <Language className={style.menuIcon}/>
+                </IconButton>
               </Typography>
+
             </DialogTitle>
             <DialogContent>
               <Menu menus={menus} isLoading={isLoading}/>
